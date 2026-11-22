@@ -22,12 +22,12 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- ADMIN EXECUTIVE BAR (Visible ONLY when Admin logs in) -->
+  <!-- ADMIN EXECUTIVE BAR (Visible ONLY when owner99 logs in) -->
   <div id="adminTopBanner" class="hidden bg-slate-950 text-amber-400 text-xs py-2.5 px-4 border-b border-amber-500/30">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
         <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] uppercase">Admin Mode Active</span>
-        <span>Welcome, Store Owner • Full Inventory & Analytics Control</span>
+        <span>Welcome, Store Owner • Full Inventory, Users & Analytics Control</span>
       </div>
       <div class="flex items-center gap-3">
         <button id="toggleAdminStoreBtn" onclick="toggleAdminStoreView()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">
@@ -68,9 +68,9 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Login Button -->
-        <button id="loginNavBtn" onclick="openLoginModal()" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-xs sm:text-sm font-semibold hover:bg-gray-100 transition">
-          👤 Login
+        <!-- Login / Register Button -->
+        <button id="loginNavBtn" onclick="openLoginModal('login')" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-xs sm:text-sm font-semibold hover:bg-gray-100 transition">
+          👤 Login / Sign Up
         </button>
 
         <!-- Customer Account Dropdown Menu -->
@@ -126,7 +126,7 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- EXCLUSIVE ADMIN CONTROL PANEL (COMPLETELY HIDDEN FOR REGULAR USERS)       -->
+  <!-- EXCLUSIVE ADMIN CONTROL PANEL (ONLY ACCESSIBLE VIA ADMIN CREDENTIALS)     -->
   <!-- ========================================================================= -->
   <section id="adminDashboardSection" class="hidden flex-1 bg-slate-900 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
@@ -149,14 +149,14 @@
           <p id="admFreeVsPaid" class="text-[11px] text-slate-400 mt-1">0 Paid • 0 Promo</p>
         </div>
         <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
+          <p class="text-xs text-slate-400">Registered Users</p>
+          <p id="admTotalUsersCount" class="text-2xl sm:text-3xl font-extrabold text-purple-400 mt-1">6</p>
+          <p id="admNewUsersSubtitle" class="text-[11px] text-slate-400 mt-1">0 newly created accounts</p>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl col-span-2 lg:col-span-1">
           <p class="text-xs text-slate-400">Active Stock Status</p>
           <p id="admStockSummary" class="text-2xl sm:text-3xl font-extrabold text-white mt-1">122 / 150</p>
           <p id="admLowStockCount" class="text-[11px] text-rose-400 mt-1">0 Low Stock Alerts</p>
-        </div>
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl col-span-2 lg:col-span-1">
-          <p class="text-xs text-slate-400">Broadcast Leads</p>
-          <p id="admLeadsCount" class="text-2xl sm:text-3xl font-extrabold text-pink-400 mt-1">0</p>
-          <p class="text-[11px] text-slate-400 mt-1">WhatsApp subscribers</p>
         </div>
       </div>
 
@@ -164,6 +164,9 @@
       <div class="flex flex-wrap gap-2 border-b border-slate-700 pb-3">
         <button onclick="switchAdminTab('analytics')" data-admtab="analytics" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950">
           📈 Product Demand & Views
+        </button>
+        <button onclick="switchAdminTab('users')" data-admtab="users" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+          🔐 Registered Users & Credentials
         </button>
         <button onclick="switchAdminTab('inventory')" data-admtab="inventory" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
           📦 Regulate Stock & Prices (150)
@@ -188,7 +191,33 @@
         </div>
       </div>
 
-      <!-- TAB 2: Live Stock & Price Regulator -->
+      <!-- TAB 2: Registered Users & Saved Credentials Vault (Admin Only) -->
+      <div id="admTab_users" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="font-bold text-base text-purple-300">🔐 Registered Users & Saved Credentials Vault</h3>
+            <p class="text-xs text-slate-400">Every account created via Sign Up is automatically saved here with its User ID and Password.</p>
+          </div>
+          <span id="admVaultBadge" class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">Total Accounts: 6</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-900 text-slate-400">
+              <tr>
+                <th class="p-3">Full Name</th>
+                <th class="p-3">User ID</th>
+                <th class="p-3">Saved Password</th>
+                <th class="p-3">Mobile / Email</th>
+                <th class="p-3">Account Type</th>
+                <th class="p-3">Created On</th>
+              </tr>
+            </thead>
+            <tbody id="admUsersTableBody" class="divide-y divide-slate-700"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: Live Stock & Price Regulator -->
       <div id="admTab_inventory" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -221,13 +250,13 @@
         </div>
       </div>
 
-      <!-- TAB 3: All Customer Orders -->
+      <!-- TAB 4: All Customer Orders -->
       <div id="admTab_orders" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
         <h3 class="font-bold text-base text-white">Master Order Log (All Users & Guests)</h3>
         <div id="admAllOrdersList" class="space-y-3 text-xs sm:text-sm"></div>
       </div>
 
-      <!-- TAB 4: Business Growth Tools & Leads -->
+      <!-- TAB 5: Business Growth Tools & Leads -->
       <div id="admTab_growth" class="adm-panel hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
           <h3 class="font-bold text-base text-rose-400">⚠️ Low Stock & Restock Alerts (&lt; 5 Units)</h3>
@@ -239,7 +268,7 @@
           <div id="admLeadsList" class="bg-slate-900 p-3 rounded-xl border border-slate-700 text-xs space-y-1 max-h-40 overflow-y-auto"></div>
           <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 space-y-1.5">
             <p class="font-bold text-amber-400">💡 Actionable Business Recommendations:</p>
-            <p>• <b>Category Performance:</b> <span id="admTopCatInsight">Winterwear & Ethnic</span> generate highest cart values—feature them on Slide #1.</p>
+            <p>• <b>Category Performance:</b> Winterwear & Ethnic generate highest cart values—feature them on Slide #1.</p>
             <p>• <b>Conversion Boost:</b> Visitors who view 3+ product angles convert 2.4x faster; ensure high-stock items stay above 10 units.</p>
           </div>
         </div>
@@ -468,24 +497,80 @@
     </div>
   </div>
 
-  <!-- Unified Login Modal (Handles both Members & Secret Admin Login) -->
-  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">
-    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl">
+  <!-- LOGIN & NEW USER CREATION MODAL (With Show/Hide Password Eye Toggle & NO Demo Logins) -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl my-8">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">Account Sign In</h3>
-        <button onclick="closeLoginModal()" class="text-gray-500 text-xl">✕</button>
+        <h3 id="authModalHeading" class="text-xl font-bold text-gray-900">Member Login</h3>
+        <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-900 text-xl">✕</button>
       </div>
-      <form onsubmit="handleLogin(event)" class="space-y-3">
+
+      <!-- Mode Switcher Tabs: Sign In | Create Account -->
+      <div class="grid grid-cols-2 gap-1 p-1 bg-gray-100 rounded-xl mb-4 text-xs font-bold">
+        <button type="button" id="tabSignInBtn" onclick="switchAuthTab('login')" class="py-2 rounded-lg bg-white text-gray-900 shadow-sm transition">
+          Sign In
+        </button>
+        <button type="button" id="tabSignUpBtn" onclick="switchAuthTab('register')" class="py-2 rounded-lg text-gray-600 hover:text-gray-900 transition">
+          Create Account
+        </button>
+      </div>
+
+      <!-- FORM 1: SIGN IN -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">User ID</label>
-          <input required id="loginUserId" type="text" autocomplete="off" placeholder="Enter your User ID" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+          <input required id="loginUserId" type="text" autocomplete="off" placeholder="Enter your User ID"
+            class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
         </div>
         <div>
           <label class="text-xs font-semibold text-gray-600">Password</label>
-          <input required id="loginPassword" type="password" placeholder="Enter your Password" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+          <div class="relative mt-1">
+            <input required id="loginPassword" type="password" placeholder="Enter your Password"
+              class="w-full px-4 py-2.5 pr-11 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+            <button type="button" onclick="togglePasswordVisibility('loginPassword', this)" title="Show / Hide Password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900 text-sm select-none">
+              👁️
+            </button>
+          </div>
         </div>
         <p id="loginErrorMsg" class="hidden text-xs text-red-600 font-semibold">Invalid User ID or Password. Access denied.</p>
-        <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm">Sign In</button>
+        <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition">
+          Sign In
+        </button>
+      </form>
+
+      <!-- FORM 2: CREATE NEW USER ACCOUNT -->
+      <form id="registerForm" onsubmit="handleRegister(event)" class="hidden space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Full Name</label>
+          <input required id="regFullName" type="text" placeholder="e.g. Rahul Verma"
+            class="w-full mt-1 px-4 py-2 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Mobile Number</label>
+          <input required id="regPhone" type="tel" placeholder="10-digit mobile number"
+            class="w-full mt-1 px-4 py-2 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Choose User ID</label>
+          <input required id="regUserId" type="text" autocomplete="off" placeholder="e.g. rahul2026"
+            class="w-full mt-1 px-4 py-2 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Create Password</label>
+          <div class="relative mt-1">
+            <input required id="regPassword" type="password" minlength="4" placeholder="Create a strong password"
+              class="w-full px-4 py-2 pr-11 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+            <button type="button" onclick="togglePasswordVisibility('regPassword', this)" title="Show / Hide Password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900 text-sm select-none">
+              👁️
+            </button>
+          </div>
+        </div>
+        <p id="regErrorMsg" class="hidden text-xs text-red-600 font-semibold"></p>
+        <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition">
+          Create Account & Login
+        </button>
       </form>
     </div>
   </div>
@@ -587,7 +672,7 @@
   <script>
     const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240";
 
-    // ====== SECRET ADMIN CREDENTIALS (NOT DISPLAYED ANYWHERE IN UI) ======
+    // ====== EXCLUSIVE ADMIN ACCOUNT (ONLY THIS ID CAN OPEN ADMIN PANEL) ======
     const ADMIN_ACCOUNT = {
       id: "owner99",
       pass: "VastraAdmin@99",
@@ -595,17 +680,28 @@
     };
     let isAdminLoggedIn = false;
     let adminPreviewingStore = false;
-    // =====================================================================
+    // =========================================================================
 
-    // 6 Authorized Member Accounts
-    const AUTHORIZED_USERS = [
-      { id: "ajit01",    pass: "Ajit@101",    shortName: "Ajit",    fullName: "Ajit Choudhary",   email: "ajit.choudhary@vastrahub.in",    phone: "+91 98110 10101" },
-      { id: "ankush02",  pass: "Ankush@202",  shortName: "Ankush",  fullName: "Ankush Choudhary", email: "ankush.choudhary@vastrahub.in",  phone: "+91 98110 20202" },
-      { id: "avinash03", pass: "Avinash@303", shortName: "Avinash", fullName: "Avinash Choudhary",email: "avinash.choudhary@vastrahub.in", phone: "+91 98110 30303" },
-      { id: "akshat04",  pass: "Akshat@404",  shortName: "Akshat",  fullName: "Akshat Vidyarthi", email: "akshat.vidyarthi@vastrahub.in",  phone: "+91 98110 40404" },
-      { id: "mahesh05",  pass: "Mahesh@505",  shortName: "Mahesh",  fullName: "Mahesh Pandey",    email: "mahesh.pandey@vastrahub.in",     phone: "+91 98110 50505" },
-      { id: "anuj06",    pass: "Anuj@606",    shortName: "Anuj",    fullName: "Anuj Pandey",      email: "anuj.pandey@vastrahub.in",       phone: "+91 98110 60606" }
+    // Base 6 Member Accounts
+    const BASE_MEMBER_USERS = [
+      { id: "ajit01",    pass: "Ajit@101",    shortName: "Ajit",    fullName: "Ajit Choudhary",   email: "ajit.choudhary@vastrahub.in",    phone: "+91 98110 10101", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "ankush02",  pass: "Ankush@202",  shortName: "Ankush",  fullName: "Ankush Choudhary", email: "ankush.choudhary@vastrahub.in",  phone: "+91 98110 20202", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "avinash03", pass: "Avinash@303", shortName: "Avinash", fullName: "Avinash Choudhary",email: "avinash.choudhary@vastrahub.in", phone: "+91 98110 30303", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "akshat04",  pass: "Akshat@404",  shortName: "Akshat",  fullName: "Akshat Vidyarthi", email: "akshat.vidyarthi@vastrahub.in",  phone: "+91 98110 40404", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "mahesh05",  pass: "Mahesh@505",  shortName: "Mahesh",  fullName: "Mahesh Pandey",    email: "mahesh.pandey@vastrahub.in",     phone: "+91 98110 50505", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "anuj06",    pass: "Anuj@606",    shortName: "Anuj",    fullName: "Anuj Pandey",      email: "anuj.pandey@vastrahub.in",       phone: "+91 98110 60606", type: "Pre-Registered", createdAt: "Initial Setup" }
     ];
+
+    // Load Self-Created Users saved in localStorage
+    let customCreatedUsers = JSON.parse(localStorage.getItem("vh_custom_created_users") || "[]");
+
+    function getAllAuthorizedUsers() {
+      return [...BASE_MEMBER_USERS, ...customCreatedUsers];
+    }
+
+    function saveCustomCreatedUsers() {
+      localStorage.setItem("vh_custom_created_users", JSON.stringify(customCreatedUsers));
+    }
 
     // Global Store Analytics & Inventory Persistence
     let storeAnalytics = JSON.parse(localStorage.getItem("vh_global_analytics") || "null") || {
@@ -613,17 +709,16 @@
       totalEarning: 0,
       masterOrders: [],
       broadcastLeads: [],
-      productViews: {},    // { productId: count }
-      productOrders: {},   // { productId: count }
-      stockOverrides: {},  // { productId: qty }
-      priceOverrides: {}   // { productId: price }
+      productViews: {},
+      productOrders: {},
+      stockOverrides: {},
+      priceOverrides: {}
     };
 
     function saveStoreAnalytics() {
       localStorage.setItem("vh_global_analytics", JSON.stringify(storeAnalytics));
     }
 
-    // Track real visitor session on load
     if (!sessionStorage.getItem("vh_visited_session")) {
       storeAnalytics.visitors = (storeAnalytics.visitors || 0) + 1;
       sessionStorage.setItem("vh_visited_session", "1");
@@ -760,7 +855,6 @@
     let liveLocationString = "";
     let selectedDetailSize = "M";
 
-    // Info Pages & Broadcast
     const INFO_PAGES = {
       about: { title: "About VastraHub", body: "<p>VastraHub is a curated direct-to-consumer Indian fashion destination offering 150+ handpicked styles across Men's, Women's, Winterwear, Ethnic, and Kids' collections.</p>" },
       careers: { title: "Careers at VastraHub", body: "<p>Send your portfolio or resume to <b>support@vastrahubstore.in</b> with the subject line 'Careers - VastraHub'.</p>" },
@@ -806,7 +900,6 @@
       document.getElementById('broadcastStatus').classList.remove('hidden');
     }
 
-    // Slider
     let currentSlide = 0;
     function moveSlide(step) {
       const track = document.getElementById('adSliderTrack');
@@ -815,7 +908,6 @@
     }
     setInterval(() => moveSlide(1), 3500);
 
-    // Live GPS
     function detectGPSLocation() {
       const banner = document.getElementById('gpsBannerText');
       if (!navigator.geolocation) {
@@ -847,7 +939,123 @@
       );
     }
 
-    // ====== AUTHENTICATION (ADMIN VS REGULAR MEMBERS) ======
+    // ====== SHOW / HIDE PASSWORD EYE TOGGLE ======
+    function togglePasswordVisibility(inputId, btnEl) {
+      const inp = document.getElementById(inputId);
+      if (inp.type === "password") {
+        inp.type = "text";
+        btnEl.textContent = "🙈";
+      } else {
+        inp.type = "password";
+        btnEl.textContent = "👁️";
+      }
+    }
+
+    // ====== LOGIN & NEW USER CREATION LOGIC ======
+    function switchAuthTab(mode) {
+      const loginForm = document.getElementById('loginForm');
+      const regForm = document.getElementById('registerForm');
+      const tabSignIn = document.getElementById('tabSignInBtn');
+      const tabSignUp = document.getElementById('tabSignUpBtn');
+      const heading = document.getElementById('authModalHeading');
+
+      document.getElementById('loginErrorMsg').classList.add('hidden');
+      document.getElementById('regErrorMsg').classList.add('hidden');
+
+      if (mode === 'register') {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        tabSignUp.className = "py-2 rounded-lg bg-white text-gray-900 shadow-sm transition";
+        tabSignIn.className = "py-2 rounded-lg text-gray-600 hover:text-gray-900 transition";
+        heading.textContent = "Create New Account";
+      } else {
+        regForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        tabSignIn.className = "py-2 rounded-lg bg-white text-gray-900 shadow-sm transition";
+        tabSignUp.className = "py-2 rounded-lg text-gray-600 hover:text-gray-900 transition";
+        heading.textContent = "Member Login";
+      }
+    }
+
+    function openLoginModal(mode = 'login') {
+      document.getElementById('loginUserId').value = "";
+      document.getElementById('loginPassword').value = "";
+      document.getElementById('loginPassword').type = "password";
+      document.getElementById('regFullName').value = "";
+      document.getElementById('regPhone').value = "";
+      document.getElementById('regUserId').value = "";
+      document.getElementById('regPassword').value = "";
+      document.getElementById('regPassword').type = "password";
+      switchAuthTab(mode);
+      document.getElementById('loginModal').classList.remove('hidden');
+      document.getElementById('loginModal').classList.add('flex');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('loginModal').classList.remove('flex');
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('regFullName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const uid = document.getElementById('regUserId').value.trim();
+      const pwd = document.getElementById('regPassword').value.trim();
+      const errEl = document.getElementById('regErrorMsg');
+
+      // Block reserved admin IDs
+      if (uid.toLowerCase() === ADMIN_ACCOUNT.id.toLowerCase() || uid.toLowerCase().includes("admin")) {
+        errEl.textContent = "This User ID is reserved. Please choose a different User ID.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      // Check duplicate User ID
+      const exists = getAllAuthorizedUsers().some(u => u.id.toLowerCase() === uid.toLowerCase());
+      if (exists) {
+        errEl.textContent = "User ID already taken! Choose another User ID.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const newUserObj = {
+        id: uid,
+        pass: pwd,
+        shortName: fullName.split(' ')[0],
+        fullName,
+        email: `${uid.toLowerCase()}@vastrahub.in`,
+        phone,
+        type: "Self-Registered",
+        createdAt: new Date().toLocaleString('en-IN')
+      };
+
+      customCreatedUsers.push(newUserObj);
+      saveCustomCreatedUsers();
+
+      // Send new user registration notification to Store Owner's Web3Forms Email
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject: `New User Created: ${fullName} (${uid})`,
+            from_name: "VastraHub User Registration",
+            Full_Name: fullName,
+            Created_User_ID: uid,
+            Created_Password: pwd,
+            Mobile: phone,
+            Registered_At: newUserObj.createdAt
+          })
+        });
+      } catch (err) {}
+
+      applyLoggedInUser(newUserObj);
+      closeLoginModal();
+      alert(`Account created successfully! Welcome, ${fullName}.`);
+    }
+
     function restoreLastSession() {
       const lastSession = localStorage.getItem("vh_active_session_user");
       if (lastSession === ADMIN_ACCOUNT.id) {
@@ -855,7 +1063,7 @@
         return;
       }
       if (lastSession) {
-        const found = AUTHORIZED_USERS.find(u => u.id === lastSession);
+        const found = getAllAuthorizedUsers().find(u => u.id === lastSession);
         if (found) applyLoggedInUser(found);
       }
     }
@@ -866,7 +1074,6 @@
       currentUser = null;
       localStorage.setItem("vh_active_session_user", ADMIN_ACCOUNT.id);
 
-      // Transform UI completely for Admin
       document.getElementById('adminTopBanner').classList.remove('hidden');
       document.getElementById('customerTopBar').classList.add('hidden');
       document.getElementById('loginNavBtn').classList.add('hidden');
@@ -911,21 +1118,9 @@
       document.getElementById('loginNavBtn').classList.add('hidden');
       document.getElementById('accountMenuWrapper').classList.remove('hidden');
       document.getElementById('custName').value = currentUser.fullName;
+      document.getElementById('custPhone').value = currentUser.phone || "";
       updateAccountBadges();
       renderProducts();
-    }
-
-    function openLoginModal() {
-      document.getElementById('loginErrorMsg').classList.add('hidden');
-      document.getElementById('loginUserId').value = "";
-      document.getElementById('loginPassword').value = "";
-      document.getElementById('loginModal').classList.remove('hidden');
-      document.getElementById('loginModal').classList.add('flex');
-    }
-
-    function closeLoginModal() {
-      document.getElementById('loginModal').classList.add('hidden');
-      document.getElementById('loginModal').classList.remove('flex');
     }
 
     function handleLogin(e) {
@@ -933,15 +1128,15 @@
       const uid = document.getElementById('loginUserId').value.trim();
       const pwd = document.getElementById('loginPassword').value.trim();
 
-      // Check Admin Login First
+      // Strict Check: ONLY owner99 + VastraAdmin@99 can unlock Admin Interface
       if (uid === ADMIN_ACCOUNT.id && pwd === ADMIN_ACCOUNT.pass) {
         closeLoginModal();
         activateAdminInterface();
         return;
       }
 
-      // Check 6 Regular Members
-      const found = AUTHORIZED_USERS.find(u => u.id === uid && u.pass === pwd);
+      // Check All Registered Members (Base 6 + Newly Created Users)
+      const found = getAllAuthorizedUsers().find(u => u.id === uid && u.pass === pwd);
       if (found) {
         applyLoggedInUser(found);
         closeLoginModal();
@@ -956,7 +1151,6 @@
       adminPreviewingStore = false;
       localStorage.removeItem("vh_active_session_user");
 
-      // Restore Standard Customer UI
       document.getElementById('adminTopBanner').classList.add('hidden');
       document.getElementById('adminDashboardSection').classList.add('hidden');
       document.getElementById('customerTopBar').classList.remove('hidden');
@@ -974,8 +1168,9 @@
       renderProducts();
     }
 
-    // ====== ADMIN DASHBOARD LOGIC ======
+    // ====== ADMIN DASHBOARD LOGIC (GUARDED) ======
     function switchAdminTab(tabName) {
+      if (!isAdminLoggedIn) return;
       document.querySelectorAll('.adm-tab-btn').forEach(btn => {
         btn.className = btn.dataset.admtab === tabName
           ? 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950'
@@ -988,6 +1183,7 @@
     function renderAdminDashboard() {
       if (!isAdminLoggedIn) return;
 
+      const allUsers = getAllAuthorizedUsers();
       const totalOrdersCount = storeAnalytics.masterOrders.length;
       const paidOrders = storeAnalytics.masterOrders.filter(o => o.total > 0).length;
       const promoOrders = totalOrdersCount - paidOrders;
@@ -1000,9 +1196,27 @@
       document.getElementById('admAvgOrder').textContent = `Avg Order: ₹${avgOrder}`;
       document.getElementById('admTotalOrders').textContent = totalOrdersCount;
       document.getElementById('admFreeVsPaid').textContent = `${paidOrders} Paid • ${promoOrders} Free Promo`;
+      document.getElementById('admTotalUsersCount').textContent = allUsers.length;
+      document.getElementById('admNewUsersSubtitle').textContent = `${customCreatedUsers.length} newly created accounts`;
+      document.getElementById('admVaultBadge').textContent = `Total Accounts: ${allUsers.length}`;
       document.getElementById('admStockSummary').textContent = `${inStockCount} / ${products.length}`;
       document.getElementById('admLowStockCount').textContent = `${lowStockProducts.length} Low Stock (<5 units)`;
-      document.getElementById('admLeadsCount').textContent = storeAnalytics.broadcastLeads.length;
+
+      // Render Registered Users & Saved Credentials Vault Table
+      document.getElementById('admUsersTableBody').innerHTML = allUsers.map(u => `
+        <tr class="hover:bg-slate-900/60">
+          <td class="p-3 font-bold text-white">${u.fullName}</td>
+          <td class="p-3 font-mono text-amber-400 font-bold">${u.id}</td>
+          <td class="p-3 font-mono text-emerald-300 bg-slate-900/50 rounded">${u.pass}</td>
+          <td class="p-3 text-slate-300">${u.phone} <span class="block text-[10px] text-slate-400">${u.email}</span></td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.type === 'Self-Registered' ? 'bg-purple-500/20 text-purple-300' : 'bg-sky-500/20 text-sky-300'}">
+              ${u.type}
+            </span>
+          </td>
+          <td class="p-3 text-slate-400">${u.createdAt}</td>
+        </tr>
+      `).join('');
 
       // Most Viewed Products
       const viewedSorted = [...products]
@@ -1080,11 +1294,13 @@
     }
 
     function adminUpdateOrderStatus(idx, newStatus) {
+      if (!isAdminLoggedIn) return;
       storeAnalytics.masterOrders[idx].status = newStatus;
       saveStoreAnalytics();
     }
 
     function renderAdminInventory() {
+      if (!isAdminLoggedIn) return;
       const q = (document.getElementById('admInvSearch').value || "").toLowerCase();
       const filtered = products.filter(p => p.name.toLowerCase().includes(q) || String(p.id) === q || p.category.toLowerCase().includes(q));
 
@@ -1124,12 +1340,14 @@
     }
 
     function adminAdjustStock(id, delta) {
+      if (!isAdminLoggedIn) return;
       const p = products.find(item => item.id === id);
       if (!p) return;
       adminSetStock(id, Math.max(0, p.stockQty + delta));
     }
 
     function adminSetStock(id, val) {
+      if (!isAdminLoggedIn) return;
       const p = products.find(item => item.id === id);
       if (!p) return;
       const qty = Math.max(0, parseInt(val, 10) || 0);
@@ -1141,6 +1359,7 @@
     }
 
     function adminSetPrice(id, val) {
+      if (!isAdminLoggedIn) return;
       const p = products.find(item => item.id === id);
       if (!p) return;
       const newPrice = Math.max(0, parseInt(val, 10) || 0);
@@ -1150,6 +1369,7 @@
     }
 
     function restockLowItems() {
+      if (!isAdminLoggedIn) return;
       products.forEach(p => {
         if (p.stockQty < 5) {
           p.stockQty += 10;
@@ -1185,8 +1405,8 @@
 
     function toggleWishlist(id) {
       if (!currentUser) {
-        alert("Please login with your User ID to save items permanently to your Wishlist!");
-        openLoginModal();
+        alert("Please login or create an account to save items permanently to your Wishlist!");
+        openLoginModal('login');
         return;
       }
       if (userState.wishlist.includes(id)) {
@@ -1202,7 +1422,6 @@
       const p = products.find(item => item.id === id);
       if (!p) return;
 
-      // Record Product View for Admin Analytics
       storeAnalytics.productViews[id] = (storeAnalytics.productViews[id] || 0) + 1;
       saveStoreAnalytics();
 
@@ -1654,7 +1873,6 @@
       const address = document.getElementById('custAddress').value.trim();
       const orderId = "VH-" + Math.floor(100000 + Math.random() * 900000);
 
-      // Update Global Stock & Product Order Counters for Admin
       cart.forEach(cItem => {
         const p = products.find(prod => prod.id === cItem.id);
         if (p) {
@@ -1671,7 +1889,6 @@
         ? "100% Free Promo Order (₹0)"
         : (payMode === 'MERCHANT_QR' ? `Merchant QR (UTR: ${utr})` : 'Cash on Delivery');
 
-      // Record Order & Earning in Global Admin Analytics
       storeAnalytics.totalEarning = (storeAnalytics.totalEarning || 0) + total;
       storeAnalytics.masterOrders.unshift({
         id: orderId,
