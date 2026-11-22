@@ -15,7 +15,6 @@
       --bg-canvas: #FAF9F6;
       --brand-primary: #4A5D23;
       --brand-accent-soft: #E0F2FE;
-      --brand-badge-soft: #FCE7F3;
     }
     body {
       font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
@@ -30,33 +29,12 @@
     .sky-accent { background-color: var(--brand-accent-soft); color: #0369A1; }
 
     /* Festival Theme Overrides */
-    body.theme-diwali {
-      --bg-canvas: #FFFBEB;
-      --brand-primary: #9A3412;
-      --brand-accent-soft: #FEF3C7;
-    }
-    body.theme-christmas {
-      --bg-canvas: #F8FAFC;
-      --brand-primary: #166534;
-      --brand-accent-soft: #FEE2E2;
-    }
-    body.theme-holi {
-      --bg-canvas: #FDF4FF;
-      --brand-primary: #86198F;
-      --brand-accent-soft: #FCE7F3;
-    }
-    body.theme-navratri {
-      --bg-canvas: #FFF7ED;
-      --brand-primary: #B45309;
-      --brand-accent-soft: #FFEDD5;
-    }
-    body.theme-eid {
-      --bg-canvas: #F0FDF4;
-      --brand-primary: #065F46;
-      --brand-accent-soft: #D1FAE5;
-    }
+    body.theme-diwali { --bg-canvas: #FFFBEB; --brand-primary: #9A3412; --brand-accent-soft: #FEF3C7; }
+    body.theme-christmas { --bg-canvas: #F8FAFC; --brand-primary: #166534; --brand-accent-soft: #FEE2E2; }
+    body.theme-holi { --bg-canvas: #FDF4FF; --brand-primary: #86198F; --brand-accent-soft: #FCE7F3; }
+    body.theme-navratri { --bg-canvas: #FFF7ED; --brand-primary: #B45309; --brand-accent-soft: #FFEDD5; }
+    body.theme-eid { --bg-canvas: #F0FDF4; --brand-primary: #065F46; --brand-accent-soft: #D1FAE5; }
 
-    /* Floating Festival Particles */
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-10px) rotate(6deg); }
@@ -76,10 +54,10 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Dynamic Festival Decor Layer (Floating Flowers, Diyas, Crackers, Snowflakes) -->
+  <!-- Dynamic Festival Decor Layer -->
   <div id="festivalDecorLayer" class="pointer-events-none fixed inset-0 z-30 overflow-hidden hidden"></div>
 
-  <!-- ADMIN EXECUTIVE BAR (Matching White & Olive Store Theme) -->
+  <!-- ADMIN EXECUTIVE BAR -->
   <div id="adminTopBanner" class="hidden bg-white text-gray-900 text-xs py-2.5 px-4 border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
@@ -129,7 +107,7 @@
     </div>
   </div>
 
-  <!-- Clean Unified Navbar (Same White & Olive Palette for Both Customer & Admin) -->
+  <!-- Navbar -->
   <header id="mainNavbar" class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
       <div onclick="filterCategory('All')" class="flex items-center gap-2.5 cursor-pointer">
@@ -146,12 +124,10 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Login / Register Button -->
         <button id="loginNavBtn" onclick="openLoginModal('login')" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-xs sm:text-sm font-semibold hover:bg-gray-100 transition">
           👤 Login / Sign Up
         </button>
 
-        <!-- Customer Account Dropdown Menu -->
         <div id="accountMenuWrapper" class="relative hidden">
           <button onclick="toggleAccountDropdown()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-gray-300 text-gray-900 text-xs sm:text-sm font-bold hover:bg-gray-50 transition">
             <span id="navUserName">Account</span>
@@ -194,7 +170,6 @@
           </div>
         </div>
 
-        <!-- Cart Bag Button -->
         <button id="navBagBtn" onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition">
           <span>🛍️ Bag</span>
           <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
@@ -204,12 +179,11 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO (FAIR WHITE & OLIVE THEME) -->
+  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO                            -->
   <!-- ========================================================================= -->
   <section id="adminDashboardSection" class="hidden flex-1 bg-[#FAF9F6] text-gray-900 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
       
-      <!-- Top Interactive KPI Analytics Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <div onclick="switchAdminTab('analytics')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer">
           <p class="text-xs font-medium text-gray-500">Real Store Visitors</p>
@@ -238,7 +212,6 @@
         </div>
       </div>
 
-      <!-- Unified Admin Navigation Pills -->
       <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm">
         <button onclick="switchAdminTab('listing')" data-admtab="listing" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold olive-bg text-white transition">
           ➕ Product Listing & Discount Studio
@@ -266,7 +239,7 @@
           <div class="flex items-center justify-between border-b border-gray-100 pb-3">
             <div>
               <h3 class="font-bold text-lg text-gray-900">➕ List New Clothing Product on KapdaHub</h3>
-              <p class="text-xs text-gray-500">Listed items appear immediately on the live storefront.</p>
+              <p class="text-xs text-gray-500">Listed items appear immediately on the top of the live storefront with 0 initial rating.</p>
             </div>
             <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">Instant Live Publish</span>
           </div>
@@ -473,7 +446,6 @@
             <p class="text-xs text-gray-500 mt-0.5">Preview how KapdaHub automatically transforms with crackers, mithai, flowers, or snowfall on festivals:</p>
           </div>
 
-          <!-- Interactive Theme Preview Buttons -->
           <div class="flex flex-wrap gap-2">
             <button onclick="previewFestivalTheme('none')" class="px-3 py-1.5 rounded-xl border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 text-xs font-bold">Default Store</button>
             <button onclick="previewFestivalTheme('diwali')" class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold">🪔 Diwali (Crackers & Mithai)</button>
@@ -497,7 +469,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- CUSTOMER STOREFRONT VIEW (CLASSIC SLIDING BANNER + CLEAN LAYOUT)          -->
+  <!-- CUSTOMER STOREFRONT VIEW                                                  -->
   <!-- ========================================================================= -->
   <div id="customerStorefrontWrapper" class="flex-1 flex flex-col">
     
@@ -531,11 +503,13 @@
           <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="max-w-lg space-y-2">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Oversized Tees, Denim & Co-ord Sets</h2>
-              <p class="text-sm text-gray-600">Click any product to view multi-angle photos, fabric specs & available sizes.</p>
-              <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Browse Collection →</button>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Kids Collection — Bright & Playful</h2>
+              <p class="text-sm text-gray-600">Cheerful kids collection with vibrant yellow portraits, live ratings & multi-angle previews.</p>
+              <button onclick="filterCategory('Kids')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Kids →</button>
             </div>
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Casual Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+            <div class="w-full md:w-72 h-44 bg-yellow-300 rounded-2xl shadow overflow-hidden flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80" alt="Kids Collection" class="w-full h-full object-cover object-top" />
+            </div>
           </div>
         </div>
 
@@ -543,7 +517,7 @@
         <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
       </div>
 
-      <!-- Category & Stock Filters Bar -->
+      <!-- Category, Stock & Sort Filters Bar -->
       <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
         <div id="categoryFilters" class="flex flex-wrap gap-2">
           <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All Kapde</button>
@@ -554,12 +528,23 @@
           <button onclick="filterCategory('Kids')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Kids</button>
         </div>
 
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <select id="stockFilter" onchange="resetAndRenderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm font-medium">
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <!-- Sort By Filter Dropdown -->
+          <select id="sortFilter" onchange="resetAndRenderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-xs sm:text-sm font-medium text-gray-800">
+            <option value="featured">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating-desc">Highest Rated</option>
+            <option value="discount-desc">Highest Discount (% OFF)</option>
+            <option value="newest">Newest Arrivals</option>
+          </select>
+
+          <select id="stockFilter" onchange="resetAndRenderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-xs sm:text-sm font-medium text-gray-800">
             <option value="all">All Stock</option>
             <option value="in">In Stock Only</option>
             <option value="out">Out of Stock</option>
           </select>
+
           <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
         </div>
       </div>
@@ -679,7 +664,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL MODAL -->
+  <!-- PRODUCT DETAIL MODAL (WITH INTERACTIVE USER STAR RATING SYSTEM) -->
   <div id="productDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
       <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -689,7 +674,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         <div class="space-y-3">
-          <div class="relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border">
+          <div id="pdMainImgBox" class="relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border">
             <img id="pdMainImg" src="" alt="Product Angle" class="w-full h-full object-cover transition-transform duration-300" />
             <span id="pdAngleLabel" class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 text-white text-[11px] font-medium">Full Front View</span>
           </div>
@@ -700,7 +685,7 @@
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span id="pdStockBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
-              <span id="pdRating" class="text-xs font-semibold text-amber-600">⭐ 4.8 Verified</span>
+              <span id="pdRating" class="text-xs font-bold text-amber-600">☆ 0.0 (0 Reviews)</span>
             </div>
 
             <h2 id="pdTitle" class="text-xl sm:text-2xl font-bold text-gray-900"></h2>
@@ -712,6 +697,12 @@
             </div>
 
             <p id="pdDesc" class="text-xs sm:text-sm text-gray-600 leading-relaxed"></p>
+
+            <!-- Interactive Customer Rating Box -->
+            <div class="p-2.5 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-center justify-between gap-2">
+              <span class="text-xs font-bold text-gray-800">Rate this product:</span>
+              <div id="pdRateStars" class="flex items-center gap-1 text-lg"></div>
+            </div>
 
             <div class="pt-1">
               <p class="text-xs font-bold text-gray-700 mb-2">Available Sizes (Select One):</p>
@@ -946,7 +937,7 @@
     let activeAdminAccount = null;
     let adminPreviewingStore = false;
 
-    // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) WITH VISUAL THEMES ======
+    // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) ======
     const FIVE_YEAR_FESTIVALS = [
       { name: "Makar Sankranti", date: "2026-01-14", theme: "navratri" },
       { name: "Holi Mahotsav", date: "2026-03-04", theme: "holi" },
@@ -993,7 +984,6 @@
     let activeFestival50Off = false;
     let currentVisualTheme = "none";
 
-    // Apply Visual Festival Theme (Diwali Crackers/Mithai/Flowers, Christmas Snow/Trees, Holi, etc.)
     function applyVisualTheme(themeKey) {
       currentVisualTheme = themeKey;
       document.body.classList.remove('theme-diwali', 'theme-christmas', 'theme-holi', 'theme-navratri', 'theme-eid');
@@ -1056,7 +1046,6 @@
       }
     }
 
-    // Admin Simulator Preview Helper
     function previewFestivalTheme(themeKey) {
       const bannerEl = document.getElementById('festivalSaleBanner');
       const tagEl = document.getElementById('festBadgeTag');
@@ -1180,8 +1169,10 @@
       stockOverrides: {},
       priceOverrides: {},
       mrpOverrides: {},
+      productRatings: {}, // { productId: { sum: number, count: number, userVotes: { userId: rating } } }
       customListedProducts: []
     };
+    if (!storeAnalytics.productRatings) storeAnalytics.productRatings = {};
 
     function saveStoreAnalytics() {
       localStorage.setItem("kh_global_analytics", JSON.stringify(storeAnalytics));
@@ -1224,7 +1215,8 @@
     const FREE_PROMO_CODES = Array.from({ length: 50 }, (_, i) => `FREE${1001 + i}`);
     document.getElementById('promoListBox').textContent = FREE_PROMO_CODES.join(', ');
 
-    const clothingImages = [
+    // Adult Apparel Images (Men, Women, Winterwear, Ethnic)
+    const adultClothingImages = [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80",
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80",
@@ -1233,7 +1225,6 @@
       "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80",
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80",
       "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=600&q=80",
-      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&q=80",
       "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80",
       "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80",
       "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80",
@@ -1255,6 +1246,22 @@
       "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80",
       "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&q=80",
       "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=600&q=80"
+    ];
+
+    // Dedicated Kids Faces Portraits Pool (Paired with Yellow Background)
+    const kidsFaceImages = [
+      "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80",
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&q=80",
+      "https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=600&q=80",
+      "https://images.unsplash.com/photo-1545696968-1a5245650b36?w=600&q=80",
+      "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&q=80",
+      "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=600&q=80",
+      "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600&q=80",
+      "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?w=600&q=80",
+      "https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=600&q=80",
+      "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=600&q=80",
+      "https://images.unsplash.com/photo-1502781252888-9143ba7f074e?w=600&q=80",
+      "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?w=600&q=80"
     ];
 
     const styleArchetypes = [
@@ -1291,14 +1298,17 @@
     const editionTags = ["Classic", "Signature", "Studio", "Heritage", "Urban", "Artisan", "Luxe", "Essential"];
 
     function buildProductObject(data) {
+      const isKids = data.category === 'Kids';
+      const defaultFocus = isKids ? "object-cover object-top scale-100" : "object-cover object-center scale-100";
       return {
         ...data,
+        isKids,
         inStock: data.stockQty > 0,
         angles: [
-          { label: "1. Full Front View", url: data.img, style: "object-cover object-center scale-100" },
-          { label: "2. Upper Collar & Shoulder Focus", url: data.img, style: "object-cover object-top scale-150" },
-          { label: "3. Lower Drape & Hemline Focus", url: data.img, style: "object-cover object-bottom scale-150" },
-          { label: "4. Fabric Weave & Stitch Close-Up", url: data.img, style: "object-cover object-center scale-[2.1]" }
+          { label: isKids ? "1. Portrait Front View" : "1. Full Front View", url: data.img, style: defaultFocus },
+          { label: isKids ? "2. Close Smile Focus" : "2. Upper Collar & Shoulder Focus", url: data.img, style: "object-cover object-top scale-150" },
+          { label: isKids ? "3. Styled Frame View" : "3. Lower Drape & Hemline Focus", url: data.img, style: isKids ? "object-cover object-center scale-125" : "object-cover object-bottom scale-150" },
+          { label: "4. Fabric & Detail Close-Up", url: data.img, style: "object-cover object-center scale-[2.0]" }
         ]
       };
     }
@@ -1315,7 +1325,11 @@
       const stockQty = storeAnalytics.stockOverrides[id] !== undefined ? storeAnalytics.stockOverrides[id] : defaultQty;
       const baseCalculatedPrice = storeAnalytics.priceOverrides[id] !== undefined ? storeAnalytics.priceOverrides[id] : (arch.basePrice + priceDelta);
       const mrpCalculated = storeAnalytics.mrpOverrides[id] !== undefined ? storeAnalytics.mrpOverrides[id] : Math.max(arch.mrp + priceDelta, baseCalculatedPrice + 300);
-      const primaryImg = clothingImages[idx % clothingImages.length];
+
+      // Use dedicated Kids Face Portraits for Kids category, and Adult Clothing for others
+      const primaryImg = arch.cat === 'Kids'
+        ? kidsFaceImages[idx % kidsFaceImages.length]
+        : adultClothingImages[idx % adultClothingImages.length];
 
       return buildProductObject({
         id,
@@ -1350,6 +1364,40 @@
 
     let products = [...customHydrated, ...baseProducts];
 
+    // ====== REAL PRODUCT RATING HELPERS (STARTS AT 0.0 UNTIL RATED) ======
+    function getProductRatingStats(productId) {
+      const entry = storeAnalytics.productRatings[productId];
+      if (!entry || !entry.count) {
+        return { avg: 0, count: 0 };
+      }
+      return {
+        avg: Number((entry.sum / entry.count).toFixed(1)),
+        count: entry.count
+      };
+    }
+
+    function submitProductRating(productId, stars) {
+      requireMemberAuth(() => {
+        if (!storeAnalytics.productRatings[productId]) {
+          storeAnalytics.productRatings[productId] = { sum: 0, count: 0, userVotes: {} };
+        }
+        const entry = storeAnalytics.productRatings[productId];
+        const prevVote = entry.userVotes[currentUser.id];
+
+        if (prevVote) {
+          entry.sum = entry.sum - prevVote + stars;
+        } else {
+          entry.sum += stars;
+          entry.count += 1;
+        }
+        entry.userVotes[currentUser.id] = stars;
+        saveStoreAnalytics();
+
+        openProductDetail(productId);
+        renderProducts();
+      });
+    }
+
     function getEffectivePrice(product) {
       return activeFestival50Off ? Math.round(product.basePrice * 0.5) : product.basePrice;
     }
@@ -1372,7 +1420,6 @@
     }
     setInterval(() => moveSlide(1), 4000);
 
-    // QR Poster Modal Functions
     function openStoreQRPoster() {
       const m = document.getElementById('storeQrModal');
       m.classList.remove('hidden');
@@ -1384,7 +1431,6 @@
       m.classList.remove('flex');
     }
 
-    // Info Pages & Broadcast
     const INFO_PAGES = {
       about: { title: "About KapdaHub (मेरे कपड़े, मेरी पसंद)", body: "<p>KapdaHub offers 2,000+ unique, quality-checked fashion styles across Men's, Women's, Winterwear, Ethnic, and Kids' collections with pan-India delivery.</p>" },
       careers: { title: "Careers at KapdaHub", body: "<p>Send your portfolio or resume to <b>support@kapdahubstore.in</b> with the subject line 'Careers - KapdaHub'.</p>" },
@@ -1479,7 +1525,7 @@
         return;
       }
       pendingActionAfterLogin = actionCallback;
-      document.getElementById('authPromptSubtext').textContent = "Please Sign In or Create a Free Account first to add items to your Bag or Wishlist.";
+      document.getElementById('authPromptSubtext').textContent = "Please Sign In or Create a Free Account first.";
       openLoginModal('login');
     }
 
@@ -1621,7 +1667,6 @@
       document.getElementById('navBagBtn').classList.add('hidden');
       document.getElementById('navSearchWrapper').classList.add('hidden');
 
-      // Keep exact same White & Olive Storefront Palette for Admin
       document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200";
       document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg";
       document.getElementById('brandTitleText').innerHTML = `Kapda<span class="olive-text">Hub</span> <span class="text-xs font-semibold text-gray-500 ml-1">Admin</span>`;
@@ -1725,7 +1770,9 @@
     }
 
     function pickRandomPresetPhoto() {
-      const randImg = clothingImages[Math.floor(Math.random() * clothingImages.length)];
+      const cat = document.getElementById('newProdCat').value;
+      const pool = cat === 'Kids' ? kidsFaceImages : adultClothingImages;
+      const randImg = pool[Math.floor(Math.random() * pool.length)];
       document.getElementById('newProdImg').value = randImg;
     }
 
@@ -1743,7 +1790,8 @@
       const sizesRaw = document.getElementById('newProdSizes').value.split(',').map(s => s.trim()).filter(Boolean);
       const sizes = sizesRaw.length > 0 ? sizesRaw : ["S", "M", "L", "XL"];
       const imgInput = document.getElementById('newProdImg').value.trim();
-      const img = imgInput || clothingImages[Math.floor(Math.random() * clothingImages.length)];
+      const pool = category === 'Kids' ? kidsFaceImages : adultClothingImages;
+      const img = imgInput || pool[Math.floor(Math.random() * pool.length)];
 
       const nextId = products.reduce((max, p) => Math.max(max, p.id), 2000) + 1;
       const sku = `KH-${2000 + nextId}`;
@@ -1822,10 +1870,12 @@
 
     function renderAdminEnlargedProductCard(p, rank, metricLabel, metricBadgeClass) {
       const discPct = Math.max(0, Math.round(((p.mrp - p.basePrice) / p.mrp) * 100));
+      const imgBgClass = p.isKids ? 'bg-yellow-300' : 'bg-gray-100';
+      const imgFitClass = p.isKids ? 'object-cover object-top' : 'object-cover';
       return `
         <div class="bg-[#FAF9F6] border border-gray-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
-          <div class="relative h-56 bg-gray-100">
-            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" />
+          <div class="relative h-56 ${imgBgClass}">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full ${imgFitClass}" />
             <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/95 text-gray-900 font-extrabold text-xs shadow-sm">#${rank} • ${p.sku}</span>
             <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg font-extrabold text-xs shadow-sm ${metricBadgeClass}">${metricLabel}</span>
             <span class="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-sm ${p.stockQty > 0 ? 'bg-green-100 text-green-800' : 'bg-red-600 text-white'}">
@@ -1892,7 +1942,7 @@
         : customListed.map(p => `
           <div class="p-2.5 rounded-xl bg-[#FAF9F6] border border-gray-200 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2.5 truncate">
-              <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover" />
+              <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover ${p.isKids ? 'bg-yellow-300' : ''}" />
               <div class="truncate">
                 <p class="font-bold text-gray-900 truncate">${p.name}</p>
                 <p class="text-[11px] olive-text font-semibold">₹${p.basePrice} (MRP ₹${p.mrp}) • Stock: ${p.stockQty}</p>
@@ -2000,7 +2050,7 @@
         return `
           <tr class="hover:bg-gray-50">
             <td class="p-3 font-medium text-gray-900 flex items-center gap-3">
-              <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover border border-gray-200" />
+              <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover border border-gray-200 ${p.isKids ? 'bg-yellow-300 object-top' : ''}" />
               <div>
                 <span class="text-[10px] font-mono text-amber-700 font-bold block">${p.sku}</span>
                 <span class="truncate max-w-[180px] block font-semibold">${p.name}</span>
@@ -2159,6 +2209,7 @@
 
       const sellPrice = getEffectivePrice(p);
       const off = Math.round(((p.mrp - sellPrice) / p.mrp) * 100);
+      const rStats = getProductRatingStats(p.id);
       selectedDetailSize = p.sizes[0];
 
       document.getElementById('pdCategoryTag').textContent = `${p.category} • SKU: ${p.sku}`;
@@ -2167,6 +2218,20 @@
       document.getElementById('pdMrp').textContent = `₹${p.mrp}`;
       document.getElementById('pdDiscount').textContent = activeFestival50Off ? `${off}% OFF (FESTIVAL 50% DEAL)` : `${off}% OFF`;
       document.getElementById('pdDesc').textContent = p.description;
+
+      // Display Real Rating (Starts at 0.0)
+      document.getElementById('pdRating').textContent = rStats.count > 0
+        ? `⭐ ${rStats.avg} (${rStats.count} Review${rStats.count > 1 ? 's' : ''})`
+        : `☆ 0.0 (0 Reviews)`;
+
+      // Render Interactive 1-5 Star Rating Buttons
+      const userExistingVote = (currentUser && storeAnalytics.productRatings[p.id]?.userVotes?.[currentUser.id]) || 0;
+      document.getElementById('pdRateStars').innerHTML = [1, 2, 3, 4, 5].map(star => `
+        <button type="button" onclick="submitProductRating(${p.id}, ${star})" title="Rate ${star} Star"
+          class="hover:scale-125 transition ${star <= userExistingVote ? 'text-amber-500' : 'text-gray-300 hover:text-amber-400'}">
+          ★
+        </button>
+      `).join('');
 
       const stockBadge = document.getElementById('pdStockBadge');
       if (p.inStock) {
@@ -2177,10 +2242,16 @@
         stockBadge.textContent = "● Out of Stock (0 units left)";
       }
 
+      // Apply Yellow Background for Kids Portraits
+      const mainImgBox = document.getElementById('pdMainImgBox');
+      mainImgBox.className = p.isKids
+        ? "relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-yellow-300 border border-yellow-400"
+        : "relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border";
+
       setDetailAngle(p.angles[0].url, p.angles[0].label, p.angles[0].style);
       document.getElementById('pdThumbnails').innerHTML = p.angles.map((ang) => `
         <button type="button" onclick="setDetailAngle('${ang.url}', '${ang.label}', '${ang.style}')"
-          class="border-2 rounded-xl overflow-hidden h-16 hover:border-[#4A5D23] focus:border-[#4A5D23] transition relative bg-gray-100">
+          class="border-2 rounded-xl overflow-hidden h-16 hover:border-[#4A5D23] focus:border-[#4A5D23] transition relative ${p.isKids ? 'bg-yellow-300' : 'bg-gray-100'}">
           <img src="${ang.url}" class="w-full h-full ${ang.style}" />
           <span class="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[9px] py-0.5 text-center truncate">${ang.label.split('. ')[1]}</span>
         </button>
@@ -2334,7 +2405,7 @@
           : wished.map(p => `
             <div class="p-3 rounded-2xl border bg-white flex items-center justify-between gap-3">
               <div class="flex items-center gap-3 cursor-pointer" onclick="closeDashboard(); openProductDetail(${p.id});">
-                <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover" />
+                <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover ${p.isKids ? 'bg-yellow-300 object-top' : ''}" />
                 <div>
                   <p class="font-semibold text-xs sm:text-sm">${p.name}</p>
                   <p class="text-xs font-bold olive-text">₹${getEffectivePrice(p)}</p>
@@ -2403,14 +2474,32 @@
     function renderProducts() {
       const query = (document.getElementById('searchInput').value || document.getElementById('mobileSearch').value).toLowerCase();
       const stockMode = document.getElementById('stockFilter').value;
+      const sortMode = document.getElementById('sortFilter').value;
       const grid = document.getElementById('productGrid');
 
-      const filtered = products.filter(p => {
+      let filtered = products.filter(p => {
         const matchCat = currentCategory === 'All' || p.category === currentCategory;
         const matchSearch = p.name.toLowerCase().includes(query) || p.sku.toLowerCase().includes(query);
         const matchStock = stockMode === 'all' || (stockMode === 'in' && p.inStock) || (stockMode === 'out' && !p.inStock);
         return matchCat && matchSearch && matchStock;
       });
+
+      // Apply Sort Filter
+      if (sortMode === 'price-asc') {
+        filtered.sort((a, b) => getEffectivePrice(a) - getEffectivePrice(b));
+      } else if (sortMode === 'price-desc') {
+        filtered.sort((a, b) => getEffectivePrice(b) - getEffectivePrice(a));
+      } else if (sortMode === 'rating-desc') {
+        filtered.sort((a, b) => getProductRatingStats(b.id).avg - getProductRatingStats(a.id).avg);
+      } else if (sortMode === 'discount-desc') {
+        filtered.sort((a, b) => {
+          const discA = (a.mrp - getEffectivePrice(a)) / a.mrp;
+          const discB = (b.mrp - getEffectivePrice(b)) / b.mrp;
+          return discB - discA;
+        });
+      } else if (sortMode === 'newest') {
+        filtered.sort((a, b) => b.id - a.id);
+      }
 
       const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
       if (currentPage > totalPages) currentPage = totalPages;
@@ -2423,10 +2512,14 @@
         const sellPrice = getEffectivePrice(p);
         const off = Math.round(((p.mrp - sellPrice) / p.mrp) * 100);
         const isWished = currentUser && userState.wishlist.includes(p.id);
+        const rStats = getProductRatingStats(p.id);
+        const cardImgBg = p.isKids ? 'bg-yellow-300' : 'bg-gray-100';
+        const cardImgFit = p.isKids ? 'object-cover object-top' : 'object-cover';
+
         return `
           <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col ${!p.inStock ? 'opacity-75' : 'hover:shadow-md transition'}">
-            <div onclick="openProductDetail(${p.id})" class="relative h-44 bg-gray-100 cursor-pointer group">
-              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 ${!p.inStock ? 'grayscale' : ''}" />
+            <div onclick="openProductDetail(${p.id})" class="relative h-44 ${cardImgBg} cursor-pointer group">
+              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full ${cardImgFit} group-hover:scale-105 transition duration-300 ${!p.inStock ? 'grayscale' : ''}" />
               ${p.inStock
                 ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● ${p.stockQty} left</span>`
                 : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">0 left • Sold Out</span>`
@@ -2443,7 +2536,7 @@
               <div onclick="openProductDetail(${p.id})" class="cursor-pointer">
                 <div class="flex justify-between text-[10px] text-gray-500">
                   <span>${p.category} • ${p.sku}</span>
-                  <span>${p.sizes.slice(0, 3).join(',')}</span>
+                  <span class="font-bold ${rStats.count > 0 ? 'text-amber-600' : 'text-gray-400'}">★ ${rStats.avg.toFixed(1)} (${rStats.count})</span>
                 </div>
                 <h3 class="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 mt-0.5 hover:text-[#4A5D23]">${p.name}</h3>
               </div>
