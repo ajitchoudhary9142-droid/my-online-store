@@ -20,7 +20,7 @@
       font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
       background-color: var(--bg-canvas);
       color: #1F2937;
-      transition: background-color 0.5s ease;
+      transition: background 0.6s ease;
     }
     .serif-heading { font-family: 'Playfair Display', serif; }
     .hindi-font { font-family: 'Noto Sans Devanagari', sans-serif; }
@@ -28,28 +28,68 @@
     .olive-text { color: var(--brand-primary); }
     .sky-accent { background-color: var(--brand-accent-soft); color: #0369A1; }
 
-    /* Festival Theme Overrides */
-    body.theme-diwali { --bg-canvas: #FFFBEB; --brand-primary: #9A3412; --brand-accent-soft: #FEF3C7; }
-    body.theme-christmas { --bg-canvas: #F8FAFC; --brand-primary: #166534; --brand-accent-soft: #FEE2E2; }
-    body.theme-holi { --bg-canvas: #FDF4FF; --brand-primary: #86198F; --brand-accent-soft: #FCE7F3; }
-    body.theme-navratri { --bg-canvas: #FFF7ED; --brand-primary: #B45309; --brand-accent-soft: #FFEDD5; }
-    body.theme-eid { --bg-canvas: #F0FDF4; --brand-primary: #065F46; --brand-accent-soft: #D1FAE5; }
+    /* Rich Festival Themes */
+    body.theme-diwali {
+      --bg-canvas: #FFFBEB;
+      --brand-primary: #9A3412;
+      --brand-accent-soft: #FEF3C7;
+      background-image: radial-gradient(circle at 15% 15%, rgba(251, 191, 36, 0.22), transparent 40%),
+                        radial-gradient(circle at 85% 20%, rgba(249, 115, 22, 0.18), transparent 40%);
+    }
+    body.theme-christmas {
+      --bg-canvas: #F0F9FF;
+      --brand-primary: #15803D;
+      --brand-accent-soft: #FEE2E2;
+      background-image: radial-gradient(circle at 20% 10%, rgba(186, 230, 253, 0.45), transparent 45%),
+                        radial-gradient(circle at 80% 15%, rgba(254, 202, 202, 0.35), transparent 45%);
+    }
+    body.theme-holi {
+      --bg-canvas: #FDF4FF;
+      --brand-primary: #86198F;
+      --brand-accent-soft: #FCE7F3;
+      background-image: radial-gradient(circle at 12% 18%, rgba(232, 121, 249, 0.22), transparent 35%),
+                        radial-gradient(circle at 88% 22%, rgba(56, 189, 248, 0.22), transparent 35%),
+                        radial-gradient(circle at 50% 80%, rgba(250, 204, 21, 0.2), transparent 40%);
+    }
+    body.theme-navratri {
+      --bg-canvas: #FFF7ED;
+      --brand-primary: #B45309;
+      --brand-accent-soft: #FFEDD5;
+      background-image: radial-gradient(circle at 50% 0%, rgba(251, 146, 60, 0.22), transparent 50%);
+    }
+    body.theme-eid {
+      --bg-canvas: #ECFDF5;
+      --brand-primary: #065F46;
+      --brand-accent-soft: #D1FAE5;
+      background-image: radial-gradient(circle at 80% 10%, rgba(52, 211, 153, 0.22), transparent 45%);
+    }
+    body.theme-patriotic {
+      --bg-canvas: #FAFAFA;
+      --brand-primary: #1D4ED8;
+      --brand-accent-soft: #FFEDD5;
+      background-image: linear-gradient(180deg, rgba(251, 146, 60, 0.14) 0%, rgba(255,255,255,0) 30%, rgba(34, 197, 94, 0.14) 100%);
+    }
 
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-10px) rotate(6deg); }
     }
     @keyframes snowfall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.9; }
+      0% { transform: translateY(-8vh) rotate(0deg); opacity: 0.95; }
       100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
     }
     @keyframes sparklePop {
-      0% { transform: scale(0.5); opacity: 1; }
-      100% { transform: scale(2.2); opacity: 0; }
+      0% { transform: scale(0.4); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.12); }
     }
     .fest-float { animation: floatSlow 3.5s ease-in-out infinite; }
+    .fest-pulse { animation: pulseGlow 2s ease-in-out infinite; }
     .snow-flake { position: fixed; top: -5vh; pointer-events: none; z-index: 60; animation: snowfall linear infinite; }
-    .cracker-burst { position: fixed; pointer-events: none; z-index: 70; font-size: 28px; animation: sparklePop 0.9s ease-out forwards; }
+    .cracker-burst { position: fixed; pointer-events: none; z-index: 70; font-size: 30px; animation: sparklePop 0.95s ease-out forwards; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -75,7 +115,7 @@
     </div>
   </div>
 
-  <!-- AUTOMATIC FESTIVAL / MONTHLY 50% SALE BANNER -->
+  <!-- AUTOMATIC FESTIVAL / MONTHLY 30% EXTRA SALE BANNER -->
   <div id="festivalSaleBanner" class="hidden bg-gradient-to-r from-amber-600 via-rose-600 to-amber-600 text-white text-xs sm:text-sm py-2.5 px-4 shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
@@ -92,6 +132,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Festive Garland Strip (Visible during active festivals) -->
+  <div id="festivalGarlandBar" class="hidden bg-white/80 backdrop-blur border-b border-amber-200 py-1 text-center text-sm tracking-widest select-none overflow-hidden"></div>
 
   <!-- Top Bar with Live GPS Location -->
   <div id="customerTopBar" class="olive-bg text-white text-xs py-2 px-4">
@@ -214,13 +257,13 @@
 
       <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm">
         <button onclick="switchAdminTab('listing')" data-admtab="listing" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold olive-bg text-white transition">
-          ➕ Product Listing & Discount Studio
+          ➕ Product Listing, Upload & Remove
         </button>
         <button onclick="switchAdminTab('analytics')" data-admtab="analytics" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🔥 Enlarged Demand, Views & Stock
         </button>
         <button onclick="switchAdminTab('inventory')" data-admtab="inventory" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
-          📦 Regulate Stock, Price & Discounts
+          📦 Regulate Stock, Price & Remove
         </button>
         <button onclick="switchAdminTab('users')" data-admtab="users" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🔐 Registered Users & Credentials
@@ -229,17 +272,17 @@
           🧾 All Customer Orders
         </button>
         <button onclick="switchAdminTab('growth')" data-admtab="growth" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
-          🪔 Festival Theme Simulator & Calendar
+          🪔 Festival Themes & 30% Extra Off
         </button>
       </div>
 
-      <!-- TAB 0: PRODUCT LISTING & DISCOUNT STUDIO -->
+      <!-- TAB 0: PRODUCT LISTING, IMAGE UPLOAD & REMOVE STUDIO -->
       <div id="admTab_listing" class="adm-panel grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-gray-100 pb-3">
             <div>
               <h3 class="font-bold text-lg text-gray-900">➕ List New Clothing Product on KapdaHub</h3>
-              <p class="text-xs text-gray-500">Listed items appear immediately on the top of the live storefront with 0 initial rating.</p>
+              <p class="text-xs text-gray-500">Upload a photo directly from your device or enter an image URL.</p>
             </div>
             <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">Instant Live Publish</span>
           </div>
@@ -304,18 +347,27 @@
                 class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
             </div>
 
-            <div class="sm:col-span-2">
-              <label class="text-gray-700 font-semibold block mb-1">Product Photo URL (Or click Random HD Photo)</label>
-              <div class="flex gap-2">
-                <input id="newProdImg" type="url" placeholder="https://images.unsplash.com/..."
-                  class="flex-1 px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
-                <button type="button" onclick="pickRandomPresetPhoto()" class="px-3.5 py-2 rounded-xl sky-accent font-bold whitespace-nowrap hover:opacity-90">
-                  🎲 Random HD Photo
+            <!-- Device File Upload + URL + Live Preview -->
+            <div class="sm:col-span-2 p-3.5 rounded-2xl bg-[#FAF9F6] border border-dashed border-gray-300 space-y-2.5">
+              <label class="text-gray-800 font-bold block">Product Image (Upload from Device OR Paste Link)</label>
+              <div class="flex flex-wrap items-center gap-2">
+                <label class="px-4 py-2 rounded-xl olive-bg text-white font-bold cursor-pointer hover:opacity-95 transition">
+                  📤 Upload Photo File
+                  <input id="newProdFileInput" type="file" accept="image/*" onchange="handleProductFileUpload(event)" class="hidden" />
+                </label>
+                <input id="newProdImg" type="text" oninput="updateUploadPreview(this.value)" placeholder="Or paste image URL..."
+                  class="flex-1 min-w-[180px] px-3 py-2 rounded-xl bg-white border border-gray-300 text-gray-900" />
+                <button type="button" onclick="pickRandomPresetPhoto()" class="px-3 py-2 rounded-xl sky-accent font-bold whitespace-nowrap hover:opacity-90">
+                  🎲 Random Photo
                 </button>
+              </div>
+              <div id="uploadPreviewWrapper" class="hidden flex items-center gap-3 pt-1">
+                <img id="uploadPreviewImg" src="" class="w-16 h-16 rounded-xl object-cover border border-gray-300 bg-white" />
+                <span id="uploadFileStatusText" class="text-[11px] font-semibold olive-text">✓ Image ready to publish</span>
               </div>
             </div>
 
-            <div class="sm:col-span-2 pt-2">
+            <div class="sm:col-span-2 pt-1">
               <button type="submit" class="w-full py-3 rounded-xl olive-bg hover:opacity-95 text-white font-extrabold text-sm transition shadow-sm">
                 🚀 Publish Product to Live Store
               </button>
@@ -347,18 +399,18 @@
           </div>
 
           <div class="bg-white border border-gray-200 rounded-3xl p-5 shadow-sm space-y-3">
-            <h3 class="font-bold text-base text-gray-900">🆕 Admin-Listed Custom Products</h3>
-            <div id="admCustomListedProducts" class="space-y-2.5 max-h-64 overflow-y-auto text-xs"></div>
+            <h3 class="font-bold text-base text-gray-900">🆕 Admin-Listed Products (Manage / Remove)</h3>
+            <div id="admCustomListedProducts" class="space-y-2.5 max-h-72 overflow-y-auto text-xs"></div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 1: ENLARGED PRODUCT CARDS FOR MOST VIEWED & ORDERED + DIRECT STOCK MANAGEMENT -->
+      <!-- TAB 1: ENLARGED PRODUCT CARDS FOR MOST VIEWED & ORDERED + DIRECT STOCK & REMOVE -->
       <div id="admTab_analytics" class="adm-panel hidden space-y-8">
         <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
             <h3 class="font-bold text-lg text-gray-900">🔥 Most Viewed Products — Enlarged Visual & Live Stock Manager</h3>
-            <p class="text-xs text-gray-500">Directly regulate stock quantity, price, and discount inside high-interest product cards.</p>
+            <p class="text-xs text-gray-500">Directly regulate stock quantity, price, discount, or remove products right inside these cards.</p>
           </div>
           <div id="admMostViewedList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
         </div>
@@ -366,18 +418,18 @@
         <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
             <h3 class="font-bold text-lg text-gray-900">🏆 Highest Ordered Products — Enlarged Visual & Live Stock Manager</h3>
-            <p class="text-xs text-gray-500">Monitor top-selling items and replenish inventory immediately before stock runs out.</p>
+            <p class="text-xs text-gray-500">Monitor top-selling items and replenish or remove inventory anytime.</p>
           </div>
           <div id="admMostOrderedList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
         </div>
       </div>
 
-      <!-- TAB 2: Master SKUs Stock, Price & Discount Regulator -->
+      <!-- TAB 2: Master SKUs Stock, Price, Discount & Remove Regulator -->
       <div id="admTab_inventory" class="adm-panel hidden bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 class="font-bold text-base text-gray-900">Master Inventory, Price & Discount Regulator</h3>
-            <p class="text-xs text-gray-500">Search by ID, SKU, or name to update stock, selling price, or discount % live.</p>
+            <h3 class="font-bold text-base text-gray-900">Master Inventory, Price & Product Removal Regulator</h3>
+            <p class="text-xs text-gray-500">Search by ID, SKU, or name to update stock, price, discount %, or remove any product.</p>
           </div>
           <div class="flex gap-2">
             <input id="admInvSearch" oninput="renderAdminInventory()" type="text" placeholder="Search ID, SKU or name..."
@@ -398,7 +450,7 @@
                 <th class="p-3">Selling Price (₹)</th>
                 <th class="p-3">Discount</th>
                 <th class="p-3">Stock Quantity</th>
-                <th class="p-3">Status</th>
+                <th class="p-3">Action</th>
               </tr>
             </thead>
             <tbody id="admInventoryTableBody" class="divide-y divide-gray-100 bg-white"></tbody>
@@ -442,17 +494,18 @@
       <div id="admTab_growth" class="adm-panel hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
-            <h3 class="font-bold text-base text-gray-900">🪔 Live Festival Theme Simulator & 5-Year Calendar</h3>
-            <p class="text-xs text-gray-500 mt-0.5">Preview how KapdaHub automatically transforms with crackers, mithai, flowers, or snowfall on festivals:</p>
+            <h3 class="font-bold text-base text-gray-900">🪔 Festival Theme Simulator (30% Extra OFF) & 5-Year Calendar</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Preview how KapdaHub transforms with rich visual themes and 30% Extra Discount on festivals:</p>
           </div>
 
           <div class="flex flex-wrap gap-2">
             <button onclick="previewFestivalTheme('none')" class="px-3 py-1.5 rounded-xl border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 text-xs font-bold">Default Store</button>
             <button onclick="previewFestivalTheme('diwali')" class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold">🪔 Diwali (Crackers & Mithai)</button>
-            <button onclick="previewFestivalTheme('christmas')" class="px-3 py-1.5 rounded-xl bg-red-100 text-red-900 border border-red-300 text-xs font-bold">🎄 Christmas (Snow & Gifts)</button>
-            <button onclick="previewFestivalTheme('holi')" class="px-3 py-1.5 rounded-xl bg-fuchsia-100 text-fuchsia-900 border border-fuchsia-300 text-xs font-bold">🎨 Holi (Colors)</button>
-            <button onclick="previewFestivalTheme('navratri')" class="px-3 py-1.5 rounded-xl bg-orange-100 text-orange-900 border border-orange-300 text-xs font-bold">🌼 Navratri (Flowers)</button>
-            <button onclick="previewFestivalTheme('eid')" class="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold">🌙 Eid (Lanterns)</button>
+            <button onclick="previewFestivalTheme('christmas')" class="px-3 py-1.5 rounded-xl bg-red-100 text-red-900 border border-red-300 text-xs font-bold">🎄 Christmas (Snow & Lights)</button>
+            <button onclick="previewFestivalTheme('holi')" class="px-3 py-1.5 rounded-xl bg-fuchsia-100 text-fuchsia-900 border border-fuchsia-300 text-xs font-bold">🎨 Holi (Gulal Colors)</button>
+            <button onclick="previewFestivalTheme('navratri')" class="px-3 py-1.5 rounded-xl bg-orange-100 text-orange-900 border border-orange-300 text-xs font-bold">🌼 Navratri / Puja</button>
+            <button onclick="previewFestivalTheme('eid')" class="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold">🌙 Eid Mubarak</button>
+            <button onclick="previewFestivalTheme('patriotic')" class="px-3 py-1.5 rounded-xl bg-blue-100 text-blue-900 border border-blue-300 text-xs font-bold">🇮🇳 Republic / Independence Day</button>
           </div>
 
           <div id="admUpcomingFestivalsList" class="space-y-2 max-h-56 overflow-y-auto text-xs pt-2 border-t border-gray-100"></div>
@@ -469,86 +522,19 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- CUSTOMER STOREFRONT VIEW (5-BANNER SEAMLESS FORWARD SLIDER)               -->
+  <!-- CUSTOMER STOREFRONT VIEW (5-MIN AUTO-ROTATING BANNERS & DYNAMIC PRODUCTS) -->
   <!-- ========================================================================= -->
   <div id="customerStorefrontWrapper" class="flex-1 flex flex-col">
     
-    <!-- 5-Banner Forward-Only Infinite Sliding Hero Carousel -->
+    <!-- 5-Banner Forward-Only Infinite Carousel (Rotates Banner & Featured Product Every 5 Minutes) -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
       <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
         <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
-          
-          <!-- Banner 1: Winterwear -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
-              <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
-              <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
-          <!-- Banner 2: Ethnic -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
-              <p class="text-sm text-gray-600">Explore royal weaves and festive sets ready to ship with live stock tracking.</p>
-              <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
-          <!-- Banner 3: Men -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Supima Drop-Shoulder Tees & Denim</h2>
-              <p class="text-sm text-gray-600">240 GSM bio-wash cotton tees, linen shirts & stretch tapered jeans for men.</p>
-              <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Men →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Mens Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
-          <!-- Banner 4: Women -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FAE8FF] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-purple-800 text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handblock Anarkalis & Lounge Co-ords</h2>
-              <p class="text-sm text-gray-600">Breathable Jaipur mulmul silhouettes, pleated wrap dresses & satin blouses.</p>
-              <button onclick="filterCategory('Women')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Women →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Womens Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
-          <!-- Banner 5: Kids Wear Apparel -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FEF08A] via-[#FAF9F6] to-[#FEF9C3] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Kids Wear — Organic & Festive Sets</h2>
-              <p class="text-sm text-gray-600">Soft 100% organic cotton sweatshirts, denim dungarees & festive kurta sets for kids.</p>
-              <button onclick="filterCategory('Kids')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Kids Wear →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&q=80" alt="Kids Wear Apparel" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
-          <!-- Clone of Banner 1 (Enables seamless forward-only transition from Banner 5 -> Banner 1 without reversing) -->
-          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="max-w-lg space-y-2">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
-              <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
-              <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
-            </div>
-            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
-          </div>
-
+          <!-- Dynamically populated with 5 distinct banners + clone of Banner 1 -->
         </div>
 
-        <!-- Forward Next Control & 5 Banner Indicator Dots -->
         <button onclick="advanceBannerForward()" title="Next Banner" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
-        <div id="bannerDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/80 backdrop-blur px-2.5 py-1 rounded-full shadow-sm">
+        <div id="bannerDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/85 backdrop-blur px-2.5 py-1 rounded-full shadow-sm">
           <button onclick="jumpToBanner(0)" class="b-dot w-3 h-2 rounded-full olive-bg transition-all"></button>
           <button onclick="jumpToBanner(1)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
           <button onclick="jumpToBanner(2)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
@@ -973,91 +959,127 @@
     let activeAdminAccount = null;
     let adminPreviewingStore = false;
 
-    // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) ======
+    // ====== EXPANDED 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) + 30% EXTRA OFF ======
     const FIVE_YEAR_FESTIVALS = [
+      // 2026
+      { name: "New Year Bash", date: "2026-01-01", theme: "christmas" },
       { name: "Makar Sankranti", date: "2026-01-14", theme: "navratri" },
+      { name: "Republic Day", date: "2026-01-26", theme: "patriotic" },
+      { name: "Maha Shivratri", date: "2026-02-15", theme: "navratri" },
       { name: "Holi Mahotsav", date: "2026-03-04", theme: "holi" },
+      { name: "Gudi Padwa / Ugadi", date: "2026-03-19", theme: "navratri" },
       { name: "Eid-ul-Fitr", date: "2026-03-21", theme: "eid" },
+      { name: "Ram Navami", date: "2026-03-27", theme: "navratri" },
+      { name: "Baisakhi Utsav", date: "2026-04-14", theme: "navratri" },
+      { name: "Independence Day", date: "2026-08-15", theme: "patriotic" },
       { name: "Raksha Bandhan", date: "2026-08-28", theme: "navratri" },
+      { name: "Krishna Janmashtami", date: "2026-09-04", theme: "holi" },
+      { name: "Ganesh Chaturthi", date: "2026-09-14", theme: "navratri" },
       { name: "Navratri Utsav", date: "2026-10-11", theme: "navratri" },
       { name: "Dussehra", date: "2026-10-20", theme: "diwali" },
+      { name: "Karwa Chauth", date: "2026-10-29", theme: "diwali" },
       { name: "Diwali Dhamaka", date: "2026-11-08", theme: "diwali" },
+      { name: "Chhath Puja", date: "2026-11-15", theme: "navratri" },
+      { name: "Gurpurab", date: "2026-11-24", theme: "diwali" },
       { name: "Christmas Carnival", date: "2026-12-25", theme: "christmas" },
+      // 2027
+      { name: "New Year Bash", date: "2027-01-01", theme: "christmas" },
       { name: "Makar Sankranti", date: "2027-01-14", theme: "navratri" },
-      { name: "Holi Mahotsav", date: "2027-03-22", theme: "holi" },
+      { name: "Republic Day", date: "2027-01-26", theme: "patriotic" },
       { name: "Eid-ul-Fitr", date: "2027-03-10", theme: "eid" },
+      { name: "Holi Mahotsav", date: "2027-03-22", theme: "holi" },
+      { name: "Independence Day", date: "2027-08-15", theme: "patriotic" },
       { name: "Raksha Bandhan", date: "2027-08-17", theme: "navratri" },
+      { name: "Ganesh Chaturthi", date: "2027-09-04", theme: "navratri" },
       { name: "Navratri Utsav", date: "2027-09-30", theme: "navratri" },
       { name: "Dussehra", date: "2027-10-09", theme: "diwali" },
       { name: "Diwali Dhamaka", date: "2027-10-29", theme: "diwali" },
       { name: "Christmas Carnival", date: "2027-12-25", theme: "christmas" },
+      // 2028
+      { name: "New Year Bash", date: "2028-01-01", theme: "christmas" },
       { name: "Makar Sankranti", date: "2028-01-15", theme: "navratri" },
-      { name: "Holi Mahotsav", date: "2028-03-11", theme: "holi" },
+      { name: "Republic Day", date: "2028-01-26", theme: "patriotic" },
       { name: "Eid-ul-Fitr", date: "2028-02-27", theme: "eid" },
+      { name: "Holi Mahotsav", date: "2028-03-11", theme: "holi" },
       { name: "Raksha Bandhan", date: "2028-08-05", theme: "navratri" },
+      { name: "Independence Day", date: "2028-08-15", theme: "patriotic" },
       { name: "Navratri Utsav", date: "2028-10-18", theme: "navratri" },
       { name: "Dussehra", date: "2028-10-27", theme: "diwali" },
       { name: "Diwali Dhamaka", date: "2028-11-16", theme: "diwali" },
       { name: "Christmas Carnival", date: "2028-12-25", theme: "christmas" },
+      // 2029
+      { name: "New Year Bash", date: "2029-01-01", theme: "christmas" },
       { name: "Makar Sankranti", date: "2029-01-14", theme: "navratri" },
-      { name: "Holi Mahotsav", date: "2029-03-01", theme: "holi" },
+      { name: "Republic Day", date: "2029-01-26", theme: "patriotic" },
       { name: "Eid-ul-Fitr", date: "2029-02-15", theme: "eid" },
+      { name: "Holi Mahotsav", date: "2029-03-01", theme: "holi" },
+      { name: "Independence Day", date: "2029-08-15", theme: "patriotic" },
       { name: "Raksha Bandhan", date: "2029-08-24", theme: "navratri" },
       { name: "Navratri Utsav", date: "2029-10-08", theme: "navratri" },
       { name: "Dussehra", date: "2029-10-17", theme: "diwali" },
       { name: "Diwali Dhamaka", date: "2029-11-05", theme: "diwali" },
       { name: "Christmas Carnival", date: "2029-12-25", theme: "christmas" },
+      // 2030
+      { name: "New Year Bash", date: "2030-01-01", theme: "christmas" },
       { name: "Makar Sankranti", date: "2030-01-14", theme: "navratri" },
-      { name: "Holi Mahotsav", date: "2030-03-19", theme: "holi" },
+      { name: "Republic Day", date: "2030-01-26", theme: "patriotic" },
       { name: "Eid-ul-Fitr", date: "2030-02-05", theme: "eid" },
+      { name: "Holi Mahotsav", date: "2030-03-19", theme: "holi" },
       { name: "Raksha Bandhan", date: "2030-08-13", theme: "navratri" },
+      { name: "Independence Day", date: "2030-08-15", theme: "patriotic" },
       { name: "Navratri Utsav", date: "2030-09-27", theme: "navratri" },
       { name: "Dussehra", date: "2030-10-06", theme: "diwali" },
       { name: "Diwali Dhamaka", date: "2030-10-26", theme: "diwali" },
       { name: "Christmas Carnival", date: "2030-12-25", theme: "christmas" }
     ];
 
-    let activeFestival50Off = false;
+    let activeFestival30ExtraOff = false;
     let currentVisualTheme = "none";
 
     function applyVisualTheme(themeKey) {
       currentVisualTheme = themeKey;
-      document.body.classList.remove('theme-diwali', 'theme-christmas', 'theme-holi', 'theme-navratri', 'theme-eid');
+      document.body.classList.remove('theme-diwali', 'theme-christmas', 'theme-holi', 'theme-navratri', 'theme-eid', 'theme-patriotic');
       const decorLayer = document.getElementById('festivalDecorLayer');
       const celebBtn = document.getElementById('festCelebrateBtn');
+      const garlandBar = document.getElementById('festivalGarlandBar');
 
       if (!themeKey || themeKey === 'none') {
         decorLayer.innerHTML = '';
         decorLayer.classList.add('hidden');
+        garlandBar.classList.add('hidden');
         if (celebBtn) celebBtn.classList.add('hidden');
         return;
       }
 
       document.body.classList.add(`theme-${themeKey}`);
       decorLayer.classList.remove('hidden');
+      garlandBar.classList.remove('hidden');
       if (celebBtn) celebBtn.classList.remove('hidden');
 
       const themeAssets = {
-        diwali:    { corners: ['🪔', '🎆', '🍬', '🌼'], falling: ['✨', '🌼', '🪔', '🎇'] },
-        christmas: { corners: ['🎄', '🎅', '🎁', '🔔'], falling: ['❄️', '❅', '✨', '🎁'] },
-        holi:      { corners: ['🎨', '🌈', '💦', '🌸'], falling: ['🟣', '🟡', '🟢', '🩷'] },
-        navratri:  { corners: ['🌼', '🪔', '🌺', '✨'], falling: ['🌼', '🌺', '✨'] },
-        eid:       { corners: ['🌙', '✨', '🕌', '🍬'], falling: ['✨', '🌙', '⭐'] }
+        diwali:    { corners: ['🪔', '🎆', '🍬', '🌼'], falling: ['✨', '🌼', '🪔', '🎇', '🍬'], garland: '🪔 🌼 ✨ 🎆 🍬 🪔 🌼 ✨ 🎆 🍬 🪔 🌼 ✨ 🎆 🍬 🪔' },
+        christmas: { corners: ['🎄', '🎅', '🎁', '🔔'], falling: ['❄️', '❅', '✨', '🎁', '🔔'], garland: '🎄 🔴 🟢 🟡 🔵 🎁 ❄️ 🔔 🎄 🔴 🟢 🟡 🔵 🎁 ❄️ 🔔 🎄' },
+        holi:      { corners: ['🎨', '🌈', '💦', '🌸'], falling: ['🟣', '🟡', '🟢', '🩷', '🟠'], garland: '🎨 🌈 🟣 🟡 🟢 🩷 🟠 🌸 🎨 🌈 🟣 🟡 🟢 🩷 🟠 🌸' },
+        navratri:  { corners: ['🌼', '🪔', '🌺', '✨'], falling: ['🌼', '🌺', '✨', '🪔'], garland: '🌼 🌺 🪔 🌼 🌺 🪔 🌼 🌺 🪔 🌼 🌺 🪔 🌼 🌺 🪔' },
+        eid:       { corners: ['🌙', '✨', '🕌', '🍬'], falling: ['✨', '🌙', '⭐', '🍬'], garland: '🌙 ✨ ⭐ 🕌 🍬 🌙 ✨ ⭐ 🕌 🍬 🌙 ✨ ⭐ 🕌 🍬' },
+        patriotic: { corners: ['🇮🇳', '🧡', '🤍', '💚'], falling: ['🧡', '🤍', '💚', '✨'], garland: '🇮🇳 🧡 🤍 💚 🇮🇳 🧡 🤍 💚 🇮🇳 🧡 🤍 💚 🇮🇳 🧡 🤍 💚' }
       };
 
       const pack = themeAssets[themeKey] || themeAssets.diwali;
+      garlandBar.textContent = pack.garland;
+
       let html = `
-        <div class="fixed top-20 left-3 text-2xl sm:text-3xl fest-float select-none">${pack.corners[0]} ${pack.corners[3]}</div>
-        <div class="fixed top-20 right-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:0.8s">${pack.corners[1]} ${pack.corners[2]}</div>
+        <div class="fixed top-24 left-3 text-2xl sm:text-3xl fest-float select-none">${pack.corners[0]} ${pack.corners[3]}</div>
+        <div class="fixed top-24 right-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:0.8s">${pack.corners[1]} ${pack.corners[2]}</div>
         <div class="fixed bottom-4 left-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:1.2s">${pack.corners[2]} ${pack.corners[0]}</div>
         <div class="fixed bottom-4 right-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:0.4s">${pack.corners[3]} ${pack.corners[1]}</div>
       `;
 
-      for (let i = 0; i < 14; i++) {
+      for (let i = 0; i < 16; i++) {
         const icon = pack.falling[i % pack.falling.length];
-        const leftPct = (i * 7.3) % 96;
-        const duration = 7 + (i % 6);
-        const delay = (i * 0.6) % 5;
+        const leftPct = (i * 6.4) % 96;
+        const duration = 6.5 + (i % 6);
+        const delay = (i * 0.5) % 5;
         html += `<span class="snow-flake text-base sm:text-lg select-none" style="left:${leftPct}%; animation-duration:${duration}s; animation-delay:${delay}s;">${icon}</span>`;
       }
       decorLayer.innerHTML = html;
@@ -1069,13 +1091,15 @@
         ? ['🎄', '❄️', '🎁', '🔔', '⭐']
         : currentVisualTheme === 'holi'
         ? ['🎨', '🌈', '🌸', '✨', '🎉']
+        : currentVisualTheme === 'patriotic'
+        ? ['🇮🇳', '🧡', '🤍', '💚', '✨']
         : ['🎆', '🎇', '🪔', '🍬', '🌼', '✨'];
 
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 14; i++) {
         const el = document.createElement('span');
         el.className = 'cracker-burst select-none';
         el.textContent = icons[i % icons.length];
-        el.style.left = `${15 + Math.random() * 70}%`;
+        el.style.left = `${12 + Math.random() * 76}%`;
         el.style.top = `${15 + Math.random() * 65}%`;
         document.body.appendChild(el);
         setTimeout(() => el.remove(), 950);
@@ -1089,27 +1113,30 @@
       const timerEl = document.getElementById('festCountdownTimer');
 
       if (themeKey === 'none') {
-        activeFestival50Off = false;
+        activeFestival30ExtraOff = false;
         applyVisualTheme('none');
         bannerEl.classList.add('hidden');
+        renderHeroBanners();
         alert("Restored Default KapdaHub Store Theme!");
         return;
       }
 
       const labels = {
-        diwali:    { tag: "🪔 DIWALI DHAMAKA • 50% OFF LIVE", msg: "Happy Diwali! Crackers, Mithai & Flowers — Flat 50% OFF on KapdaHub!" },
-        christmas: { tag: "🎄 CHRISTMAS CARNIVAL • 50% OFF LIVE", msg: "Merry Christmas! Festive Winter & Party Wear at Flat 50% OFF!" },
-        holi:      { tag: "🎨 HOLI UTSAV • 50% OFF LIVE", msg: "Happy Holi! Celebrate with vibrant ethnic & casual styles at 50% OFF!" },
-        navratri:  { tag: "🌼 NAVRATRI SPECIAL • 50% OFF LIVE", msg: "Shubh Navratri! Festive Kurtas & Sarees at Flat 50% OFF!" },
-        eid:       { tag: "🌙 EID MUBARAK • 50% OFF LIVE", msg: "Eid Mubarak! Exclusive Festive Collection at Flat 50% OFF!" }
+        diwali:    { tag: "🪔 DIWALI DHAMAKA • 30% EXTRA OFF", msg: "Happy Diwali! Crackers, Mithai & Flowers — Extra 30% OFF applied on all items!" },
+        christmas: { tag: "🎄 CHRISTMAS CARNIVAL • 30% EXTRA OFF", msg: "Merry Christmas! Winter & Party Wear with Extra 30% OFF today!" },
+        holi:      { tag: "🎨 HOLI UTSAV • 30% EXTRA OFF", msg: "Happy Holi! Celebrate with vibrant ethnic & casual styles at 30% EXTRA OFF!" },
+        navratri:  { tag: "🌼 NAVRATRI & PUJA • 30% EXTRA OFF", msg: "Shubh Navratri! Festive Kurtas & Sarees with Extra 30% OFF!" },
+        eid:       { tag: "🌙 EID MUBARAK • 30% EXTRA OFF", msg: "Eid Mubarak! Exclusive Festive Collection with Extra 30% OFF!" },
+        patriotic: { tag: "🇮🇳 NATIONAL CELEBRATION • 30% EXTRA OFF", msg: "Jai Hind! Celebrate with Extra 30% OFF across all KapdaHub styles!" }
       };
 
-      activeFestival50Off = true;
+      activeFestival30ExtraOff = true;
       applyVisualTheme(themeKey);
       bannerEl.classList.remove('hidden');
       tagEl.textContent = labels[themeKey].tag;
       msgEl.textContent = labels[themeKey].msg;
       timerEl.textContent = "Preview Active (Ends 12:00 AM)";
+      renderHeroBanners();
     }
 
     function evaluateFestivalAndMonthlySale() {
@@ -1120,7 +1147,7 @@
       const msgEl = document.getElementById('festBannerMessage');
       const timerEl = document.getElementById('festCountdownTimer');
 
-      activeFestival50Off = false;
+      activeFestival30ExtraOff = false;
 
       for (const fest of FIVE_YEAR_FESTIVALS) {
         const [fy, fm, fd] = fest.date.split('-').map(Number);
@@ -1128,18 +1155,18 @@
         const diffDays = Math.round((festDate.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
 
         if (diffDays === 0) {
-          activeFestival50Off = true;
+          activeFestival30ExtraOff = true;
           applyVisualTheme(fest.theme);
           bannerEl.classList.remove('hidden');
-          tagEl.textContent = `🪔 HAPPY ${fest.name.toUpperCase()} • 50% OFF LIVE`;
-          msgEl.textContent = `Celebrate ${fest.name}! Flat 50% OFF automatically applied on all styles today!`;
+          tagEl.textContent = `🪔 HAPPY ${fest.name.toUpperCase()} • 30% EXTRA OFF`;
+          msgEl.textContent = `Celebrate ${fest.name}! Extra 30% OFF automatically applied on all styles today!`;
           updateMidnightCountdown(timerEl, "Ends at 12:00 AM");
           return;
         } else if (diffDays > 0 && diffDays <= 4) {
           applyVisualTheme(fest.theme);
           bannerEl.classList.remove('hidden');
           tagEl.textContent = `✨ ${fest.name.toUpperCase()} IN ${diffDays} DAY${diffDays > 1 ? 'S' : ''}`;
-          msgEl.textContent = `Get ready! ${fest.name} Mega 50% OFF Sale unlocks on ${fest.date}. Wishlist your favorites now!`;
+          msgEl.textContent = `Get ready! ${fest.name} 30% EXTRA OFF Sale unlocks on ${fest.date}. Wishlist your favorites now!`;
           timerEl.textContent = `Starts in ${diffDays} day(s)`;
           return;
         }
@@ -1148,11 +1175,11 @@
       const yearMonthSeed = now.getFullYear() * 12 + (now.getMonth() + 1);
       const randomFlashDay = ((yearMonthSeed * 17 + 7) % 27) + 1;
       if (now.getDate() === randomFlashDay) {
-        activeFestival50Off = true;
+        activeFestival30ExtraOff = true;
         applyVisualTheme('diwali');
         bannerEl.classList.remove('hidden');
-        tagEl.textContent = "⚡ MONTHLY SURPRISE 50% FLASH SALE";
-        msgEl.textContent = "Today is KapdaHub's Monthly Mystery 50% OFF Day! All styles at HALF PRICE until midnight!";
+        tagEl.textContent = "⚡ MONTHLY SURPRISE 30% EXTRA OFF";
+        msgEl.textContent = "Today is KapdaHub's Monthly Mystery 30% Extra Discount Day! Valid until midnight!";
         updateMidnightCountdown(timerEl, "Vanishes at 12:00 AM");
         return;
       }
@@ -1167,6 +1194,7 @@
       const rem = midnight - now;
       if (rem <= 0) {
         evaluateFestivalAndMonthlySale();
+        renderHeroBanners();
         renderProducts();
         return;
       }
@@ -1176,7 +1204,7 @@
       el.textContent = `${prefix} (${hrs}:${mins}:${secs})`;
     }
     setInterval(() => {
-      if (activeFestival50Off) {
+      if (activeFestival30ExtraOff) {
         updateMidnightCountdown(document.getElementById('festCountdownTimer'), "Ends at 12:00 AM");
       }
     }, 1000);
@@ -1206,9 +1234,11 @@
       priceOverrides: {},
       mrpOverrides: {},
       productRatings: {},
+      deletedProductIds: [],
       customListedProducts: []
     };
     if (!storeAnalytics.productRatings) storeAnalytics.productRatings = {};
+    if (!storeAnalytics.deletedProductIds) storeAnalytics.deletedProductIds = [];
 
     function saveStoreAnalytics() {
       localStorage.setItem("kh_global_analytics", JSON.stringify(storeAnalytics));
@@ -1283,7 +1313,6 @@
       "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=600&q=80"
     ];
 
-    // Dedicated Kids Clothing & Apparel Images Pool (No Faces — Pure Kids Wear)
     const kidsWearImages = [
       "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&q=80",
       "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&q=80",
@@ -1356,7 +1385,6 @@
       const baseCalculatedPrice = storeAnalytics.priceOverrides[id] !== undefined ? storeAnalytics.priceOverrides[id] : (arch.basePrice + priceDelta);
       const mrpCalculated = storeAnalytics.mrpOverrides[id] !== undefined ? storeAnalytics.mrpOverrides[id] : Math.max(arch.mrp + priceDelta, baseCalculatedPrice + 300);
 
-      // Kids category uses dedicated Kids Clothing & Apparel images (no faces)
       const primaryImg = arch.cat === 'Kids'
         ? kidsWearImages[idx % kidsWearImages.length]
         : adultClothingImages[idx % adultClothingImages.length];
@@ -1392,7 +1420,8 @@
       return buildProductObject({ ...cp, stockQty, basePrice, mrp, isCustomListed: true });
     });
 
-    let products = [...customHydrated, ...baseProducts];
+    const deletedSet = new Set(storeAnalytics.deletedProductIds || []);
+    let products = [...customHydrated, ...baseProducts].filter(p => !deletedSet.has(p.id));
 
     function getProductRatingStats(productId) {
       const entry = storeAnalytics.productRatings[productId];
@@ -1427,8 +1456,9 @@
       });
     }
 
+    // Effective Price: Applies Extra 30% OFF during Festivals / Monthly Flash Day
     function getEffectivePrice(product) {
-      return activeFestival50Off ? Math.round(product.basePrice * 0.5) : product.basePrice;
+      return activeFestival30ExtraOff ? Math.round(product.basePrice * 0.7) : product.basePrice;
     }
 
     let cart = [];
@@ -1437,14 +1467,76 @@
     let liveLocationString = "";
     let selectedDetailSize = "M";
 
-    // Incremental "See More" Extend State
     const LOAD_BATCH_SIZE = 50;
     let visibleItemsLimit = LOAD_BATCH_SIZE;
 
-    // ====== 5-BANNER SEAMLESS FORWARD-ONLY CONTINUOUS SLIDER ======
+    // ====== 5-MINUTE DYNAMIC BANNER & FEATURED PRODUCT ROTATOR ======
     const TOTAL_BANNERS = 5;
     let currentBannerIdx = 0;
     let isBannerTransitioning = false;
+    let bannerProductRotationCycle = 0;
+
+    function getDynamicBannerProductForCat(catName, offsetIndex) {
+      const catPool = products.filter(p => p.category === catName && p.inStock);
+      if (catPool.length === 0) return products[0];
+      return catPool[(bannerProductRotationCycle + offsetIndex) % catPool.length];
+    }
+
+    function buildSingleBannerHTML(cfg, prod) {
+      const sellPrice = getEffectivePrice(prod);
+      return `
+        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r ${cfg.gradient} flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="max-w-lg space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold ${cfg.badgeClass} text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              ${activeFestival30ExtraOff ? '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-rose-600 text-white">30% EXTRA FEST OFF</span>' : ''}
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">${cfg.headline}</h2>
+            <p class="text-sm text-gray-600">${cfg.subtext}</p>
+            <div class="flex flex-wrap items-center gap-2.5 pt-2">
+              <button onclick="filterCategory('${cfg.cat}')" class="px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop ${cfg.cat} →</button>
+              <button onclick="openProductDetail(${prod.id})" class="px-4 py-2 rounded-full bg-white border border-gray-300 text-gray-900 text-xs font-bold hover:bg-gray-50">
+                View Spotlight: ₹${sellPrice}
+              </button>
+            </div>
+          </div>
+          <div onclick="openProductDetail(${prod.id})" class="w-full md:w-80 bg-white p-2.5 rounded-2xl shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition">
+            <div class="relative h-40 rounded-xl overflow-hidden bg-gray-100">
+              <img src="${prod.img}" alt="${prod.name}" class="w-full h-full object-cover" />
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/75 text-white text-[10px] font-bold">FEATURED • ${prod.sku}</span>
+            </div>
+            <div class="pt-2 px-1 flex items-center justify-between gap-2">
+              <p class="text-xs font-bold text-gray-900 truncate">${prod.name}</p>
+              <span class="text-xs font-extrabold olive-text whitespace-nowrap">₹${sellPrice}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHeroBanners() {
+      const track = document.getElementById('adSliderTrack');
+      if (!track || products.length === 0) return;
+
+      const bannerConfigs = [
+        { cat: "Winterwear", headline: "Winter Quilted Jackets & Hoodies", subtext: "Heavy fleece warmth with street-ready cuts. Apply FREE1001 at checkout for ₹0 Cart Total!", badgeClass: "olive-bg", gradient: "from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3]" },
+        { cat: "Ethnic", headline: "Handloom Sarees & Chikankari Kurtas", subtext: "Explore royal weaves and festive sets ready to ship with live stock tracking.", badgeClass: "bg-pink-700", gradient: "from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE]" },
+        { cat: "Men", headline: "Supima Drop-Shoulder Tees & Denim", subtext: "240 GSM bio-wash cotton tees, linen shirts & stretch tapered jeans for men.", badgeClass: "olive-bg", gradient: "from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE]" },
+        { cat: "Women", headline: "Handblock Anarkalis & Lounge Co-ords", subtext: "Breathable Jaipur mulmul silhouettes, pleated wrap dresses & satin blouses.", badgeClass: "bg-purple-800", gradient: "from-[#FAE8FF] via-[#FAF9F6] to-[#FCE7F3]" },
+        { cat: "Kids", headline: "Kids Wear — Organic & Festive Sets", subtext: "Soft 100% organic cotton sweatshirts, denim dungarees & festive kurta sets for kids.", badgeClass: "olive-bg", gradient: "from-[#FEF08A] via-[#FAF9F6] to-[#FEF9C3]" }
+      ];
+
+      const slidesHtml = bannerConfigs.map((cfg, idx) => {
+        const prod = getDynamicBannerProductForCat(cfg.cat, idx * 3);
+        return buildSingleBannerHTML(cfg, prod);
+      });
+
+      // Append seamless clone of Banner 1 at index 5
+      const firstProd = getDynamicBannerProductForCat(bannerConfigs[0].cat, 0);
+      slidesHtml.push(buildSingleBannerHTML(bannerConfigs[0], firstProd));
+
+      track.innerHTML = slidesHtml.join('');
+    }
 
     function updateBannerDots(activeIndex) {
       const realIdx = activeIndex % TOTAL_BANNERS;
@@ -1461,7 +1553,7 @@
 
       isBannerTransitioning = true;
       currentBannerIdx++;
-      track.style.transition = 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)';
+      track.style.transition = 'transform 500ms cubic-bezier(0.22, 1, 0.36, 1)';
       track.style.transform = `translateX(-${currentBannerIdx * 100}%)`;
       updateBannerDots(currentBannerIdx);
 
@@ -1472,11 +1564,11 @@
           track.style.transform = 'translateX(0%)';
           void track.offsetWidth;
           isBannerTransitioning = false;
-        }, 460);
+        }, 510);
       } else {
         setTimeout(() => {
           isBannerTransitioning = false;
-        }, 460);
+        }, 510);
       }
     }
 
@@ -1489,7 +1581,77 @@
       updateBannerDots(currentBannerIdx);
     }
 
-    setInterval(advanceBannerForward, 2800);
+    // Rotate Banner AND Featured Product inside Banner every 5 Minutes (300,000 ms)
+    setInterval(() => {
+      bannerProductRotationCycle++;
+      renderHeroBanners();
+      advanceBannerForward();
+    }, 300000);
+
+    // ====== ADMIN PRODUCT IMAGE UPLOAD & REMOVE PRODUCT HANDLERS ======
+    function handleProductFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          // Compress image via canvas so localStorage stays fast and clean
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 650;
+          const scale = Math.min(1, MAX_WIDTH / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          document.getElementById('newProdImg').value = compressedDataUrl;
+          updateUploadPreview(compressedDataUrl, `✓ Uploaded: ${file.name}`);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateUploadPreview(srcUrl, statusLabel = "✓ Image ready to publish") {
+      const wrap = document.getElementById('uploadPreviewWrapper');
+      const prevImg = document.getElementById('uploadPreviewImg');
+      const statusEl = document.getElementById('uploadFileStatusText');
+      if (srcUrl && srcUrl.trim()) {
+        prevImg.src = srcUrl.trim();
+        statusEl.textContent = statusLabel;
+        wrap.classList.remove('hidden');
+      } else {
+        wrap.classList.add('hidden');
+      }
+    }
+
+    function adminRemoveProduct(productId) {
+      if (!activeAdminAccount) return;
+      const target = products.find(p => p.id === productId);
+      if (!target) return;
+
+      if (!confirm(`Are you sure you want to permanently remove "${target.name}" (${target.sku}) from KapdaHub?`)) {
+        return;
+      }
+
+      // Remove from active products array
+      products = products.filter(p => p.id !== productId);
+
+      // Persist removal in storeAnalytics
+      storeAnalytics.deletedProductIds = storeAnalytics.deletedProductIds || [];
+      if (!storeAnalytics.deletedProductIds.includes(productId)) {
+        storeAnalytics.deletedProductIds.push(productId);
+      }
+      storeAnalytics.customListedProducts = (storeAnalytics.customListedProducts || []).filter(cp => cp.id !== productId);
+      saveStoreAnalytics();
+
+      renderHeroBanners();
+      renderAdminDashboard();
+      renderProducts();
+    }
 
     function openStoreQRPoster() {
       const m = document.getElementById('storeQrModal');
@@ -1506,7 +1668,7 @@
       about: { title: "About KapdaHub (मेरे कपड़े, मेरी पसंद)", body: "<p>KapdaHub offers 2,000+ unique, quality-checked fashion styles across Men's, Women's, Winterwear, Ethnic, and Kids' collections with pan-India delivery.</p>" },
       careers: { title: "Careers at KapdaHub", body: "<p>Send your portfolio or resume to <b>support@kapdahubstore.in</b> with the subject line 'Careers - KapdaHub'.</p>" },
       contact: { title: "Contact Us", body: "<p><b>Support Hours:</b> Mon–Sat, 11:00 AM – 8:00 PM IST</p><p><b>Email:</b> support@kapdahubstore.in</p>" },
-      terms: { title: "Terms & Conditions", body: "<p>All prices are inclusive of applicable Indian GST. Festival 50% OFF deals expire strictly at 12:00 AM midnight.</p>" },
+      terms: { title: "Terms & Conditions", body: "<p>All prices are inclusive of applicable Indian GST. Festival 30% EXTRA OFF deals expire strictly at 12:00 AM midnight.</p>" },
       refund: { title: "Refund & Replacement Policy", body: "<p>Easy 7-day size replacement or refund for unworn items with original tags intact.</p>" },
       shipping: { title: "Shipping Policy", body: "<p>Free pan-India shipping on orders above ₹999 (₹49 below ₹999). Dispatched within 24–48 hours.</p>" },
       privacy: { title: "Privacy Policy", body: "<p>Your GPS location and contact details are used strictly for order fulfillment.</p>" }
@@ -1757,6 +1919,7 @@
         document.getElementById('customerStorefrontWrapper').classList.remove('hidden');
         document.getElementById('navSearchWrapper').classList.remove('hidden');
         btn.textContent = "📊 Back to Admin Console";
+        renderHeroBanners();
         renderProducts();
       } else {
         document.getElementById('customerStorefrontWrapper').classList.add('hidden');
@@ -1845,6 +2008,7 @@
       const pool = cat === 'Kids' ? kidsWearImages : adultClothingImages;
       const randImg = pool[Math.floor(Math.random() * pool.length)];
       document.getElementById('newProdImg').value = randImg;
+      updateUploadPreview(randImg, "✓ Random HD preset photo selected");
     }
 
     function adminCreateProduct(e) {
@@ -1904,7 +2068,9 @@
       document.getElementById('newProdSellPrice').value = 1799;
       document.getElementById('newProdStock').value = 25;
       document.getElementById('newProdSizes').value = "S, M, L, XL, XXL";
+      document.getElementById('uploadPreviewWrapper').classList.add('hidden');
 
+      renderHeroBanners();
       renderAdminDashboard();
       alert(`✅ "${title}" (${sku}) listed live on KapdaHub!`);
     }
@@ -1924,6 +2090,7 @@
         }
       });
       saveStoreAnalytics();
+      renderHeroBanners();
       renderAdminDashboard();
       alert(`🎉 Applied ${pct}% OFF across ${updatedCount} products in "${cat}"!`);
     }
@@ -1977,6 +2144,9 @@
                   <button onclick="adminAdjustStock(${p.id}, 1)" class="w-7 h-7 rounded-lg olive-bg hover:opacity-95 font-bold text-white">+</button>
                 </div>
               </div>
+              <button onclick="adminRemoveProduct(${p.id})" class="w-full mt-1 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold transition">
+                🗑️ Remove Product
+              </button>
             </div>
           </div>
         </div>
@@ -2017,7 +2187,9 @@
                 <p class="text-[11px] olive-text font-semibold">₹${p.basePrice} (MRP ₹${p.mrp}) • Stock: ${p.stockQty}</p>
               </div>
             </div>
-            <span class="text-[10px] font-mono text-gray-500">${p.sku}</span>
+            <button onclick="adminRemoveProduct(${p.id})" title="Remove Product" class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-[11px] shrink-0">
+              🗑️ Remove
+            </button>
           </div>
         `).join('');
 
@@ -2055,11 +2227,11 @@
       `).join('');
 
       const todayStr = new Date().toISOString().split('T')[0];
-      const upcomingFests = FIVE_YEAR_FESTIVALS.filter(f => f.date >= todayStr).slice(0, 12);
+      const upcomingFests = FIVE_YEAR_FESTIVALS.filter(f => f.date >= todayStr).slice(0, 16);
       document.getElementById('admUpcomingFestivalsList').innerHTML = upcomingFests.map(f => `
         <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF9F6] border border-gray-200">
           <span class="font-bold text-gray-900">🪔 ${f.name}</span>
-          <span class="font-mono olive-text font-bold">${f.date} (50% OFF)</span>
+          <span class="font-mono olive-text font-bold">${f.date} (30% EXTRA OFF)</span>
         </div>
       `).join('');
 
@@ -2151,10 +2323,9 @@
               </div>
             </td>
             <td class="p-3">
-              ${p.stockQty > 0
-                ? '<span class="px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 font-bold text-[10px]">In Stock</span>'
-                : '<span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 font-bold text-[10px]">Out of Stock</span>'
-              }
+              <button onclick="adminRemoveProduct(${p.id})" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px]">
+                🗑️ Remove
+              </button>
             </td>
           </tr>
         `;
@@ -2192,6 +2363,7 @@
       }
       storeAnalytics.priceOverrides[id] = newPrice;
       saveStoreAnalytics();
+      renderHeroBanners();
       renderAdminDashboard();
     }
 
@@ -2219,6 +2391,7 @@
       p.basePrice = newSell;
       storeAnalytics.priceOverrides[id] = newSell;
       saveStoreAnalytics();
+      renderHeroBanners();
       renderAdminDashboard();
     }
 
@@ -2285,7 +2458,7 @@
       document.getElementById('pdTitle').textContent = p.name;
       document.getElementById('pdPrice').textContent = `₹${sellPrice}`;
       document.getElementById('pdMrp').textContent = `₹${p.mrp}`;
-      document.getElementById('pdDiscount').textContent = activeFestival50Off ? `${off}% OFF (FESTIVAL 50% DEAL)` : `${off}% OFF`;
+      document.getElementById('pdDiscount').textContent = activeFestival30ExtraOff ? `${off}% OFF (30% EXTRA FEST OFF)` : `${off}% OFF`;
       document.getElementById('pdDesc').textContent = p.description;
 
       document.getElementById('pdRating').textContent = rStats.count > 0
@@ -2439,7 +2612,7 @@
           <div class="p-5 rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 space-y-2">
             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold olive-bg text-white">VERIFIED MEMBER ✦</span>
             <h4 class="text-lg font-bold text-gray-900">मेरे कपड़े, मेरी पसंद — Plus Benefits</h4>
-            <p class="text-xs text-gray-600">Enjoy priority shipping, Festival 50% OFF alerts, and 50 Free (₹0) promo codes.</p>
+            <p class="text-xs text-gray-600">Enjoy priority shipping, Festival 30% EXTRA OFF alerts, and 50 Free (₹0) promo codes.</p>
           </div>
         `;
       } else if (tab === 'orders') {
@@ -2591,8 +2764,8 @@
                 class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-white/90 shadow flex items-center justify-center text-xs hover:scale-110 transition">
                 ${isWished ? '❤️' : '🤍'}
               </button>
-              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold ${activeFestival50Off ? 'bg-rose-600 text-white' : 'olive-bg text-white'}">
-                ${activeFestival50Off ? '50% FEST OFF' : `${off}% OFF`}
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold ${activeFestival30ExtraOff ? 'bg-rose-600 text-white' : 'olive-bg text-white'}">
+                ${activeFestival30ExtraOff ? '+30% FEST OFF' : `${off}% OFF`}
               </span>
             </div>
             <div class="p-3 flex-1 flex flex-col justify-between">
@@ -2618,7 +2791,6 @@
         `;
       }).join('');
 
-      // Render "See More" Button to extend list downwards
       const seeMoreBox = document.getElementById('seeMoreContainer');
       const remainingCount = filtered.length - displayedItems.length;
       if (remainingCount > 0) {
@@ -2898,6 +3070,7 @@
     // Initialize KapdaHub
     evaluateFestivalAndMonthlySale();
     restoreLastSession();
+    renderHeroBanners();
     renderProducts();
     updateCartUI();
     detectGPSLocation();
