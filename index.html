@@ -3,11 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VastraHub | 150+ Fashion & Clothing Store</title>
+  <title>VastraHub | Official Fashion & Clothing Store India</title>
+  <meta name="description" content="Shop 150+ curated clothing styles at VastraHub. Winterwear, Ethnic Sarees, Kurtis, Oversized Tees & Kids fashion with fast India-wide delivery." />
+  <meta name="keywords" content="VastraHub, VastraHub Store, VastraHub Fashion, Online Clothing India, Mens Wear, Womens Ethnic, Winter Jackets" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ajitchoudhary9142-droid.github.io/my-online-store/" />
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FAF9F6; color: #1F2937; }
+    .serif-heading { font-family: 'Playfair Display', serif; }
     .olive-bg { background-color: #4A5D23; }
     .olive-text { color: #4A5D23; }
     .pink-badge { background-color: #FCE7F3; color: #9D174D; }
@@ -16,8 +22,26 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Top Bar with Live GPS Location -->
-  <div class="olive-bg text-white text-xs py-2 px-4">
+  <!-- ADMIN EXECUTIVE BAR (Visible ONLY when Admin logs in) -->
+  <div id="adminTopBanner" class="hidden bg-slate-950 text-amber-400 text-xs py-2.5 px-4 border-b border-amber-500/30">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 font-bold">
+        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] uppercase">Admin Mode Active</span>
+        <span>Welcome, Store Owner • Full Inventory & Analytics Control</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="toggleAdminStoreBtn" onclick="toggleAdminStoreView()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">
+          👁️ Preview Customer Store
+        </button>
+        <button onclick="logoutUser()" class="px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold">
+          ⏻ Exit Admin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Bar with Live GPS Location (Customer View) -->
+  <div id="customerTopBar" class="olive-bg text-white text-xs py-2 px-4">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-1.5 font-medium">
         <span>📍</span>
@@ -31,46 +55,45 @@
   </div>
 
   <!-- Navbar -->
-  <header class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
+  <header id="mainNavbar" class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg">V</div>
-        <span class="font-bold text-xl tracking-tight text-gray-900">Vastra<span class="olive-text">Hub</span></span>
+        <div id="brandLogoBox" class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg">V</div>
+        <span id="brandTitleText" class="font-bold text-xl tracking-tight text-gray-900">Vastra<span class="olive-text">Hub</span></span>
       </div>
 
-      <div class="hidden md:flex flex-1 max-w-md">
+      <div id="navSearchWrapper" class="hidden md:flex flex-1 max-w-md">
         <input id="searchInput" type="text" placeholder="Search 150 clothing styles..."
           class="w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm focus:outline-none focus:border-[#4A5D23]" />
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Login Button (Shown when logged out) -->
+        <!-- Login Button -->
         <button id="loginNavBtn" onclick="openLoginModal()" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-xs sm:text-sm font-semibold hover:bg-gray-100 transition">
           👤 Login
         </button>
 
-        <!-- Account Dropdown Menu (Shown when logged in - Flipkart Style) -->
+        <!-- Customer Account Dropdown Menu -->
         <div id="accountMenuWrapper" class="relative hidden">
           <button onclick="toggleAccountDropdown()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-gray-300 text-gray-900 text-xs sm:text-sm font-bold hover:bg-gray-50 transition">
-            <span id="navUserName">Ajit</span>
+            <span id="navUserName">Account</span>
             <span class="text-[10px]">▼</span>
           </button>
 
-          <!-- Dropdown List -->
           <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-200 py-2 z-50 text-sm">
             <button onclick="openDashboard('profile')" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="text-blue-600">👤</span> <span class="font-medium text-gray-800">My Profile</span>
             </button>
             <button onclick="openDashboard('supercoin')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="flex items-center gap-3"><span class="text-amber-500">⚡</span> <span class="font-medium text-gray-800">SuperCoin Zone</span></span>
-              <span id="navCoinBadge" class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">250</span>
+              <span id="navCoinBadge" class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">0</span>
             </button>
             <button onclick="openDashboard('plus')" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="text-yellow-500">✦</span> <span class="font-medium text-gray-800">VastraHub Plus Zone</span>
             </button>
             <button onclick="openDashboard('orders')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="flex items-center gap-3"><span class="text-blue-600">📦</span> <span class="font-medium text-gray-800">Orders</span></span>
-              <span id="navOrderBadge" class="text-xs font-semibold text-gray-500">2</span>
+              <span id="navOrderBadge" class="text-xs font-semibold text-gray-500">0</span>
             </button>
             <button onclick="openDashboard('wishlist')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="flex items-center gap-3"><span class="text-pink-600">❤️</span> <span class="font-medium text-gray-800">Wishlist</span></span>
@@ -81,7 +104,7 @@
             </button>
             <button onclick="openDashboard('giftcards')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="flex items-center gap-3"><span class="text-indigo-600">💳</span> <span class="font-medium text-gray-800">Gift Cards</span></span>
-              <span id="navGiftBadge" class="text-xs font-semibold text-green-700">₹500</span>
+              <span id="navGiftBadge" class="text-xs font-semibold text-green-700">₹0</span>
             </button>
             <button onclick="openDashboard('notifications')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
               <span class="flex items-center gap-3"><span class="text-blue-500">🔔</span> <span class="font-medium text-gray-800">Notifications</span></span>
@@ -94,7 +117,7 @@
         </div>
 
         <!-- Cart Bag Button -->
-        <button onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition">
+        <button id="navBagBtn" onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition">
           <span>🛍️ Bag</span>
           <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
         </button>
@@ -102,85 +125,326 @@
     </div>
   </header>
 
-  <!-- Auto-Sliding Product Advertisement Banner -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
-    <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
-      <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
-        <!-- Slide 1 -->
-        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="max-w-lg space-y-2">
-            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">FEATURED DROP #1</span>
-            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
-            <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
-            <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
-          </div>
-          <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+  <!-- ========================================================================= -->
+  <!-- EXCLUSIVE ADMIN CONTROL PANEL (COMPLETELY HIDDEN FOR REGULAR USERS)       -->
+  <!-- ========================================================================= -->
+  <section id="adminDashboardSection" class="hidden flex-1 bg-slate-900 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto space-y-6">
+      
+      <!-- Top KPI Analytics Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
+          <p class="text-xs text-slate-400">Real Store Visitors</p>
+          <p id="admTotalVisitors" class="text-2xl sm:text-3xl font-extrabold text-sky-400 mt-1">0</p>
+          <p class="text-[11px] text-slate-400 mt-1">Live page sessions tracked</p>
         </div>
-
-        <!-- Slide 2 -->
-        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="max-w-lg space-y-2">
-            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white">FESTIVE ETHNIC EDIT</span>
-            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
-            <p class="text-sm text-gray-600">122 styles ready to ship today with live stock tracking and Merchant QR payment.</p>
-            <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
-          </div>
-          <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
+          <p class="text-xs text-slate-400">Total Store Earning</p>
+          <p id="admTotalEarning" class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1">₹0</p>
+          <p id="admAvgOrder" class="text-[11px] text-slate-400 mt-1">Avg Order: ₹0</p>
         </div>
-
-        <!-- Slide 3 -->
-        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="max-w-lg space-y-2">
-            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">EVERYDAY ESSENTIALS</span>
-            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Oversized Tees, Denim & Co-ord Sets</h2>
-            <p class="text-sm text-gray-600">100% combed cotton fits for Men, Women & Kids. Limited units left per design.</p>
-            <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Browse Collection →</button>
-          </div>
-          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Casual Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
+          <p class="text-xs text-slate-400">Total Orders Received</p>
+          <p id="admTotalOrders" class="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-1">0</p>
+          <p id="admFreeVsPaid" class="text-[11px] text-slate-400 mt-1">0 Paid • 0 Promo</p>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
+          <p class="text-xs text-slate-400">Active Stock Status</p>
+          <p id="admStockSummary" class="text-2xl sm:text-3xl font-extrabold text-white mt-1">122 / 150</p>
+          <p id="admLowStockCount" class="text-[11px] text-rose-400 mt-1">0 Low Stock Alerts</p>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl col-span-2 lg:col-span-1">
+          <p class="text-xs text-slate-400">Broadcast Leads</p>
+          <p id="admLeadsCount" class="text-2xl sm:text-3xl font-extrabold text-pink-400 mt-1">0</p>
+          <p class="text-[11px] text-slate-400 mt-1">WhatsApp subscribers</p>
         </div>
       </div>
 
-      <button onclick="moveSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">‹</button>
-      <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
-    </div>
-
-    <!-- Filters Bar -->
-    <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
-      <div id="categoryFilters" class="flex flex-wrap gap-2">
-        <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All (150)</button>
-        <button onclick="filterCategory('Men')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Men</button>
-        <button onclick="filterCategory('Women')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Women</button>
-        <button onclick="filterCategory('Winterwear')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Winterwear</button>
-        <button onclick="filterCategory('Ethnic')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Ethnic</button>
-        <button onclick="filterCategory('Kids')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Kids</button>
+      <!-- Admin Navigation Tabs -->
+      <div class="flex flex-wrap gap-2 border-b border-slate-700 pb-3">
+        <button onclick="switchAdminTab('analytics')" data-admtab="analytics" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950">
+          📈 Product Demand & Views
+        </button>
+        <button onclick="switchAdminTab('inventory')" data-admtab="inventory" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+          📦 Regulate Stock & Prices (150)
+        </button>
+        <button onclick="switchAdminTab('orders')" data-admtab="orders" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+          🧾 All Customer Orders
+        </button>
+        <button onclick="switchAdminTab('growth')" data-admtab="growth" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+          🚀 Business Growth & Leads
+        </button>
       </div>
 
-      <div class="flex items-center gap-2 w-full sm:w-auto">
-        <select id="stockFilter" onchange="renderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm font-medium">
-          <option value="all">All Stock (150)</option>
-          <option value="in">In Stock (122)</option>
-          <option value="out">Out of Stock (28)</option>
-        </select>
-        <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
+      <!-- TAB 1: Product Demand, Most Viewed & Most Ordered -->
+      <div id="admTab_analytics" class="adm-panel grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5">
+          <h3 class="font-bold text-base text-amber-400 mb-3">🔥 Most Viewed Products (Customer Interest)</h3>
+          <div id="admMostViewedList" class="space-y-2.5 text-xs sm:text-sm"></div>
+        </div>
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5">
+          <h3 class="font-bold text-base text-emerald-400 mb-3">🏆 Highest Ordered Products (Best Sellers)</h3>
+          <div id="admMostOrderedList" class="space-y-2.5 text-xs sm:text-sm"></div>
+        </div>
       </div>
+
+      <!-- TAB 2: Live Stock & Price Regulator -->
+      <div id="admTab_inventory" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-base text-white">Live Inventory & Stock Regulator</h3>
+            <p class="text-xs text-slate-400">Adjust stock quantity or price—changes reflect immediately on the live store.</p>
+          </div>
+          <div class="flex gap-2">
+            <input id="admInvSearch" oninput="renderAdminInventory()" type="text" placeholder="Search product ID or name..."
+              class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-xs text-white focus:outline-none focus:border-amber-400" />
+            <button onclick="restockLowItems()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold whitespace-nowrap">
+              +10 Restock Low Items
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto max-h-[480px]">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-900 text-slate-400 sticky top-0">
+              <tr>
+                <th class="p-3">Product</th>
+                <th class="p-3">Category</th>
+                <th class="p-3">Views</th>
+                <th class="p-3">Ordered</th>
+                <th class="p-3">Price (₹)</th>
+                <th class="p-3">Available Stock</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="admInventoryTableBody" class="divide-y divide-slate-700"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: All Customer Orders -->
+      <div id="admTab_orders" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+        <h3 class="font-bold text-base text-white">Master Order Log (All Users & Guests)</h3>
+        <div id="admAllOrdersList" class="space-y-3 text-xs sm:text-sm"></div>
+      </div>
+
+      <!-- TAB 4: Business Growth Tools & Leads -->
+      <div id="admTab_growth" class="adm-panel hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
+          <h3 class="font-bold text-base text-rose-400">⚠️ Low Stock & Restock Alerts (&lt; 5 Units)</h3>
+          <p class="text-xs text-slate-400">Restock these high-demand products before they sell out completely:</p>
+          <div id="admLowStockList" class="space-y-2 max-h-64 overflow-y-auto text-xs"></div>
+        </div>
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+          <h3 class="font-bold text-base text-sky-400">📲 WhatsApp Broadcast Subscribers & Growth Tips</h3>
+          <div id="admLeadsList" class="bg-slate-900 p-3 rounded-xl border border-slate-700 text-xs space-y-1 max-h-40 overflow-y-auto"></div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 space-y-1.5">
+            <p class="font-bold text-amber-400">💡 Actionable Business Recommendations:</p>
+            <p>• <b>Category Performance:</b> <span id="admTopCatInsight">Winterwear & Ethnic</span> generate highest cart values—feature them on Slide #1.</p>
+            <p>• <b>Conversion Boost:</b> Visitors who view 3+ product angles convert 2.4x faster; ensure high-stock items stay above 10 units.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Products Grid -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1">
-    <p id="resultCount" class="text-xs text-gray-500 mb-4 font-medium"></p>
-    <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
-  </main>
+  <!-- ========================================================================= -->
+  <!-- CUSTOMER STOREFRONT VIEW                                                  -->
+  <!-- ========================================================================= -->
+  <div id="customerStorefrontWrapper" class="flex-1 flex flex-col">
+    <!-- Auto-Sliding Product Advertisement Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
+      <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
+        <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">FEATURED DROP #1</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
+              <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
+              <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
-    © 2026 VastraHub Fashion India. Live GPS & Verified Merchant Store.
-  </footer>
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white">FESTIVE ETHNIC EDIT</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
+              <p class="text-sm text-gray-600">122 styles ready to ship today with live stock tracking and Merchant QR payment.</p>
+              <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
 
-  <!-- Account Dashboard Modal (All 8 Flipkart-Style Sections) -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">EVERYDAY ESSENTIALS</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Oversized Tees, Denim & Co-ord Sets</h2>
+              <p class="text-sm text-gray-600">Click any product to view multi-angle photos, fabric specs & available sizes.</p>
+              <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Browse Collection →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Casual Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
+        </div>
+
+        <button onclick="moveSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">‹</button>
+        <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <div id="categoryFilters" class="flex flex-wrap gap-2">
+          <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All (150)</button>
+          <button onclick="filterCategory('Men')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Men</button>
+          <button onclick="filterCategory('Women')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Women</button>
+          <button onclick="filterCategory('Winterwear')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Winterwear</button>
+          <button onclick="filterCategory('Ethnic')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Ethnic</button>
+          <button onclick="filterCategory('Kids')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Kids</button>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <select id="stockFilter" onchange="renderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm font-medium">
+            <option value="all">All Stock (150)</option>
+            <option value="in">In Stock Only</option>
+            <option value="out">Out of Stock</option>
+          </select>
+          <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1 w-full">
+      <p id="resultCount" class="text-xs text-gray-500 mb-4 font-medium"></p>
+      <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+    </main>
+
+    <!-- Dark Luxury Footer -->
+    <footer class="bg-[#121212] text-gray-200 pt-14 pb-10 border-t border-neutral-800">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="space-y-4">
+          <h3 class="serif-heading text-lg tracking-wider uppercase text-white">WHATSAPP BROADCAST</h3>
+          <p class="text-sm text-gray-300 leading-relaxed">
+            Join our WhatsApp Broadcast to receive the latest updates on offers and new arrivals.
+          </p>
+          <form onsubmit="subscribeBroadcast(event)" class="relative flex items-center">
+            <input required id="broadcastPhone" type="tel" placeholder="Enter your phone number"
+              class="w-full bg-transparent border border-neutral-600 rounded-md px-4 py-3 pr-12 text-sm text-white placeholder-neutral-400 focus:outline-none focus:border-white transition" />
+            <button type="submit" aria-label="Join Broadcast" class="absolute right-3 text-neutral-300 hover:text-white text-lg">→</button>
+          </form>
+          <p id="broadcastStatus" class="hidden text-xs text-green-400 font-medium">✓ Subscribed to VastraHub Broadcast!</p>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="serif-heading text-lg tracking-wider uppercase text-white">COMPANY</h3>
+          <ul class="space-y-2.5 text-sm text-gray-300">
+            <li><button onclick="openInfoPage('about')" class="hover:text-white transition">About Us</button></li>
+            <li><button onclick="openInfoPage('careers')" class="hover:text-white transition">Careers</button></li>
+            <li><button onclick="openInfoPage('contact')" class="hover:text-white transition">Contact Us</button></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="serif-heading text-lg tracking-wider uppercase text-white">HELP</h3>
+          <ul class="space-y-2.5 text-sm text-gray-300">
+            <li><button onclick="openInfoPage('terms')" class="hover:text-white transition">Terms & Conditions</button></li>
+            <li><button onclick="openInfoPage('refund')" class="hover:text-white transition">Refund & Replacement Policy</button></li>
+            <li><button onclick="openInfoPage('shipping')" class="hover:text-white transition">Shipping Policy</button></li>
+            <li><button onclick="openInfoPage('privacy')" class="hover:text-white transition">Privacy Policy</button></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="serif-heading text-lg tracking-wider uppercase text-white">CONTACT</h3>
+          <div class="space-y-2 text-sm text-gray-300">
+            <p>Call us Monday–Saturday</p>
+            <p>11am–8pm IST or email anytime!</p>
+            <p class="pt-1 text-white font-medium">support@vastrahubstore.in</p>
+            <p class="text-gray-400 text-xs">Ghaziabad, Uttar Pradesh, India</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 mt-12 pt-6 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400">
+        <p>© 2026 VastraHub Fashion India. All rights reserved.</p>
+        <p>Verified Merchant Store • Pan-India Shipping</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Company & Policy Info Modal -->
+  <div id="infoPageModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 id="infoPageTitle" class="serif-heading text-xl font-bold text-gray-900">About Us</h3>
+        <button onclick="closeInfoPage()" class="text-gray-500 hover:text-gray-900 text-xl font-bold">✕</button>
+      </div>
+      <div id="infoPageBody" class="text-sm text-gray-600 leading-relaxed space-y-2 max-h-80 overflow-y-auto"></div>
+      <button onclick="closeInfoPage()" class="w-full py-2.5 rounded-xl olive-bg text-white text-sm font-semibold">Close</button>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
+      <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+        <span id="pdCategoryTag" class="text-xs font-bold uppercase tracking-wider olive-text">Category</span>
+        <button onclick="closeProductDetail()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-700">✕</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        <div class="space-y-3">
+          <div class="relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border">
+            <img id="pdMainImg" src="" alt="Product Angle" class="w-full h-full object-cover" />
+            <span id="pdAngleLabel" class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/65 text-white text-[11px] font-medium">Front View</span>
+          </div>
+          <div id="pdThumbnails" class="grid grid-cols-4 gap-2"></div>
+        </div>
+
+        <div class="flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span id="pdStockBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
+              <span id="pdRating" class="text-xs font-semibold text-amber-600">⭐ 4.8 (124 Reviews)</span>
+            </div>
+
+            <h2 id="pdTitle" class="text-xl sm:text-2xl font-bold text-gray-900"></h2>
+
+            <div class="flex items-baseline gap-2.5">
+              <span id="pdPrice" class="text-2xl font-extrabold olive-text"></span>
+              <span id="pdMrp" class="text-sm text-gray-400 line-through"></span>
+              <span id="pdDiscount" class="text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded"></span>
+            </div>
+
+            <p id="pdDesc" class="text-xs sm:text-sm text-gray-600 leading-relaxed"></p>
+
+            <div class="pt-1">
+              <p class="text-xs font-bold text-gray-700 mb-2">Available Sizes (Select One):</p>
+              <div id="pdSizeButtons" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="pt-2">
+              <p class="text-xs font-bold text-gray-700 mb-1.5">Product Specifications:</p>
+              <div id="pdSpecsGrid" class="grid grid-cols-2 gap-2 text-xs bg-[#FAF9F6] p-3 rounded-2xl border border-gray-200"></div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button id="pdAddBtn" class="flex-1 py-3 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition">
+              + Add to Bag
+            </button>
+            <button id="pdWishBtn" class="px-4 py-3 rounded-xl border border-gray-300 bg-white font-bold text-sm hover:bg-gray-50">
+              ❤️
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Account Dashboard Modal -->
   <div id="dashboardModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl my-8 flex flex-col md:flex-row min-h-[460px]">
-      <!-- Left Sidebar Tabs -->
       <div class="w-full md:w-60 bg-[#FAF9F6] border-b md:border-b-0 md:border-r border-gray-200 p-4 flex flex-row md:flex-col gap-1 overflow-x-auto">
         <button onclick="switchDashTab('profile')" data-tab="profile" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">👤 My Profile</button>
         <button onclick="switchDashTab('supercoin')" data-tab="supercoin" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">⚡ SuperCoin Zone</button>
@@ -192,7 +456,6 @@
         <button onclick="switchDashTab('notifications')" data-tab="notifications" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">🔔 Notifications</button>
       </div>
 
-      <!-- Right Dynamic Content -->
       <div class="flex-1 p-6 flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
@@ -205,31 +468,25 @@
     </div>
   </div>
 
-  <!-- User Login Modal (4 Pre-Configured Accounts) -->
+  <!-- Unified Login Modal (Handles both Members & Secret Admin Login) -->
   <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">Member Login</h3>
+        <h3 class="text-xl font-bold">Account Sign In</h3>
         <button onclick="closeLoginModal()" class="text-gray-500 text-xl">✕</button>
       </div>
       <form onsubmit="handleLogin(event)" class="space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">User ID</label>
-          <input required id="loginUserId" type="text" placeholder="e.g. ajit101" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm" />
+          <input required id="loginUserId" type="text" autocomplete="off" placeholder="Enter your User ID" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
         </div>
         <div>
           <label class="text-xs font-semibold text-gray-600">Password</label>
-          <input required id="loginPassword" type="password" placeholder="Enter password" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm" />
+          <input required id="loginPassword" type="password" placeholder="Enter your Password" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
         </div>
+        <p id="loginErrorMsg" class="hidden text-xs text-red-600 font-semibold">Invalid User ID or Password. Access denied.</p>
         <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm">Sign In</button>
       </form>
-      <div class="mt-4 p-3 rounded-xl bg-gray-50 border text-[11px] text-gray-600 space-y-1">
-        <p class="font-bold text-gray-800">Available Demo Logins:</p>
-        <p>• ID: <b>ajit101</b> | Pass: <b>pass101</b></p>
-        <p>• ID: <b>vip202</b> | Pass: <b>pass202</b></p>
-        <p>• ID: <b>admin01</b> | Pass: <b>admin123</b></p>
-        <p>• ID: <b>guest99</b> | Pass: <b>free99</b></p>
-      </div>
     </div>
   </div>
 
@@ -280,12 +537,6 @@
       <form id="checkoutForm" onsubmit="processOrder(event)" class="space-y-3">
         <input required id="custName" type="text" placeholder="Full Name" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
         <input required id="custPhone" type="tel" placeholder="Mobile Number" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
-        <select id="custSize" class="w-full px-4 py-2.5 border rounded-xl text-sm bg-white">
-          <option value="S">Size: S (Small)</option>
-          <option value="M" selected>Size: M (Medium)</option>
-          <option value="L">Size: L (Large)</option>
-          <option value="XL">Size: XL</option>
-        </select>
         <div>
           <div class="flex justify-between items-center mb-1">
             <span class="text-[11px] font-semibold text-gray-500">Delivery Address (Auto-filled via GPS)</span>
@@ -334,96 +585,172 @@
   </div>
 
   <script>
-    // ====== APNI WEB3FORMS ACCESS KEY YAHAN PASTE KAREIN ======
-    const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240"; 
-    // =========================================================
+    const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240";
 
-    // 4 Pre-Created User Accounts
-    const USERS = [
-      { id: "ajit101", pass: "pass101", name: "Ajit", fullName: "Ajit Choudhary", email: "ajit@vastrahub.in", phone: "+91 98765 43210", coins: 250, plus: true, giftBalance: 500 },
-      { id: "vip202",  pass: "pass202", name: "VIP",  fullName: "VIP Member",     email: "vip@vastrahub.in",  phone: "+91 91234 56789", coins: 600, plus: true, giftBalance: 1000 },
-      { id: "admin01", pass: "admin123",name: "Admin",fullName: "Store Admin",    email: "admin@vastrahub.in",phone: "+91 90000 11111", coins: 999, plus: true, giftBalance: 2500 },
-      { id: "guest99", pass: "free99",  name: "Guest",fullName: "Guest Shopper",  email: "guest@vastrahub.in",phone: "+91 88888 22222", coins: 50,  plus: false, giftBalance: 0 }
+    // ====== SECRET ADMIN CREDENTIALS (NOT DISPLAYED ANYWHERE IN UI) ======
+    const ADMIN_ACCOUNT = {
+      id: "owner99",
+      pass: "VastraAdmin@99",
+      name: "Store Owner"
+    };
+    let isAdminLoggedIn = false;
+    let adminPreviewingStore = false;
+    // =====================================================================
+
+    // 6 Authorized Member Accounts
+    const AUTHORIZED_USERS = [
+      { id: "ajit01",    pass: "Ajit@101",    shortName: "Ajit",    fullName: "Ajit Choudhary",   email: "ajit.choudhary@vastrahub.in",    phone: "+91 98110 10101" },
+      { id: "ankush02",  pass: "Ankush@202",  shortName: "Ankush",  fullName: "Ankush Choudhary", email: "ankush.choudhary@vastrahub.in",  phone: "+91 98110 20202" },
+      { id: "avinash03", pass: "Avinash@303", shortName: "Avinash", fullName: "Avinash Choudhary",email: "avinash.choudhary@vastrahub.in", phone: "+91 98110 30303" },
+      { id: "akshat04",  pass: "Akshat@404",  shortName: "Akshat",  fullName: "Akshat Vidyarthi", email: "akshat.vidyarthi@vastrahub.in",  phone: "+91 98110 40404" },
+      { id: "mahesh05",  pass: "Mahesh@505",  shortName: "Mahesh",  fullName: "Mahesh Pandey",    email: "mahesh.pandey@vastrahub.in",     phone: "+91 98110 50505" },
+      { id: "anuj06",    pass: "Anuj@606",    shortName: "Anuj",    fullName: "Anuj Pandey",      email: "anuj.pandey@vastrahub.in",       phone: "+91 98110 60606" }
     ];
+
+    // Global Store Analytics & Inventory Persistence
+    let storeAnalytics = JSON.parse(localStorage.getItem("vh_global_analytics") || "null") || {
+      visitors: 1,
+      totalEarning: 0,
+      masterOrders: [],
+      broadcastLeads: [],
+      productViews: {},    // { productId: count }
+      productOrders: {},   // { productId: count }
+      stockOverrides: {},  // { productId: qty }
+      priceOverrides: {}   // { productId: price }
+    };
+
+    function saveStoreAnalytics() {
+      localStorage.setItem("vh_global_analytics", JSON.stringify(storeAnalytics));
+    }
+
+    // Track real visitor session on load
+    if (!sessionStorage.getItem("vh_visited_session")) {
+      storeAnalytics.visitors = (storeAnalytics.visitors || 0) + 1;
+      sessionStorage.setItem("vh_visited_session", "1");
+      saveStoreAnalytics();
+    }
+
     let currentUser = null;
+    let userState = { wishlist: [], orders: [], coins: 100, giftBalance: 500, notifications: [] };
 
-    // User Account Data (Orders, Wishlist, Notifications)
-    let wishlistIds = [1, 3, 5];
-    let userOrders = [
-      { id: "VH-894120", date: "Nov 15, 2026", items: "Olive Oversized Cotton Graphic Tee #1", total: 599, status: "Delivered" },
-      { id: "VH-891004", date: "Oct 31, 2026", items: "Classic Black Quilted Puffer Jacket #3", total: 1899, status: "Cancelled" }
-    ];
-    let userNotifications = [
-      { title: "Welcome to VastraHub Plus!", text: "Enjoy free delivery on orders above ₹999 & extra SuperCoins.", time: "2 hours ago" },
-      { title: "50 Free Promo Codes Unlocked", text: "Use FREE1001 to FREE1050 at checkout for ₹0 cart total.", time: "1 day ago" }
-    ];
+    function loadUserState(userId) {
+      const saved = localStorage.getItem(`vh_user_data_${userId}`);
+      if (saved) {
+        userState = JSON.parse(saved);
+      } else {
+        userState = {
+          wishlist: [],
+          orders: [],
+          coins: 100,
+          giftBalance: 500,
+          notifications: [
+            { title: "Welcome to VastraHub Plus!", text: "All your orders, wishlist items & coins are saved permanently to your ID.", time: "Today" }
+          ]
+        };
+        saveUserState();
+      }
+    }
+
+    function saveUserState() {
+      if (!currentUser) return;
+      localStorage.setItem(`vh_user_data_${currentUser.id}`, JSON.stringify(userState));
+      updateAccountBadges();
+    }
 
     const FREE_PROMO_CODES = Array.from({ length: 50 }, (_, i) => `FREE${1001 + i}`);
     document.getElementById('promoListBox').textContent = FREE_PROMO_CODES.join(', ');
 
     const clothingImages = [
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80",
-      "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80",
-      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80",
-      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80",
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80",
-      "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=400&q=80",
-      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&q=80",
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&q=80",
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=80",
-      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&q=80",
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&q=80",
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80",
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80",
-      "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400&q=80",
-      "https://images.unsplash.com/photo-1564584217132-2271feaeb3c5?w=400&q=80",
-      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=400&q=80",
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&q=80",
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&q=80",
-      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80",
-      "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80",
-      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&q=80",
-      "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=400&q=80",
-      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400&q=80",
-      "https://images.unsplash.com/photo-1544441893-675973e31985?w=400&q=80",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&q=80",
-      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&q=80",
-      "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=400&q=80"
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",
+      "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&q=80",
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80",
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80",
+      "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=500&q=80",
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&q=80",
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80",
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=80",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80",
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&q=80",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&q=80",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500&q=80",
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&q=80",
+      "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=500&q=80",
+      "https://images.unsplash.com/photo-1564584217132-2271feaeb3c5?w=500&q=80",
+      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=500&q=80",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&q=80",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80",
+      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=500&q=80",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&q=80",
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=500&q=80",
+      "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=500&q=80",
+      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=500&q=80",
+      "https://images.unsplash.com/photo-1544441893-675973e31985?w=500&q=80",
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500&q=80",
+      "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=500&q=80"
     ];
 
     const baseTemplates = [
-      { title: "Oversized Cotton Graphic Tee", cat: "Men", price: 599, mrp: 1199 },
-      { title: "Floral Anarkali Kurti Set", cat: "Women", price: 1299, mrp: 2499 },
-      { title: "Quilted Puffer Winter Jacket", cat: "Winterwear", price: 1899, mrp: 3499 },
-      { title: "Slim Fit Stretch Denim Jeans", cat: "Men", price: 1199, mrp: 2199 },
-      { title: "Banarasi Silk Festive Saree", cat: "Ethnic", price: 2499, mrp: 4999 },
-      { title: "Fleece Zip-Up Street Hoodie", cat: "Winterwear", price: 1099, mrp: 1999 },
-      { title: "Pastel Co-ord Lounge Set", cat: "Women", price: 1399, mrp: 2599 },
-      { title: "Embroidered Chikankari Kurta", cat: "Ethnic", price: 999, mrp: 1899 },
-      { title: "Kids Cotton Dino Sweatshirt", cat: "Kids", price: 649, mrp: 1299 },
-      { title: "Linen Mandarin Collar Shirt", cat: "Men", price: 899, mrp: 1699 }
+      { title: "Oversized Cotton Graphic Tee", cat: "Men", price: 599, mrp: 1199, fabric: "100% Combed Bio-Wash Cotton (240 GSM)", fit: "Oversized Drop-Shoulder", care: "Machine Wash Cold", sizes: ["S", "M", "L", "XL", "XXL"] },
+      { title: "Floral Anarkali Kurti Set", cat: "Women", price: 1299, mrp: 2499, fabric: "Pure Breathable Mulmul Rayon", fit: "Flared A-Line Regular", care: "Gentle Hand Wash", sizes: ["XS", "S", "M", "L", "XL"] },
+      { title: "Quilted Puffer Winter Jacket", cat: "Winterwear", price: 1899, mrp: 3499, fabric: "Water-Resistant Nylon + Hollow Fiber Fill", fit: "Regular Winter Layering", care: "Dry Clean Recommended", sizes: ["M", "L", "XL", "XXL"] },
+      { title: "Slim Fit Stretch Denim Jeans", cat: "Men", price: 1199, mrp: 2199, fabric: "98% Cotton, 2% Elastane Stretch Denim", fit: "Mid-Rise Slim Tapered", care: "Wash Inside Out", sizes: ["30", "32", "34", "36"] },
+      { title: "Banarasi Silk Festive Saree", cat: "Ethnic", price: 2499, mrp: 4999, fabric: "Katan Art Silk with Zari Weave", fit: "5.5m Saree + 0.8m Blouse Piece", care: "Dry Clean Only", sizes: ["Free Size"] },
+      { title: "Fleece Zip-Up Street Hoodie", cat: "Winterwear", price: 1099, mrp: 1999, fabric: "320 GSM Brushed Cotton Fleece", fit: "Relaxed Street Fit", care: "Machine Wash Gentle", sizes: ["S", "M", "L", "XL"] },
+      { title: "Pastel Co-ord Lounge Set", cat: "Women", price: 1399, mrp: 2599, fabric: "Soft Ribbed Cotton-Modal Blend", fit: "Relaxed Comfort Fit", care: "Machine Wash Cold", sizes: ["S", "M", "L", "XL"] },
+      { title: "Embroidered Chikankari Kurta", cat: "Ethnic", price: 999, mrp: 1899, fabric: "Handloom Lucknowi Cotton", fit: "Straight Regular Fit", care: "Hand Wash Separately", sizes: ["S", "M", "L", "XL", "XXL"] },
+      { title: "Kids Cotton Dino Sweatshirt", cat: "Kids", price: 649, mrp: 1299, fabric: "100% Hypoallergenic Organic Cotton", fit: "Comfort Kid Fit", care: "Machine Wash Warm", sizes: ["4-5Y", "6-7Y", "8-9Y", "10-11Y"] },
+      { title: "Linen Mandarin Collar Shirt", cat: "Men", price: 899, mrp: 1699, fabric: "55% European Linen, 45% Cotton", fit: "Tailored Smart Casual", care: "Gentle Machine Wash", sizes: ["S", "M", "L", "XL"] }
     ];
 
     const colors = ["Olive", "Classic Black", "Sky Blue", "Blush Pink", "Ivory White", "Navy", "Beige", "Maroon", "Sage", "Charcoal", "Mustard", "Teal", "Rust", "Lavender", "Pearl"];
 
     const products = Array.from({ length: 150 }, (_, idx) => {
+      const id = idx + 1;
       const tpl = baseTemplates[idx % baseTemplates.length];
       const color = colors[Math.floor(idx / baseTemplates.length) % colors.length];
       const priceShift = (idx % 4) * 50;
-      const inStock = idx < 122;
-      const stockQty = inStock ? ((idx * 7) % 24) + 3 : 0;
+      const defaultInStock = idx < 122;
+      const defaultQty = defaultInStock ? ((idx * 7) % 24) + 3 : 0;
+
+      const stockQty = storeAnalytics.stockOverrides[id] !== undefined ? storeAnalytics.stockOverrides[id] : defaultQty;
+      const price = storeAnalytics.priceOverrides[id] !== undefined ? storeAnalytics.priceOverrides[id] : (tpl.price + priceShift);
+
+      const img1 = clothingImages[idx % clothingImages.length];
+      const img2 = clothingImages[(idx + 7) % clothingImages.length];
+      const img3 = clothingImages[(idx + 14) % clothingImages.length];
+      const img4 = clothingImages[(idx + 21) % clothingImages.length];
+
       return {
-        id: idx + 1,
-        name: `${color} ${tpl.title} #${idx + 1}`,
+        id,
+        sku: `VH-CL-${1000 + idx}`,
+        name: `${color} ${tpl.title} #${id}`,
         category: tpl.cat,
-        price: tpl.price + priceShift,
-        mrp: tpl.mrp + priceShift,
-        inStock,
+        color,
+        price,
+        mrp: Math.max(tpl.mrp + priceShift, price + 300),
+        inStock: stockQty > 0,
         stockQty,
-        img: clothingImages[idx % clothingImages.length]
+        sizes: tpl.sizes,
+        specs: {
+          Fabric: tpl.fabric,
+          Fit: tpl.fit,
+          Color: color,
+          WashCare: tpl.care,
+          Origin: "Made in India",
+          SKU: `VH-CL-${1000 + idx}`
+        },
+        description: `Crafted in ${color} shade with ${tpl.fabric}. Designed for all-day comfort and durability with reinforced stitching and color-lock finish.`,
+        angles: [
+          { label: "Front View", url: img1 },
+          { label: "Side / Styling View", url: img2 },
+          { label: "Fabric Texture Detail", url: img3 },
+          { label: "Back / Alternate Look", url: img4 }
+        ],
+        img: img1
       };
     });
 
@@ -431,8 +758,55 @@
     let currentCategory = 'All';
     let appliedPromoType = null;
     let liveLocationString = "";
+    let selectedDetailSize = "M";
 
-    // Auto-Sliding Banner
+    // Info Pages & Broadcast
+    const INFO_PAGES = {
+      about: { title: "About VastraHub", body: "<p>VastraHub is a curated direct-to-consumer Indian fashion destination offering 150+ handpicked styles across Men's, Women's, Winterwear, Ethnic, and Kids' collections.</p>" },
+      careers: { title: "Careers at VastraHub", body: "<p>Send your portfolio or resume to <b>support@vastrahubstore.in</b> with the subject line 'Careers - VastraHub'.</p>" },
+      contact: { title: "Contact Us", body: "<p><b>Support Hours:</b> Mon–Sat, 11:00 AM – 8:00 PM IST</p><p><b>Email:</b> support@vastrahubstore.in</p>" },
+      terms: { title: "Terms & Conditions", body: "<p>All prices are inclusive of applicable Indian GST. Promo codes are subject to stock availability.</p>" },
+      refund: { title: "Refund & Replacement Policy", body: "<p>Easy 7-day size replacement or refund for unworn items with original tags intact.</p>" },
+      shipping: { title: "Shipping Policy", body: "<p>Free pan-India shipping on orders above ₹999 (₹49 below ₹999). Dispatched within 24–48 hours.</p>" },
+      privacy: { title: "Privacy Policy", body: "<p>Your GPS location and contact details are used strictly for order fulfillment.</p>" }
+    };
+
+    function openInfoPage(key) {
+      const page = INFO_PAGES[key];
+      if (!page) return;
+      document.getElementById('infoPageTitle').textContent = page.title;
+      document.getElementById('infoPageBody').innerHTML = page.body;
+      document.getElementById('infoPageModal').classList.remove('hidden');
+      document.getElementById('infoPageModal').classList.add('flex');
+    }
+    function closeInfoPage() {
+      document.getElementById('infoPageModal').classList.add('hidden');
+      document.getElementById('infoPageModal').classList.remove('flex');
+    }
+
+    async function subscribeBroadcast(e) {
+      e.preventDefault();
+      const phone = document.getElementById('broadcastPhone').value.trim();
+      if (!phone) return;
+      storeAnalytics.broadcastLeads.unshift({ phone, time: new Date().toLocaleString() });
+      saveStoreAnalytics();
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject: "New WhatsApp Broadcast Subscriber",
+            from_name: "VastraHub Footer",
+            Subscriber_Phone: phone
+          })
+        });
+      } catch (err) {}
+      document.getElementById('broadcastPhone').value = "";
+      document.getElementById('broadcastStatus').classList.remove('hidden');
+    }
+
+    // Slider
     let currentSlide = 0;
     function moveSlide(step) {
       const track = document.getElementById('adSliderTrack');
@@ -441,7 +815,7 @@
     }
     setInterval(() => moveSlide(1), 3500);
 
-    // Live GPS Location
+    // Live GPS
     function detectGPSLocation() {
       const banner = document.getElementById('gpsBannerText');
       if (!navigator.geolocation) {
@@ -473,8 +847,78 @@
       );
     }
 
-    // Account & Dropdown Functions
+    // ====== AUTHENTICATION (ADMIN VS REGULAR MEMBERS) ======
+    function restoreLastSession() {
+      const lastSession = localStorage.getItem("vh_active_session_user");
+      if (lastSession === ADMIN_ACCOUNT.id) {
+        activateAdminInterface();
+        return;
+      }
+      if (lastSession) {
+        const found = AUTHORIZED_USERS.find(u => u.id === lastSession);
+        if (found) applyLoggedInUser(found);
+      }
+    }
+
+    function activateAdminInterface() {
+      isAdminLoggedIn = true;
+      adminPreviewingStore = false;
+      currentUser = null;
+      localStorage.setItem("vh_active_session_user", ADMIN_ACCOUNT.id);
+
+      // Transform UI completely for Admin
+      document.getElementById('adminTopBanner').classList.remove('hidden');
+      document.getElementById('customerTopBar').classList.add('hidden');
+      document.getElementById('loginNavBtn').classList.add('hidden');
+      document.getElementById('accountMenuWrapper').classList.add('hidden');
+      document.getElementById('navBagBtn').classList.add('hidden');
+      document.getElementById('navSearchWrapper').classList.add('hidden');
+
+      const navbar = document.getElementById('mainNavbar');
+      navbar.className = "sticky top-0 z-40 bg-slate-950 border-b border-slate-800 text-white";
+      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-lg";
+      document.getElementById('brandTitleText').innerHTML = `Vastra<span class="text-amber-400">Hub</span> <span class="text-xs font-normal text-slate-400 ml-1">Executive Console</span>`;
+
+      document.getElementById('customerStorefrontWrapper').classList.add('hidden');
+      document.getElementById('adminDashboardSection').classList.remove('hidden');
+      renderAdminDashboard();
+    }
+
+    function toggleAdminStoreView() {
+      if (!isAdminLoggedIn) return;
+      adminPreviewingStore = !adminPreviewingStore;
+      const btn = document.getElementById('toggleAdminStoreBtn');
+      if (adminPreviewingStore) {
+        document.getElementById('adminDashboardSection').classList.add('hidden');
+        document.getElementById('customerStorefrontWrapper').classList.remove('hidden');
+        document.getElementById('navSearchWrapper').classList.remove('hidden');
+        btn.textContent = "📊 Back to Admin Dashboard";
+        renderProducts();
+      } else {
+        document.getElementById('customerStorefrontWrapper').classList.add('hidden');
+        document.getElementById('navSearchWrapper').classList.add('hidden');
+        document.getElementById('adminDashboardSection').classList.remove('hidden');
+        btn.textContent = "👁️ Preview Customer Store";
+        renderAdminDashboard();
+      }
+    }
+
+    function applyLoggedInUser(userObj) {
+      isAdminLoggedIn = false;
+      currentUser = userObj;
+      localStorage.setItem("vh_active_session_user", userObj.id);
+      loadUserState(userObj.id);
+      document.getElementById('loginNavBtn').classList.add('hidden');
+      document.getElementById('accountMenuWrapper').classList.remove('hidden');
+      document.getElementById('custName').value = currentUser.fullName;
+      updateAccountBadges();
+      renderProducts();
+    }
+
     function openLoginModal() {
+      document.getElementById('loginErrorMsg').classList.add('hidden');
+      document.getElementById('loginUserId').value = "";
+      document.getElementById('loginPassword').value = "";
       document.getElementById('loginModal').classList.remove('hidden');
       document.getElementById('loginModal').classList.add('flex');
     }
@@ -488,31 +932,241 @@
       e.preventDefault();
       const uid = document.getElementById('loginUserId').value.trim();
       const pwd = document.getElementById('loginPassword').value.trim();
-      const found = USERS.find(u => u.id === uid && u.pass === pwd);
+
+      // Check Admin Login First
+      if (uid === ADMIN_ACCOUNT.id && pwd === ADMIN_ACCOUNT.pass) {
+        closeLoginModal();
+        activateAdminInterface();
+        return;
+      }
+
+      // Check 6 Regular Members
+      const found = AUTHORIZED_USERS.find(u => u.id === uid && u.pass === pwd);
       if (found) {
-        currentUser = { ...found };
-        document.getElementById('loginNavBtn').classList.add('hidden');
-        document.getElementById('accountMenuWrapper').classList.remove('hidden');
-        document.getElementById('custName').value = currentUser.fullName;
-        updateAccountBadges();
+        applyLoggedInUser(found);
         closeLoginModal();
       } else {
-        alert("Invalid User ID or Password! Check demo credentials below.");
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
       }
     }
 
     function logoutUser() {
       currentUser = null;
+      isAdminLoggedIn = false;
+      adminPreviewingStore = false;
+      localStorage.removeItem("vh_active_session_user");
+
+      // Restore Standard Customer UI
+      document.getElementById('adminTopBanner').classList.add('hidden');
+      document.getElementById('adminDashboardSection').classList.add('hidden');
+      document.getElementById('customerTopBar').classList.remove('hidden');
+      document.getElementById('customerStorefrontWrapper').classList.remove('hidden');
       document.getElementById('accountDropdown').classList.add('hidden');
       document.getElementById('accountMenuWrapper').classList.add('hidden');
       document.getElementById('loginNavBtn').classList.remove('hidden');
+      document.getElementById('navBagBtn').classList.remove('hidden');
+      document.getElementById('navSearchWrapper').classList.remove('hidden');
+
+      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200";
+      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg";
+      document.getElementById('brandTitleText').innerHTML = `Vastra<span class="olive-text">Hub</span>`;
+
+      renderProducts();
     }
 
+    // ====== ADMIN DASHBOARD LOGIC ======
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.adm-tab-btn').forEach(btn => {
+        btn.className = btn.dataset.admtab === tabName
+          ? 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950'
+          : 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
+      });
+      document.querySelectorAll('.adm-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`admTab_${tabName}`).classList.remove('hidden');
+    }
+
+    function renderAdminDashboard() {
+      if (!isAdminLoggedIn) return;
+
+      const totalOrdersCount = storeAnalytics.masterOrders.length;
+      const paidOrders = storeAnalytics.masterOrders.filter(o => o.total > 0).length;
+      const promoOrders = totalOrdersCount - paidOrders;
+      const avgOrder = totalOrdersCount > 0 ? Math.round(storeAnalytics.totalEarning / totalOrdersCount) : 0;
+      const inStockCount = products.filter(p => p.stockQty > 0).length;
+      const lowStockProducts = products.filter(p => p.stockQty > 0 && p.stockQty < 5);
+
+      document.getElementById('admTotalVisitors').textContent = storeAnalytics.visitors;
+      document.getElementById('admTotalEarning').textContent = `₹${storeAnalytics.totalEarning.toLocaleString('en-IN')}`;
+      document.getElementById('admAvgOrder').textContent = `Avg Order: ₹${avgOrder}`;
+      document.getElementById('admTotalOrders').textContent = totalOrdersCount;
+      document.getElementById('admFreeVsPaid').textContent = `${paidOrders} Paid • ${promoOrders} Free Promo`;
+      document.getElementById('admStockSummary').textContent = `${inStockCount} / ${products.length}`;
+      document.getElementById('admLowStockCount').textContent = `${lowStockProducts.length} Low Stock (<5 units)`;
+      document.getElementById('admLeadsCount').textContent = storeAnalytics.broadcastLeads.length;
+
+      // Most Viewed Products
+      const viewedSorted = [...products]
+        .map(p => ({ ...p, views: storeAnalytics.productViews[p.id] || 0 }))
+        .sort((a, b) => b.views - a.views)
+        .slice(0, 8);
+
+      document.getElementById('admMostViewedList').innerHTML = viewedSorted.map((p, idx) => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-700">
+          <div class="flex items-center gap-2.5 truncate pr-2">
+            <span class="text-amber-400 font-bold">#${idx + 1}</span>
+            <img src="${p.img}" class="w-8 h-8 rounded object-cover" />
+            <span class="truncate">${p.name}</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 font-bold whitespace-nowrap">${p.views} views</span>
+        </div>
+      `).join('');
+
+      // Most Ordered Products
+      const orderedSorted = [...products]
+        .map(p => ({ ...p, ordCount: storeAnalytics.productOrders[p.id] || 0 }))
+        .sort((a, b) => b.ordCount - a.ordCount)
+        .slice(0, 8);
+
+      document.getElementById('admMostOrderedList').innerHTML = orderedSorted.map((p, idx) => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-700">
+          <div class="flex items-center gap-2.5 truncate pr-2">
+            <span class="text-emerald-400 font-bold">#${idx + 1}</span>
+            <img src="${p.img}" class="w-8 h-8 rounded object-cover" />
+            <span class="truncate">${p.name}</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold whitespace-nowrap">${p.ordCount} sold</span>
+        </div>
+      `).join('');
+
+      // Low Stock List
+      document.getElementById('admLowStockList').innerHTML = lowStockProducts.length === 0
+        ? '<p class="text-slate-400">All active items have healthy stock levels (5+ units).</p>'
+        : lowStockProducts.map(p => `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-rose-500/30">
+            <span class="truncate pr-2">${p.name}</span>
+            <span class="text-rose-400 font-bold whitespace-nowrap">Only ${p.stockQty} left</span>
+          </div>
+        `).join('');
+
+      // Broadcast Leads
+      document.getElementById('admLeadsList').innerHTML = storeAnalytics.broadcastLeads.length === 0
+        ? '<p class="text-slate-400">No WhatsApp broadcast subscribers yet.</p>'
+        : storeAnalytics.broadcastLeads.map(l => `<p class="text-slate-200">📱 <b>${l.phone}</b> <span class="text-slate-400">(${l.time})</span></p>`).join('');
+
+      // Master Orders List
+      document.getElementById('admAllOrdersList').innerHTML = storeAnalytics.masterOrders.length === 0
+        ? '<p class="text-slate-400">No customer orders recorded yet.</p>'
+        : storeAnalytics.masterOrders.map((o, idx) => `
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <p class="text-xs font-mono text-amber-400">${o.id} • ${o.date} • Account: ${o.user}</p>
+              <p class="font-bold text-white">${o.customer} (${o.phone})</p>
+              <p class="text-xs text-slate-300">${o.items}</p>
+              <p class="text-[11px] text-slate-400">📍 ${o.address} | Payment: <b>${o.payment}</b></p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-base font-extrabold text-emerald-400">₹${o.total}</span>
+              <select onchange="adminUpdateOrderStatus(${idx}, this.value)" class="bg-slate-800 border border-slate-600 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-white">
+                <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </div>
+          </div>
+        `).join('');
+
+      renderAdminInventory();
+    }
+
+    function adminUpdateOrderStatus(idx, newStatus) {
+      storeAnalytics.masterOrders[idx].status = newStatus;
+      saveStoreAnalytics();
+    }
+
+    function renderAdminInventory() {
+      const q = (document.getElementById('admInvSearch').value || "").toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(q) || String(p.id) === q || p.category.toLowerCase().includes(q));
+
+      document.getElementById('admInventoryTableBody').innerHTML = filtered.map(p => {
+        const views = storeAnalytics.productViews[p.id] || 0;
+        const sold = storeAnalytics.productOrders[p.id] || 0;
+        return `
+          <tr class="hover:bg-slate-900/60">
+            <td class="p-3 font-medium text-white flex items-center gap-2">
+              <img src="${p.img}" class="w-8 h-8 rounded object-cover" />
+              <span class="truncate max-w-[200px]">${p.name}</span>
+            </td>
+            <td class="p-3 text-slate-300">${p.category}</td>
+            <td class="p-3 text-sky-400 font-semibold">${views}</td>
+            <td class="p-3 text-emerald-400 font-semibold">${sold}</td>
+            <td class="p-3">
+              <input type="number" min="0" value="${p.price}" onchange="adminSetPrice(${p.id}, this.value)"
+                class="w-20 px-2 py-1 rounded bg-slate-900 border border-slate-600 text-white text-xs" />
+            </td>
+            <td class="p-3">
+              <div class="flex items-center gap-1.5">
+                <button onclick="adminAdjustStock(${p.id}, -1)" class="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 font-bold">-</button>
+                <input type="number" min="0" value="${p.stockQty}" onchange="adminSetStock(${p.id}, this.value)"
+                  class="w-14 text-center px-1 py-1 rounded bg-slate-900 border border-slate-600 text-white font-bold" />
+                <button onclick="adminAdjustStock(${p.id}, 1)" class="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 font-bold">+</button>
+              </div>
+            </td>
+            <td class="p-3">
+              ${p.stockQty > 0
+                ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">In Stock</span>'
+                : '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold text-[10px]">Out of Stock</span>'
+              }
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function adminAdjustStock(id, delta) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      adminSetStock(id, Math.max(0, p.stockQty + delta));
+    }
+
+    function adminSetStock(id, val) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      const qty = Math.max(0, parseInt(val, 10) || 0);
+      p.stockQty = qty;
+      p.inStock = qty > 0;
+      storeAnalytics.stockOverrides[id] = qty;
+      saveStoreAnalytics();
+      renderAdminDashboard();
+    }
+
+    function adminSetPrice(id, val) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      const newPrice = Math.max(0, parseInt(val, 10) || 0);
+      p.price = newPrice;
+      storeAnalytics.priceOverrides[id] = newPrice;
+      saveStoreAnalytics();
+    }
+
+    function restockLowItems() {
+      products.forEach(p => {
+        if (p.stockQty < 5) {
+          p.stockQty += 10;
+          p.inStock = true;
+          storeAnalytics.stockOverrides[p.id] = p.stockQty;
+        }
+      });
+      saveStoreAnalytics();
+      renderAdminDashboard();
+      alert("All out-of-stock & low-stock items restocked by +10 units!");
+    }
+
+    // ====== MEMBER ACCOUNT & STOREFRONT FUNCTIONS ======
     function toggleAccountDropdown() {
       document.getElementById('accountDropdown').classList.toggle('hidden');
     }
 
-    // Close dropdown when clicking outside
     window.addEventListener('click', (e) => {
       const wrapper = document.getElementById('accountMenuWrapper');
       if (wrapper && !wrapper.contains(e.target)) {
@@ -522,21 +1176,127 @@
 
     function updateAccountBadges() {
       if (!currentUser) return;
-      document.getElementById('navUserName').textContent = currentUser.name;
-      document.getElementById('navCoinBadge').textContent = currentUser.coins;
-      document.getElementById('navOrderBadge').textContent = userOrders.length;
-      document.getElementById('navWishlistBadge').textContent = wishlistIds.length;
-      document.getElementById('navGiftBadge').textContent = `₹${currentUser.giftBalance}`;
+      document.getElementById('navUserName').textContent = currentUser.shortName;
+      document.getElementById('navCoinBadge').textContent = userState.coins;
+      document.getElementById('navOrderBadge').textContent = userState.orders.length;
+      document.getElementById('navWishlistBadge').textContent = userState.wishlist.length;
+      document.getElementById('navGiftBadge').textContent = `₹${userState.giftBalance}`;
     }
 
     function toggleWishlist(id) {
-      if (wishlistIds.includes(id)) {
-        wishlistIds = wishlistIds.filter(w => w !== id);
-      } else {
-        wishlistIds.push(id);
+      if (!currentUser) {
+        alert("Please login with your User ID to save items permanently to your Wishlist!");
+        openLoginModal();
+        return;
       }
-      updateAccountBadges();
+      if (userState.wishlist.includes(id)) {
+        userState.wishlist = userState.wishlist.filter(w => w !== id);
+      } else {
+        userState.wishlist.push(id);
+      }
+      saveUserState();
       renderProducts();
+    }
+
+    function openProductDetail(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+
+      // Record Product View for Admin Analytics
+      storeAnalytics.productViews[id] = (storeAnalytics.productViews[id] || 0) + 1;
+      saveStoreAnalytics();
+
+      const off = Math.round(((p.mrp - p.price) / p.mrp) * 100);
+      selectedDetailSize = p.sizes[0];
+
+      document.getElementById('pdCategoryTag').textContent = `${p.category} • SKU: ${p.sku}`;
+      document.getElementById('pdTitle').textContent = p.name;
+      document.getElementById('pdPrice').textContent = `₹${p.price}`;
+      document.getElementById('pdMrp').textContent = `₹${p.mrp}`;
+      document.getElementById('pdDiscount').textContent = `${off}% OFF`;
+      document.getElementById('pdDesc').textContent = p.description;
+
+      const stockBadge = document.getElementById('pdStockBadge');
+      if (p.inStock) {
+        stockBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800";
+        stockBadge.textContent = `● In Stock (${p.stockQty} units available)`;
+      } else {
+        stockBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700";
+        stockBadge.textContent = "● Out of Stock (0 units left)";
+      }
+
+      setDetailAngle(p.angles[0].url, p.angles[0].label);
+      document.getElementById('pdThumbnails').innerHTML = p.angles.map((ang) => `
+        <button type="button" onclick="setDetailAngle('${ang.url}', '${ang.label}')"
+          class="border-2 rounded-xl overflow-hidden h-16 hover:border-[#4A5D23] focus:border-[#4A5D23] transition relative">
+          <img src="${ang.url}" class="w-full h-full object-cover" />
+          <span class="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[9px] py-0.5 text-center truncate">${ang.label.split(' ')[0]}</span>
+        </button>
+      `).join('');
+
+      renderDetailSizes(p.sizes);
+
+      document.getElementById('pdSpecsGrid').innerHTML = Object.entries(p.specs).map(([k, v]) => `
+        <div class="p-1.5">
+          <span class="text-gray-400 block text-[10px] uppercase">${k}</span>
+          <span class="font-semibold text-gray-800">${v}</span>
+        </div>
+      `).join('');
+
+      const addBtn = document.getElementById('pdAddBtn');
+      if (p.inStock) {
+        addBtn.disabled = false;
+        addBtn.className = "flex-1 py-3 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition";
+        addBtn.textContent = `+ Add to Bag (Size: ${selectedDetailSize})`;
+        addBtn.onclick = () => {
+          addToCart(p.id, selectedDetailSize);
+          closeProductDetail();
+        };
+      } else {
+        addBtn.disabled = true;
+        addBtn.className = "flex-1 py-3 rounded-xl bg-gray-200 text-gray-500 font-bold text-sm cursor-not-allowed";
+        addBtn.textContent = "Currently Sold Out";
+      }
+
+      const wishBtn = document.getElementById('pdWishBtn');
+      const isWished = currentUser && userState.wishlist.includes(p.id);
+      wishBtn.textContent = isWished ? "❤️ Saved" : "🤍 Save";
+      wishBtn.onclick = () => {
+        toggleWishlist(p.id);
+        const nowWished = currentUser && userState.wishlist.includes(p.id);
+        wishBtn.textContent = nowWished ? "❤️ Saved" : "🤍 Save";
+      };
+
+      document.getElementById('productDetailModal').classList.remove('hidden');
+      document.getElementById('productDetailModal').classList.add('flex');
+    }
+
+    function setDetailAngle(url, label) {
+      document.getElementById('pdMainImg').src = url;
+      document.getElementById('pdAngleLabel').textContent = label;
+    }
+
+    function renderDetailSizes(sizes) {
+      document.getElementById('pdSizeButtons').innerHTML = sizes.map(sz => `
+        <button type="button" onclick="selectDetailSize('${sz}', ${JSON.stringify(sizes).replace(/"/g, '&quot;')})"
+          class="px-3.5 py-1.5 rounded-xl text-xs font-bold border transition ${sz === selectedDetailSize ? 'olive-bg text-white border-[#4A5D23]' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'}">
+          ${sz}
+        </button>
+      `).join('');
+    }
+
+    function selectDetailSize(sz, sizes) {
+      selectedDetailSize = sz;
+      renderDetailSizes(sizes);
+      const addBtn = document.getElementById('pdAddBtn');
+      if (!addBtn.disabled) {
+        addBtn.textContent = `+ Add to Bag (Size: ${selectedDetailSize})`;
+      }
+    }
+
+    function closeProductDetail() {
+      document.getElementById('productDetailModal').classList.add('hidden');
+      document.getElementById('productDetailModal').classList.remove('flex');
     }
 
     function openDashboard(tab) {
@@ -568,9 +1328,9 @@
           <div class="p-4 rounded-2xl bg-[#FAF9F6] border space-y-2">
             <p><span class="text-gray-500 text-xs block">Full Name</span><b>${currentUser.fullName}</b></p>
             <p><span class="text-gray-500 text-xs block">User ID</span><b>${currentUser.id}</b></p>
-            <p><span class="text-gray-500 text-xs block">Email Address</span><b>${currentUser.email}</b></p>
-            <p><span class="text-gray-500 text-xs block">Mobile Number</span><b>${currentUser.phone}</b></p>
-            <p><span class="text-gray-500 text-xs block">Saved Live GPS Location</span><b>${liveLocationString || "Not detected yet"}</b></p>
+            <p><span class="text-gray-500 text-xs block">Registered Email</span><b>${currentUser.email}</b></p>
+            <p><span class="text-gray-500 text-xs block">Registered Mobile</span><b>${currentUser.phone}</b></p>
+            <p><span class="text-gray-500 text-xs block">Live GPS Location</span><b>${liveLocationString || "Not detected yet"}</b></p>
           </div>
         `;
       } else if (tab === 'supercoin') {
@@ -578,27 +1338,26 @@
         contentEl.innerHTML = `
           <div class="p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-yellow-100 border border-amber-200 flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-amber-800">Available SuperCoin Balance</p>
-              <p class="text-3xl font-extrabold text-amber-900 mt-1">⚡ ${currentUser.coins}</p>
+              <p class="text-xs font-semibold text-amber-800">${currentUser.fullName}'s SuperCoins</p>
+              <p class="text-3xl font-extrabold text-amber-900 mt-1">⚡ ${userState.coins}</p>
             </div>
-            <span class="px-3 py-1 rounded-full bg-white text-amber-800 text-xs font-bold shadow-sm">1 Coin = ₹1 Reward</span>
+            <span class="px-3 py-1 rounded-full bg-white text-amber-800 text-xs font-bold shadow-sm">Saved Permanently</span>
           </div>
-          <p class="text-xs text-gray-500">Earn 20 SuperCoins automatically every time you place an order on VastraHub.</p>
         `;
       } else if (tab === 'plus') {
         titleEl.textContent = "VastraHub Plus Zone";
         contentEl.innerHTML = `
           <div class="p-5 rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 space-y-2">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold olive-bg text-white">${currentUser.plus ? "ACTIVE PLUS MEMBER ✦" : "STANDARD MEMBER"}</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold olive-bg text-white">VERIFIED MEMBER ✦</span>
             <h4 class="text-lg font-bold text-gray-900">Early Access & Priority Dispatch</h4>
-            <p class="text-xs text-gray-600">Plus members get early access to limited winter drops, priority shipping, and exclusive ₹0 promo codes.</p>
+            <p class="text-xs text-gray-600">Enjoy priority shipping and 50 Free (₹0) promo codes on your account.</p>
           </div>
         `;
       } else if (tab === 'orders') {
-        titleEl.textContent = `My Orders (${userOrders.length})`;
-        contentEl.innerHTML = userOrders.length === 0
-          ? '<p class="text-gray-500">No orders placed yet.</p>'
-          : userOrders.map((o, i) => `
+        titleEl.textContent = `My Orders (${userState.orders.length})`;
+        contentEl.innerHTML = userState.orders.length === 0
+          ? '<p class="text-gray-500">No orders placed from this account yet.</p>'
+          : userState.orders.map((o, i) => `
             <div class="p-3.5 rounded-2xl border bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <p class="text-xs font-mono text-gray-500">${o.id} • ${o.date}</p>
@@ -614,13 +1373,13 @@
             </div>
           `).join('');
       } else if (tab === 'wishlist') {
-        titleEl.textContent = `My Wishlist (${wishlistIds.length})`;
-        const wished = products.filter(p => wishlistIds.includes(p.id));
+        titleEl.textContent = `My Saved Wishlist (${userState.wishlist.length})`;
+        const wished = products.filter(p => userState.wishlist.includes(p.id));
         contentEl.innerHTML = wished.length === 0
-          ? '<p class="text-gray-500">Your wishlist is empty. Click ❤️ on any product to save it!</p>'
+          ? '<p class="text-gray-500">Your wishlist is empty. Click ❤️ on any product to save it permanently!</p>'
           : wished.map(p => `
             <div class="p-3 rounded-2xl border bg-white flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 cursor-pointer" onclick="closeDashboard(); openProductDetail(${p.id});">
                 <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover" />
                 <div>
                   <p class="font-semibold text-xs sm:text-sm">${p.name}</p>
@@ -628,7 +1387,7 @@
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                ${p.inStock ? `<button onclick="addToCart(${p.id}); closeDashboard(); toggleCart();" class="px-3 py-1.5 rounded-xl olive-bg text-white text-xs font-semibold">Move to Bag</button>` : '<span class="text-xs text-red-500">Sold Out</span>'}
+                ${p.inStock ? `<button onclick="addToCart(${p.id}, '${p.sizes[0]}'); closeDashboard(); toggleCart();" class="px-3 py-1.5 rounded-xl olive-bg text-white text-xs font-semibold">Move to Bag</button>` : '<span class="text-xs text-red-500">Sold Out</span>'}
                 <button onclick="toggleWishlist(${p.id}); switchDashTab('wishlist');" class="text-gray-400 hover:text-red-600 font-bold">✕</button>
               </div>
             </div>
@@ -640,17 +1399,13 @@
             <div><p class="font-bold text-green-900">FREE1001 to FREE1050</p><p class="text-xs text-green-700">100% OFF — Makes entire order ₹0</p></div>
             <button onclick="navigator.clipboard.writeText('FREE1001'); alert('Copied FREE1001!')" class="px-3 py-1 rounded-lg bg-green-700 text-white text-xs font-bold">Copy FREE1001</button>
           </div>
-          <div class="p-3 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-between">
-            <div><p class="font-bold text-sky-900">LAUNCH10</p><p class="text-xs text-sky-700">Flat 10% Instant Discount</p></div>
-            <button onclick="navigator.clipboard.writeText('LAUNCH10'); alert('Copied LAUNCH10!')" class="px-3 py-1 rounded-lg bg-sky-700 text-white text-xs font-bold">Copy LAUNCH10</button>
-          </div>
         `;
       } else if (tab === 'giftcards') {
         titleEl.textContent = "VastraHub Gift Cards";
         contentEl.innerHTML = `
           <div class="p-5 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200">
-            <p class="text-xs text-indigo-700 font-semibold">Available Gift Card Wallet</p>
-            <p class="text-3xl font-extrabold text-indigo-950 mt-1">₹${currentUser.giftBalance}</p>
+            <p class="text-xs text-indigo-700 font-semibold">Saved Gift Card Wallet</p>
+            <p class="text-3xl font-extrabold text-indigo-950 mt-1">₹${userState.giftBalance}</p>
             <div class="mt-3 flex gap-2">
               <input id="gcInput" type="text" placeholder="Enter Gift Code (e.g. GIFT500)" class="flex-1 px-3 py-2 rounded-xl border bg-white text-xs uppercase" />
               <button onclick="redeemGiftCard()" class="px-4 py-2 rounded-xl olive-bg text-white text-xs font-bold">Redeem</button>
@@ -659,7 +1414,7 @@
         `;
       } else if (tab === 'notifications') {
         titleEl.textContent = "Notifications";
-        contentEl.innerHTML = userNotifications.map(n => `
+        contentEl.innerHTML = userState.notifications.map(n => `
           <div class="p-3.5 rounded-2xl border bg-white space-y-1">
             <div class="flex justify-between"><b class="text-gray-900 text-xs sm:text-sm">${n.title}</b><span class="text-[11px] text-gray-400">${n.time}</span></div>
             <p class="text-xs text-gray-600">${n.text}</p>
@@ -669,18 +1424,18 @@
     }
 
     function cancelOrder(index) {
-      userOrders[index].status = "Cancelled";
-      updateAccountBadges();
+      userState.orders[index].status = "Cancelled";
+      saveUserState();
       switchDashTab('orders');
     }
 
     function redeemGiftCard() {
       const val = document.getElementById('gcInput').value.trim().toUpperCase();
       if (val === 'GIFT500') {
-        currentUser.giftBalance += 500;
-        updateAccountBadges();
+        userState.giftBalance += 500;
+        saveUserState();
         switchDashTab('giftcards');
-        alert("₹500 added to your Gift Card balance!");
+        alert("₹500 added & saved to your Gift Card balance!");
       } else {
         alert("Try promo gift code: GIFT500");
       }
@@ -698,32 +1453,32 @@
         return matchCat && matchSearch && matchStock;
       });
 
-      document.getElementById('resultCount').textContent = `Showing ${filtered.length} products`;
+      document.getElementById('resultCount').textContent = `Showing ${filtered.length} products (Click any product for angle photos, sizes & specs)`;
 
       grid.innerHTML = filtered.map(p => {
         const off = Math.round(((p.mrp - p.price) / p.mrp) * 100);
-        const isWished = wishlistIds.includes(p.id);
+        const isWished = currentUser && userState.wishlist.includes(p.id);
         return `
           <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col ${!p.inStock ? 'opacity-75' : 'hover:shadow-md transition'}">
-            <div class="relative h-44 bg-gray-100">
-              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover ${!p.inStock ? 'grayscale' : ''}" />
+            <div onclick="openProductDetail(${p.id})" class="relative h-44 bg-gray-100 cursor-pointer group">
+              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 ${!p.inStock ? 'grayscale' : ''}" />
               ${p.inStock
                 ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● ${p.stockQty} left</span>`
                 : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">0 left • Sold Out</span>`
               }
-              <button onclick="toggleWishlist(${p.id})" title="Save to Wishlist"
+              <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" title="Save to Wishlist"
                 class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-white/90 shadow flex items-center justify-center text-xs hover:scale-110 transition">
                 ${isWished ? '❤️' : '🤍'}
               </button>
               <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold olive-bg text-white">${off}% OFF</span>
             </div>
             <div class="p-3 flex-1 flex flex-col justify-between">
-              <div>
+              <div onclick="openProductDetail(${p.id})" class="cursor-pointer">
                 <div class="flex justify-between text-[11px] text-gray-500">
                   <span>${p.category}</span>
-                  <span>Stock: <b>${p.stockQty}</b></span>
+                  <span>Sizes: ${p.sizes.slice(0, 3).join(',')}</span>
                 </div>
-                <h3 class="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 mt-0.5">${p.name}</h3>
+                <h3 class="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 mt-0.5 hover:text-[#4A5D23]">${p.name}</h3>
               </div>
               <div class="mt-3">
                 <div class="flex items-baseline gap-1.5 mb-2">
@@ -731,7 +1486,7 @@
                   <span class="text-[11px] text-gray-400 line-through">₹${p.mrp}</span>
                 </div>
                 ${p.inStock
-                  ? `<button onclick="addToCart(${p.id})" class="w-full py-2 rounded-xl olive-bg text-white text-xs font-semibold hover:opacity-95 transition">+ Add to Bag</button>`
+                  ? `<button onclick="addToCart(${p.id}, '${p.sizes[0]}')" class="w-full py-2 rounded-xl olive-bg text-white text-xs font-semibold hover:opacity-95 transition">+ Add to Bag</button>`
                   : `<button disabled class="w-full py-2 rounded-xl bg-gray-200 text-gray-500 text-xs font-semibold cursor-not-allowed">Out of Stock</button>`
                 }
               </div>
@@ -751,10 +1506,10 @@
       renderProducts();
     }
 
-    function addToCart(id) {
+    function addToCart(id, size = "M") {
       const prod = products.find(p => p.id === id);
       if (!prod || !prod.inStock) return;
-      const item = cart.find(i => i.id === id);
+      const item = cart.find(i => i.id === id && i.selectedSize === size);
       if (item) {
         if (item.qty >= prod.stockQty) {
           alert(`Only ${prod.stockQty} units available in stock!`);
@@ -762,20 +1517,20 @@
         }
         item.qty++;
       } else {
-        cart.push({ ...prod, qty: 1 });
+        cart.push({ ...prod, selectedSize: size, qty: 1 });
       }
       updateCartUI();
     }
 
-    function changeQty(id, delta) {
-      const item = cart.find(i => i.id === id);
+    function changeQty(id, size, delta) {
+      const item = cart.find(i => i.id === id && i.selectedSize === size);
       if (!item) return;
       if (delta > 0 && item.qty >= item.stockQty) {
         alert(`Maximum available stock (${item.stockQty}) reached.`);
         return;
       }
       item.qty += delta;
-      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      if (item.qty <= 0) cart = cart.filter(i => !(i.id === id && i.selectedSize === size));
       updateCartUI();
     }
 
@@ -818,12 +1573,12 @@
           <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-200">
             <div class="pr-2">
               <h4 class="font-semibold text-xs sm:text-sm">${i.name}</h4>
-              <p class="text-xs olive-text font-bold">₹${i.price} × ${i.qty}</p>
+              <p class="text-xs olive-text font-bold">₹${i.price} × ${i.qty} <span class="text-gray-500 font-normal">| Size: ${i.selectedSize}</span></p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="changeQty(${i.id}, -1)" class="w-7 h-7 rounded-lg border font-bold">-</button>
+              <button onclick="changeQty(${i.id}, '${i.selectedSize}', -1)" class="w-7 h-7 rounded-lg border font-bold">-</button>
               <span class="text-sm font-semibold">${i.qty}</span>
-              <button onclick="changeQty(${i.id}, 1)" class="w-7 h-7 rounded-lg border font-bold">+</button>
+              <button onclick="changeQty(${i.id}, '${i.selectedSize}', 1)" class="w-7 h-7 rounded-lg border font-bold">+</button>
             </div>
           </div>
         `).join('');
@@ -896,60 +1651,79 @@
 
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
-      const size = document.getElementById('custSize').value;
       const address = document.getElementById('custAddress').value.trim();
       const orderId = "VH-" + Math.floor(100000 + Math.random() * 900000);
 
+      // Update Global Stock & Product Order Counters for Admin
       cart.forEach(cItem => {
         const p = products.find(prod => prod.id === cItem.id);
         if (p) {
           p.stockQty = Math.max(0, p.stockQty - cItem.qty);
-          if (p.stockQty === 0) p.inStock = false;
+          p.inStock = p.stockQty > 0;
+          storeAnalytics.stockOverrides[p.id] = p.stockQty;
+          storeAnalytics.productOrders[p.id] = (storeAnalytics.productOrders[p.id] || 0) + cItem.qty;
         }
       });
 
-      const itemsSummary = cart.map((i, idx) => `${idx + 1}. ${i.name} (Size: ${size}) x${i.qty} = ₹${i.price * i.qty}`).join('\n');
-      const shortItemText = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
+      const itemsSummary = cart.map((i, idx) => `${idx + 1}. ${i.name} (Size: ${i.selectedSize}) x${i.qty} = ₹${i.price * i.qty}`).join('\n');
+      const shortItemText = cart.map(i => `${i.name} [${i.selectedSize}] (x${i.qty})`).join(', ');
       const finalPaymentLabel = total === 0
         ? "100% Free Promo Order (₹0)"
         : (payMode === 'MERCHANT_QR' ? `Merchant QR (UTR: ${utr})` : 'Cash on Delivery');
 
-      // Add order to user's Orders tab & reward +20 SuperCoins
-      userOrders.unshift({
+      // Record Order & Earning in Global Admin Analytics
+      storeAnalytics.totalEarning = (storeAnalytics.totalEarning || 0) + total;
+      storeAnalytics.masterOrders.unshift({
         id: orderId,
-        date: "Nov 22, 2026",
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        user: currentUser ? `${currentUser.fullName} (${currentUser.id})` : "Guest",
+        customer: name,
+        phone,
+        address,
         items: shortItemText,
+        payment: finalPaymentLabel,
         total,
         status: "Confirmed"
       });
+      saveStoreAnalytics();
+
       if (currentUser) {
-        currentUser.coins += 20;
-        updateAccountBadges();
+        userState.orders.unshift({
+          id: orderId,
+          date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+          items: shortItemText,
+          total,
+          status: "Confirmed"
+        });
+        userState.coins += 20;
+        userState.notifications.unshift({
+          title: `Order ${orderId} Confirmed`,
+          text: `Placed ${shortItemText} for ₹${total}. Earned +20 SuperCoins!`,
+          time: "Just now"
+        });
+        saveUserState();
       }
 
-      if (WEB3FORMS_ACCESS_KEY !== "YOUR_WEB3FORMS_ACCESS_KEY") {
-        try {
-          await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({
-              access_key: WEB3FORMS_ACCESS_KEY,
-              subject: `New Order ${orderId} - ₹${total}`,
-              from_name: "VastraHub Store",
-              Order_ID: orderId,
-              Logged_In_User: currentUser ? currentUser.id : "Guest",
-              Customer_Name: name,
-              Customer_Phone: phone,
-              GPS_And_Address: address,
-              Default_Size: size,
-              Payment_Mode: finalPaymentLabel,
-              Total_Amount: `₹${total}`,
-              Ordered_Items: itemsSummary
-            })
-          });
-        } catch (err) {
-          console.error("Email error:", err);
-        }
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject: `New Order ${orderId} - ₹${total}`,
+            from_name: "VastraHub Store",
+            Order_ID: orderId,
+            Logged_In_User: currentUser ? `${currentUser.fullName} (${currentUser.id})` : "Guest",
+            Customer_Name: name,
+            Customer_Phone: phone,
+            GPS_And_Address: address,
+            Payment_Mode: finalPaymentLabel,
+            Total_Amount: `₹${total}`,
+            Ordered_Items: itemsSummary
+          })
+        });
+      } catch (err) {
+        console.error("Email error:", err);
       }
 
       document.getElementById('successMsg').textContent = total === 0
@@ -972,6 +1746,7 @@
     document.getElementById('searchInput').addEventListener('input', renderProducts);
     document.getElementById('mobileSearch').addEventListener('input', renderProducts);
 
+    restoreLastSession();
     renderProducts();
     updateCartUI();
     detectGPSLocation();
