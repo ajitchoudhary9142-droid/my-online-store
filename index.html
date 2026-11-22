@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KapdaHub | मेरे कपड़े, मेरी पसंद — Official Fashion Store India</title>
-  <meta name="description" content="KapdaHub (मेरे कपड़े, मेरी पसंद) — Shop 2,000+ curated clothing styles across Men, Women, Winterwear, Ethnic & Kids with Pan-India delivery." />
-  <meta name="keywords" content="KapdaHub, Mere Kapde Meri Pasand, Online Clothing India, Mens Wear, Womens Ethnic, Winter Jackets" />
+  <title>KapdaHub | मेरे कपड़े, मेरी पसंद</title>
+  <meta name="description" content="KapdaHub (मेरे कपड़े, मेरी पसंद) — Shop 2,000+ curated clothing styles across Men, Women, Winterwear, Ethnic & Kids." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://ajitchoudhary9142-droid.github.io/my-online-store/" />
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Noto+Sans+Devanagari:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; background-color: #FAF9F6; color: #1F2937; }
     .serif-heading { font-family: 'Playfair Display', serif; }
@@ -22,12 +21,12 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- UNIFIED ADMIN EXECUTIVE BAR (Visible ONLY when owner99 or catalog99 logs in) -->
+  <!-- ADMIN EXECUTIVE BAR (Visible ONLY when owner99 or catalog99 logs in) -->
   <div id="adminTopBanner" class="hidden bg-slate-950 text-amber-400 text-xs py-2.5 px-4 border-b border-amber-500/30">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
-        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] uppercase">Executive Console</span>
-        <span id="adminLoggedLabel">Welcome, Admin • KapdaHub (मेरे कपड़े, मेरी पसंद)</span>
+        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] uppercase">Admin Mode</span>
+        <span id="adminLoggedLabel">Welcome, Admin • KapdaHub</span>
       </div>
       <div class="flex items-center gap-3">
         <button id="toggleAdminStoreBtn" onclick="toggleAdminStoreView()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">
@@ -61,26 +60,26 @@
         <span id="gpsBannerText">Detecting your live GPS location...</span>
         <button onclick="detectGPSLocation()" class="underline text-[11px] ml-1 opacity-90 hover:opacity-100">Refresh</button>
       </div>
-      <div class="font-medium hindi-font">
-        ✨ <span class="font-bold">मेरे कपड़े, मेरी पसंद</span> • 2,000+ Styles • Promo: <span class="underline font-bold">FREE1001</span> – <span class="underline font-bold">FREE1050</span>
+      <div class="font-medium">
+        🎁 2,000+ Styles • Promo: <span class="underline font-bold">FREE1001</span> – <span class="underline font-bold">FREE1050</span>
       </div>
     </div>
   </div>
 
-  <!-- Enterprise Navbar -->
-  <header id="mainNavbar" class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-2.5 flex items-center justify-between gap-3">
+  <!-- Clean Navbar -->
+  <header id="mainNavbar" class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
       <div onclick="filterCategory('All')" class="flex items-center gap-2.5 cursor-pointer">
-        <div id="brandLogoBox" class="w-10 h-10 rounded-2xl olive-bg text-white flex items-center justify-center font-extrabold text-xl shadow-sm">क</div>
+        <div id="brandLogoBox" class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg">K</div>
         <div>
-          <span id="brandTitleText" class="font-extrabold text-xl tracking-tight text-gray-900 block leading-none">Kapda<span class="olive-text">Hub</span></span>
-          <span id="brandPunchlineNav" class="hindi-font text-[11px] font-bold text-amber-700 tracking-wide block mt-0.5">मेरे कपड़े, मेरी पसंद</span>
+          <span id="brandTitleText" class="font-bold text-xl tracking-tight text-gray-900 block leading-none">Kapda<span class="olive-text">Hub</span></span>
+          <span id="brandPunchlineNav" class="hindi-font text-[11px] font-semibold text-gray-600 block mt-0.5">मेरे कपड़े, मेरी पसंद</span>
         </div>
       </div>
 
       <div id="navSearchWrapper" class="hidden md:flex flex-1 max-w-md">
-        <input id="searchInput" type="text" placeholder="Search 2,000+ kapde (Kurta, Jacket, Saree, Jeans...)"
-          class="w-full px-4 py-2 rounded-full border border-gray-300 bg-[#FAF9F6] text-sm focus:outline-none focus:border-[#4A5D23] focus:bg-white transition" />
+        <input id="searchInput" type="text" placeholder="Search 2,000 clothing styles..."
+          class="w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm focus:outline-none focus:border-[#4A5D23]" />
       </div>
 
       <div class="flex items-center gap-3">
@@ -133,7 +132,7 @@
         </div>
 
         <!-- Cart Bag Button -->
-        <button id="navBagBtn" onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition shadow-sm">
+        <button id="navBagBtn" onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition">
           <span>🛍️ Bag</span>
           <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
         </button>
@@ -142,7 +141,7 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO (SAME FOR BOTH ADMINS)     -->
+  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO                            -->
   <!-- ========================================================================= -->
   <section id="adminDashboardSection" class="hidden flex-1 bg-slate-900 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
@@ -198,14 +197,13 @@
         </button>
       </div>
 
-      <!-- TAB 0: PRODUCT LISTING & DISCOUNT STUDIO (ADD NEW PRODUCTS, SET PRICE, DISCOUNT & SPECS) -->
+      <!-- TAB 0: PRODUCT LISTING & DISCOUNT STUDIO -->
       <div id="admTab_listing" class="adm-panel grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Left 2 Cols: Add New Product Form -->
         <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-700 pb-3">
             <div>
               <h3 class="font-bold text-lg text-amber-400">➕ List New Clothing Product on KapdaHub</h3>
-              <p class="text-xs text-slate-400">Listed items appear immediately on the top of the live storefront with full multi-angle zoom.</p>
+              <p class="text-xs text-slate-400">Listed items appear immediately on the top of the live storefront.</p>
             </div>
             <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">Instant Live Publish</span>
           </div>
@@ -289,7 +287,6 @@
           </form>
         </div>
 
-        <!-- Right Col: Bulk Category Discount Regulator & Newly Listed Items -->
         <div class="space-y-6">
           <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
             <h3 class="font-bold text-base text-emerald-400">🏷️ Category-Wide Discount Control</h3>
@@ -423,74 +420,54 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- CUSTOMER STOREFRONT VIEW (BRANDED KAPDAHUB — मेरे कपड़े, मेरी पसंद)        -->
+  <!-- CUSTOMER STOREFRONT VIEW (CLASSIC SLIDING BANNER + CLEAN LAYOUT)          -->
   <!-- ========================================================================= -->
   <div id="customerStorefrontWrapper" class="flex-1 flex flex-col">
     
-    <!-- Brand Hero Banner + Interactive Hindi Punchline + Trust Strip -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full space-y-5">
-      
-      <!-- Interactive Brand Identity & 5-Product Spotlight Showcase -->
-      <div class="rounded-3xl border border-gray-200 shadow-sm bg-gradient-to-br from-[#F4F7EE] via-[#FAF9F6] to-[#FEF3C7]/60 p-5 sm:p-7">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 mb-5 border-b border-gray-200/80">
-          <div class="space-y-1.5">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-3 py-1 rounded-full text-[11px] font-extrabold olive-bg text-white uppercase tracking-wider">KAPDAHUB OFFICIAL</span>
-              <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 hindi-font">🇮🇳 भारत का अपना फ़ैशन स्टोर</span>
+    <!-- Classic Full-Width Sliding Hero Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
+      <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
+        <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
+          <!-- Slide 1 -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
+              <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
+              <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
             </div>
-            <h1 class="hindi-font text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-              “मेरे कपड़े, मेरी पसंद”
-            </h1>
-            <p id="interactiveHindiTagline" class="hindi-font text-xs sm:text-sm text-gray-600 font-medium">
-              हर मौसम, हर त्योहार और हर अंदाज़ के लिए 2,000+ चुनिंदा परिधान — अब सीधे आपके द्वार।
-            </p>
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
           </div>
 
-          <div class="flex items-center gap-2 self-start md:self-center">
-            <span id="adSetIndicator" class="text-xs font-bold text-gray-700 bg-white px-3 py-1.5 rounded-full border border-gray-200">Spotlight 1 / 6</span>
-            <button onclick="rotateAdSet(-1)" class="w-9 h-9 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center font-bold text-gray-800 hover:bg-gray-50">‹</button>
-            <button onclick="rotateAdSet(1)" class="w-9 h-9 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center font-bold text-gray-800 hover:bg-gray-50">›</button>
+          <!-- Slide 2 -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
+              <p class="text-sm text-gray-600">Explore 2,000+ styles ready to ship today with live stock tracking and Merchant QR payment.</p>
+              <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Oversized Tees, Denim & Co-ord Sets</h2>
+              <p class="text-sm text-gray-600">Click any product to view multi-angle photos, fabric specs & available sizes.</p>
+              <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Browse Collection →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Casual Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
           </div>
         </div>
 
-        <!-- 5-Product Rotating Spotlight Grid -->
-        <div id="fiveProductAdGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 transition-opacity duration-300"></div>
-      </div>
-
-      <!-- Enterprise Trust & Value Proposition Bar -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-        <div class="bg-white border border-gray-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
-          <span class="text-xl">🧵</span>
-          <div>
-            <p class="font-bold text-gray-900">100% Quality Fabric</p>
-            <p class="text-[11px] text-gray-500 hindi-font">बेहतरीन कपड़ा और सिलाई</p>
-          </div>
-        </div>
-        <div class="bg-white border border-gray-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
-          <span class="text-xl">🚚</span>
-          <div>
-            <p class="font-bold text-gray-900">Pan-India Express</p>
-            <p class="text-[11px] text-gray-500">Free delivery above ₹999</p>
-          </div>
-        </div>
-        <div class="bg-white border border-gray-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
-          <span class="text-xl">🔄</span>
-          <div>
-            <p class="font-bold text-gray-900">7-Day Easy Exchange</p>
-            <p class="text-[11px] text-gray-500">Hassle-free size swap</p>
-          </div>
-        </div>
-        <div class="bg-white border border-gray-200/90 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
-          <span class="text-xl">🛡️</span>
-          <div>
-            <p class="font-bold text-gray-900">Verified Merchant</p>
-            <p class="text-[11px] text-gray-500">UPI QR & COD Protected</p>
-          </div>
-        </div>
+        <button onclick="moveSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">‹</button>
+        <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
       </div>
 
       <!-- Category & Stock Filters Bar -->
-      <div class="pt-1 flex flex-wrap items-center justify-between gap-3">
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
         <div id="categoryFilters" class="flex flex-wrap gap-2">
           <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All Kapde</button>
           <button onclick="filterCategory('Men')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Men</button>
@@ -506,17 +483,14 @@
             <option value="in">In Stock Only</option>
             <option value="out">Out of Stock</option>
           </select>
-          <input id="mobileSearch" type="text" placeholder="Search kapde..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
+          <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
         </div>
       </div>
     </section>
 
     <!-- Products Grid + Pagination -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1 w-full">
-      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <p id="resultCount" class="text-xs text-gray-500 font-medium"></p>
-        <p class="text-[11px] text-gray-500">🔒 Member Login required to add items to Bag or Wishlist</p>
-      </div>
+      <p id="resultCount" class="text-xs text-gray-500 mb-4 font-medium"></p>
       <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
 
       <!-- Pagination Controls -->
@@ -529,7 +503,7 @@
         <div class="space-y-4">
           <div>
             <h3 class="serif-heading text-xl text-white">KapdaHub</h3>
-            <p class="hindi-font text-sm font-bold text-amber-400 mt-0.5">“मेरे कपड़े, मेरी पसंद”</p>
+            <p class="hindi-font text-sm font-semibold text-amber-400 mt-0.5">मेरे कपड़े, मेरी पसंद</p>
           </div>
           <p class="text-sm text-gray-300 leading-relaxed">
             Join our WhatsApp Broadcast to receive the latest updates on offers and new arrivals.
@@ -568,15 +542,52 @@
             <p>11am–8pm IST or email anytime!</p>
             <p class="pt-1 text-white font-medium">support@kapdahubstore.in</p>
             <p class="text-gray-400 text-xs">Ghaziabad, Uttar Pradesh, India</p>
+            <button onclick="openStoreQRPoster()" class="mt-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold transition">
+              📲 Share Store QR Code
+            </button>
           </div>
         </div>
       </div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-8 mt-12 pt-6 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400">
         <p>© 2026 KapdaHub Fashion India (<span class="hindi-font">मेरे कपड़े, मेरी पसंद</span>). All rights reserved.</p>
-        <p>2,000+ Unique Styles • Pan-India Shipping</p>
+        <p>Pan-India Shipping</p>
       </div>
     </footer>
+  </div>
+
+  <!-- Branded KapdaHub Store QR Poster Modal -->
+  <div id="storeQrModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
+    <div class="bg-[#FAF9F6] rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border-2 border-[#4A5D23] space-y-4">
+      <div class="flex justify-between items-center">
+        <span class="px-3 py-1 rounded-full text-[10px] font-extrabold olive-bg text-white">OFFICIAL STORE QR</span>
+        <button onclick="closeStoreQRPoster()" class="text-gray-500 text-xl font-bold">✕</button>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-extrabold text-gray-900">Kapda<span class="olive-text">Hub</span></h3>
+        <p class="hindi-font text-sm font-bold text-gray-700">मेरे कपड़े, मेरी पसंद</p>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-inner inline-block">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&color=4A5D23&data=https://ajitchoudhary9142-droid.github.io/my-online-store/"
+          alt="KapdaHub QR Code" class="w-52 h-52 mx-auto" />
+      </div>
+
+      <p class="text-xs text-gray-600">Scan with Phone Camera or Google Lens to open KapdaHub</p>
+
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <a href="https://api.qrserver.com/v1/create-qr-code/?size=600x600&margin=15&color=4A5D23&data=https://ajitchoudhary9142-droid.github.io/my-online-store/"
+          download="KapdaHub-QR.png" target="_blank"
+          class="py-2.5 rounded-xl olive-bg text-white text-xs font-bold hover:opacity-95">
+          ⬇️ Download QR
+        </a>
+        <button onclick="navigator.clipboard.writeText('https://ajitchoudhary9142-droid.github.io/my-online-store/'); alert('Store Link Copied!');"
+          class="py-2.5 rounded-xl border border-gray-300 bg-white text-gray-800 text-xs font-bold hover:bg-gray-100">
+          🔗 Copy Link
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Company & Policy Info Modal -->
@@ -850,26 +861,13 @@
   <script>
     const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240";
 
-    // ====== 2 EQUAL-POWER ADMIN ACCOUNTS (SAME EXECUTIVE CONSOLE FOR BOTH) ======
+    // ====== 2 EQUAL-POWER ADMIN ACCOUNTS ======
     const ADMIN_ACCOUNTS = [
       { id: "owner99",   pass: "VastraAdmin@99",  name: "Store Owner (Admin 1)" },
       { id: "catalog99", pass: "KapdaCatalog@99", name: "Catalog & Listing Manager (Admin 2)" }
     ];
     let activeAdminAccount = null;
     let adminPreviewingStore = false;
-
-    // Interactive Hindi Taglines Rotator
-    const HINDI_TAGLINES = [
-      "हर मौसम, हर त्योहार और हर अंदाज़ के लिए 2,000+ चुनिंदा परिधान — अब सीधे आपके द्वार।",
-      "प्रीमियम फ़ैब्रिक, बेहतरीन फिटिंग और किफ़ायती दाम — क्योंकि ये हैं मेरे कपड़े, मेरी पसंद!",
-      "शादी हो या ऑफिस, सर्दी हो या त्योहार — KapdaHub पर हर स्टाइल मिलेगा तैयार।"
-    ];
-    let taglineIdx = 0;
-    setInterval(() => {
-      taglineIdx = (taglineIdx + 1) % HINDI_TAGLINES.length;
-      const el = document.getElementById('interactiveHindiTagline');
-      if (el) el.textContent = HINDI_TAGLINES[taglineIdx];
-    }, 4500);
 
     // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) ======
     const FIVE_YEAR_FESTIVALS = [
@@ -1006,7 +1004,7 @@
       stockOverrides: {},
       priceOverrides: {},
       mrpOverrides: {},
-      customListedProducts: [] // Stores products newly listed by Admin 1 or Admin 2
+      customListedProducts: []
     };
 
     function saveStoreAnalytics() {
@@ -1129,7 +1127,6 @@
       };
     }
 
-    // Base 2,000 Catalog + Admin-Listed Custom Products
     const baseProducts = Array.from({ length: 2000 }, (_, idx) => {
       const id = idx + 1;
       const arch = styleArchetypes[idx % styleArchetypes.length];
@@ -1175,7 +1172,6 @@
       return buildProductObject({ ...cp, stockQty, basePrice, mrp, isCustomListed: true });
     });
 
-    // Put newly listed custom products at the very top of the store!
     let products = [...customHydrated, ...baseProducts];
 
     function getEffectivePrice(product) {
@@ -1190,50 +1186,27 @@
     let currentPage = 1;
     const ITEMS_PER_PAGE = 50;
 
-    // 5-Product Spotlight Carousel
-    const featuredAdSets = [
-      [1, 2, 3, 4, 5],
-      [6, 7, 8, 9, 10],
-      [11, 12, 13, 14, 15],
-      [16, 17, 18, 19, 20],
-      [21, 22, 23, 24, 25],
-      [26, 27, 28, 29, 30]
-    ];
-    let currentAdSetIndex = 0;
-
-    function renderFiveProductAd() {
-      const ids = featuredAdSets[currentAdSetIndex];
-      const container = document.getElementById('fiveProductAdGrid');
-      document.getElementById('adSetIndicator').textContent = `Spotlight ${currentAdSetIndex + 1} / ${featuredAdSets.length}`;
-
-      container.innerHTML = ids.map(id => {
-        const p = products.find(item => item.id === id);
-        if (!p) return '';
-        const sellPrice = getEffectivePrice(p);
-        return `
-          <div onclick="openProductDetail(${p.id})" class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col">
-            <div class="relative h-32 sm:h-36 bg-gray-100">
-              <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" />
-              <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-black/75 text-white">SPOTLIGHT</span>
-              ${activeFestival50Off ? `<span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-bold">50% FEST OFF</span>` : ''}
-            </div>
-            <div class="p-2.5 flex-1 flex flex-col justify-between">
-              <p class="text-[11px] font-bold text-gray-900 line-clamp-1">${p.name}</p>
-              <div class="flex items-center justify-between mt-1.5">
-                <span class="text-xs font-extrabold olive-text">₹${sellPrice}</span>
-                <span class="text-[10px] text-gray-500">${p.stockQty} left</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+    // Classic Hero Slider
+    let currentSlide = 0;
+    function moveSlide(step) {
+      const track = document.getElementById('adSliderTrack');
+      if (!track) return;
+      currentSlide = (currentSlide + step + 3) % 3;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
+    setInterval(() => moveSlide(1), 4000);
 
-    function rotateAdSet(step) {
-      currentAdSetIndex = (currentAdSetIndex + step + featuredAdSets.length) % featuredAdSets.length;
-      renderFiveProductAd();
+    // QR Poster Modal Functions
+    function openStoreQRPoster() {
+      const m = document.getElementById('storeQrModal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
     }
-    setInterval(() => rotateAdSet(1), 4000);
+    function closeStoreQRPoster() {
+      const m = document.getElementById('storeQrModal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
 
     // Info Pages & Broadcast
     const INFO_PAGES = {
@@ -1324,7 +1297,6 @@
       }
     }
 
-    // Strict Auth Gate
     function requireMemberAuth(actionCallback) {
       if (currentUser) {
         actionCallback();
@@ -1465,7 +1437,7 @@
       currentUser = null;
       localStorage.setItem("kh_active_session_user", adminObj.id);
 
-      document.getElementById('adminLoggedLabel').textContent = `Welcome, ${adminObj.name} • KapdaHub (मेरे कपड़े, मेरी पसंद)`;
+      document.getElementById('adminLoggedLabel').textContent = `Welcome, ${adminObj.name} • KapdaHub`;
       document.getElementById('adminTopBanner').classList.remove('hidden');
       document.getElementById('customerTopBar').classList.add('hidden');
       document.getElementById('loginNavBtn').classList.add('hidden');
@@ -1475,9 +1447,9 @@
 
       const navbar = document.getElementById('mainNavbar');
       navbar.className = "sticky top-0 z-40 bg-slate-950 border-b border-slate-800 text-white";
-      document.getElementById('brandLogoBox').className = "w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-xl";
-      document.getElementById('brandTitleText').innerHTML = `Kapda<span class="text-amber-400">Hub</span> <span class="text-xs font-normal text-slate-400 ml-1">Executive Console</span>`;
-      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-bold text-amber-400 tracking-wide block mt-0.5";
+      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-lg";
+      document.getElementById('brandTitleText').innerHTML = `Kapda<span class="text-amber-400">Hub</span> <span class="text-xs font-normal text-slate-400 ml-1">Admin</span>`;
+      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-semibold text-amber-400 block mt-0.5";
 
       document.getElementById('customerStorefrontWrapper').classList.add('hidden');
       document.getElementById('adminDashboardSection').classList.remove('hidden');
@@ -1521,7 +1493,6 @@
       const uid = document.getElementById('loginUserId').value.trim();
       const pwd = document.getElementById('loginPassword').value.trim();
 
-      // Check Both Equal-Power Admin Accounts
       const matchedAdmin = ADMIN_ACCOUNTS.find(a => a.id === uid && a.pass === pwd);
       if (matchedAdmin) {
         closeLoginModal();
@@ -1529,7 +1500,6 @@
         return;
       }
 
-      // Check All Registered Members
       const found = getAllAuthorizedUsers().find(u => u.id === uid && u.pass === pwd);
       if (found) {
         applyLoggedInUser(found);
@@ -1562,10 +1532,10 @@
       document.getElementById('navBagBtn').classList.remove('hidden');
       document.getElementById('navSearchWrapper').classList.remove('hidden');
 
-      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm";
-      document.getElementById('brandLogoBox').className = "w-10 h-10 rounded-2xl olive-bg text-white flex items-center justify-center font-extrabold text-xl shadow-sm";
+      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200";
+      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg";
       document.getElementById('brandTitleText').innerHTML = `Kapda<span class="olive-text">Hub</span>`;
-      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-bold text-amber-700 tracking-wide block mt-0.5";
+      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-semibold text-gray-600 block mt-0.5";
 
       renderProducts();
     }
@@ -1622,7 +1592,7 @@
           WashCare: "Gentle Wash / Dry Clean",
           SKU: sku
         },
-        description: `${title} in ${color}. Crafted with ${fabric}. Official KapdaHub (मेरे कपड़े, मेरी पसंद) verified listing.`,
+        description: `${title} in ${color}. Crafted with ${fabric}. Official KapdaHub verified listing.`,
         img
       };
 
@@ -1740,7 +1710,6 @@
       document.getElementById('admStockSummary').textContent = `${inStockCount} / ${products.length}`;
       document.getElementById('admLowStockCount').textContent = `${lowStockProducts.length} Low Stock (<5 units)`;
 
-      // Custom Listed Products in Listing Studio
       const customListed = products.filter(p => p.isCustomListed);
       document.getElementById('admCustomListedProducts').innerHTML = customListed.length === 0
         ? '<p class="text-slate-400">No custom products added yet. Use the form on the left to list new items!</p>'
@@ -1757,7 +1726,6 @@
           </div>
         `).join('');
 
-      // Enlarged Most Viewed Cards
       const viewedSorted = [...products]
         .map(p => ({ ...p, views: storeAnalytics.productViews[p.id] || 0 }))
         .sort((a, b) => b.views - a.views)
@@ -1767,7 +1735,6 @@
         .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.views} Views`, 'bg-sky-500 text-slate-950'))
         .join('');
 
-      // Enlarged Most Ordered Cards
       const orderedSorted = [...products]
         .map(p => ({ ...p, ordCount: storeAnalytics.productOrders[p.id] || 0 }))
         .sort((a, b) => b.ordCount - a.ordCount)
@@ -1777,7 +1744,6 @@
         .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.ordCount} Sold`, 'bg-emerald-400 text-slate-950'))
         .join('');
 
-      // Registered Users Vault
       document.getElementById('admUsersTableBody').innerHTML = allUsers.map(u => `
         <tr class="hover:bg-slate-900/60">
           <td class="p-3 font-bold text-white">${u.fullName}</td>
@@ -1793,7 +1759,6 @@
         </tr>
       `).join('');
 
-      // Upcoming Festivals
       const todayStr = new Date().toISOString().split('T')[0];
       const upcomingFests = FIVE_YEAR_FESTIVALS.filter(f => f.date >= todayStr).slice(0, 12);
       document.getElementById('admUpcomingFestivalsList').innerHTML = upcomingFests.map(f => `
@@ -1803,7 +1768,6 @@
         </div>
       `).join('');
 
-      // Low Stock & Leads
       document.getElementById('admLowStockList').innerHTML = lowStockProducts.slice(0, 20).map(p => `
         <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-rose-500/30">
           <span class="truncate pr-2">${p.sku}: ${p.name}</span>
@@ -1815,7 +1779,6 @@
         ? '<p class="text-slate-400">No WhatsApp broadcast subscribers yet.</p>'
         : storeAnalytics.broadcastLeads.map(l => `<p class="text-slate-200">📱 <b>${l.phone}</b> <span class="text-slate-400">(${l.time})</span></p>`).join('');
 
-      // Master Orders List
       document.getElementById('admAllOrdersList').innerHTML = storeAnalytics.masterOrders.length === 0
         ? '<p class="text-slate-400">No customer orders recorded yet.</p>'
         : storeAnalytics.masterOrders.map((o, idx) => `
@@ -2278,7 +2241,7 @@
       const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
       const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
-      document.getElementById('resultCount').textContent = `Showing ${startIdx + 1}–${startIdx + pageItems.length} of ${filtered.length} unique styles`;
+      document.getElementById('resultCount').textContent = `Showing ${startIdx + 1}–${startIdx + pageItems.length} of ${filtered.length} products`;
 
       grid.innerHTML = pageItems.map(p => {
         const sellPrice = getEffectivePrice(p);
@@ -2338,7 +2301,7 @@
     function changePage(newPage) {
       currentPage = Math.max(1, newPage);
       renderProducts();
-      window.scrollTo({ top: 320, behavior: 'smooth' });
+      window.scrollTo({ top: 260, behavior: 'smooth' });
     }
 
     function filterCategory(cat) {
@@ -2603,7 +2566,6 @@
     // Initialize KapdaHub
     evaluateFestivalAndMonthlySale();
     restoreLastSession();
-    renderFiveProductAd();
     renderProducts();
     updateCartUI();
     detectGPSLocation();
