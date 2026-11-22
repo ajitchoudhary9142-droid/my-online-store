@@ -11,28 +11,86 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; background-color: #FAF9F6; color: #1F2937; }
+    :root {
+      --bg-canvas: #FAF9F6;
+      --brand-primary: #4A5D23;
+      --brand-accent-soft: #E0F2FE;
+      --brand-badge-soft: #FCE7F3;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+      background-color: var(--bg-canvas);
+      color: #1F2937;
+      transition: background-color 0.5s ease;
+    }
     .serif-heading { font-family: 'Playfair Display', serif; }
     .hindi-font { font-family: 'Noto Sans Devanagari', sans-serif; }
-    .olive-bg { background-color: #4A5D23; }
-    .olive-text { color: #4A5D23; }
-    .sky-accent { background-color: #E0F2FE; color: #0369A1; }
+    .olive-bg { background-color: var(--brand-primary); }
+    .olive-text { color: var(--brand-primary); }
+    .sky-accent { background-color: var(--brand-accent-soft); color: #0369A1; }
+
+    /* Festival Theme Overrides */
+    body.theme-diwali {
+      --bg-canvas: #FFFBEB;
+      --brand-primary: #9A3412;
+      --brand-accent-soft: #FEF3C7;
+    }
+    body.theme-christmas {
+      --bg-canvas: #F8FAFC;
+      --brand-primary: #166534;
+      --brand-accent-soft: #FEE2E2;
+    }
+    body.theme-holi {
+      --bg-canvas: #FDF4FF;
+      --brand-primary: #86198F;
+      --brand-accent-soft: #FCE7F3;
+    }
+    body.theme-navratri {
+      --bg-canvas: #FFF7ED;
+      --brand-primary: #B45309;
+      --brand-accent-soft: #FFEDD5;
+    }
+    body.theme-eid {
+      --bg-canvas: #F0FDF4;
+      --brand-primary: #065F46;
+      --brand-accent-soft: #D1FAE5;
+    }
+
+    /* Floating Festival Particles */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(6deg); }
+    }
+    @keyframes snowfall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.9; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+    }
+    @keyframes sparklePop {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .fest-float { animation: floatSlow 3.5s ease-in-out infinite; }
+    .snow-flake { position: fixed; top: -5vh; pointer-events: none; z-index: 60; animation: snowfall linear infinite; }
+    .cracker-burst { position: fixed; pointer-events: none; z-index: 70; font-size: 28px; animation: sparklePop 0.9s ease-out forwards; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- ADMIN EXECUTIVE BAR (Visible ONLY when owner99 or catalog99 logs in) -->
-  <div id="adminTopBanner" class="hidden bg-slate-950 text-amber-400 text-xs py-2.5 px-4 border-b border-amber-500/30">
+  <!-- Dynamic Festival Decor Layer (Floating Flowers, Diyas, Crackers, Snowflakes) -->
+  <div id="festivalDecorLayer" class="pointer-events-none fixed inset-0 z-30 overflow-hidden hidden"></div>
+
+  <!-- ADMIN EXECUTIVE BAR (Matching White & Olive Store Theme) -->
+  <div id="adminTopBanner" class="hidden bg-white text-gray-900 text-xs py-2.5 px-4 border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
-        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] uppercase">Admin Mode</span>
-        <span id="adminLoggedLabel">Welcome, Admin • KapdaHub</span>
+        <span class="px-2.5 py-0.5 rounded-full olive-bg text-white text-[10px] uppercase tracking-wider">Admin Console</span>
+        <span id="adminLoggedLabel" class="text-gray-800">Welcome, Admin • KapdaHub</span>
       </div>
-      <div class="flex items-center gap-3">
-        <button id="toggleAdminStoreBtn" onclick="toggleAdminStoreView()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">
+      <div class="flex items-center gap-2.5">
+        <button id="toggleAdminStoreBtn" onclick="toggleAdminStoreView()" class="px-3.5 py-1.5 rounded-full border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 text-gray-800 font-semibold transition">
           👁️ Preview Customer Store
         </button>
-        <button onclick="logoutUser()" class="px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold">
+        <button onclick="logoutUser()" class="px-3.5 py-1.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-semibold transition">
           ⏻ Exit Admin
         </button>
       </div>
@@ -40,14 +98,19 @@
   </div>
 
   <!-- AUTOMATIC FESTIVAL / MONTHLY 50% SALE BANNER -->
-  <div id="festivalSaleBanner" class="hidden bg-gradient-to-r from-rose-700 via-amber-600 to-rose-700 text-white text-xs sm:text-sm py-2.5 px-4 shadow-md">
+  <div id="festivalSaleBanner" class="hidden bg-gradient-to-r from-amber-600 via-rose-600 to-amber-600 text-white text-xs sm:text-sm py-2.5 px-4 shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2 font-bold">
         <span id="festBadgeTag" class="px-2.5 py-0.5 rounded-full bg-white text-rose-700 text-[11px] font-extrabold uppercase">FESTIVAL SPECIAL</span>
         <span id="festBannerMessage">Loading festival offer...</span>
       </div>
-      <div class="font-mono text-xs bg-black/30 px-3 py-1 rounded-full font-bold" id="festCountdownTimer">
-        Ends at 12:00 AM
+      <div class="flex items-center gap-2">
+        <button id="festCelebrateBtn" onclick="triggerFestivalBurst()" class="hidden px-2.5 py-0.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition">
+          🎆 Celebrate
+        </button>
+        <div class="font-mono text-xs bg-black/25 px-3 py-1 rounded-full font-bold" id="festCountdownTimer">
+          Ends at 12:00 AM
+        </div>
       </div>
     </div>
   </div>
@@ -66,8 +129,8 @@
     </div>
   </div>
 
-  <!-- Clean Navbar -->
-  <header id="mainNavbar" class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
+  <!-- Clean Unified Navbar (Same White & Olive Palette for Both Customer & Admin) -->
+  <header id="mainNavbar" class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
       <div onclick="filterCategory('All')" class="flex items-center gap-2.5 cursor-pointer">
         <div id="brandLogoBox" class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg">K</div>
@@ -79,7 +142,7 @@
 
       <div id="navSearchWrapper" class="hidden md:flex flex-1 max-w-md">
         <input id="searchInput" type="text" placeholder="Search 2,000 clothing styles..."
-          class="w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm focus:outline-none focus:border-[#4A5D23]" />
+          class="w-full px-4 py-2 rounded-full border border-gray-300 bg-[#FAF9F6] text-sm focus:outline-none focus:border-[#4A5D23] focus:bg-white transition" />
       </div>
 
       <div class="flex items-center gap-3">
@@ -141,83 +204,83 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO                            -->
+  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO (FAIR WHITE & OLIVE THEME) -->
   <!-- ========================================================================= -->
-  <section id="adminDashboardSection" class="hidden flex-1 bg-slate-900 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+  <section id="adminDashboardSection" class="hidden flex-1 bg-[#FAF9F6] text-gray-900 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
       
-      <!-- Top KPI Analytics Cards -->
+      <!-- Top Interactive KPI Analytics Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
-          <p class="text-xs text-slate-400">Real Store Visitors</p>
-          <p id="admTotalVisitors" class="text-2xl sm:text-3xl font-extrabold text-sky-400 mt-1">0</p>
-          <p class="text-[11px] text-slate-400 mt-1">Live page sessions tracked</p>
+        <div onclick="switchAdminTab('analytics')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer">
+          <p class="text-xs font-medium text-gray-500">Real Store Visitors</p>
+          <p id="admTotalVisitors" class="text-2xl sm:text-3xl font-extrabold text-sky-700 mt-1">0</p>
+          <p class="text-[11px] text-gray-400 mt-1">Live page sessions</p>
         </div>
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
-          <p class="text-xs text-slate-400">Total Store Earning</p>
-          <p id="admTotalEarning" class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1">₹0</p>
-          <p id="admAvgOrder" class="text-[11px] text-slate-400 mt-1">Avg Order: ₹0</p>
+        <div onclick="switchAdminTab('orders')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer">
+          <p class="text-xs font-medium text-gray-500">Total Store Earning</p>
+          <p id="admTotalEarning" class="text-2xl sm:text-3xl font-extrabold olive-text mt-1">₹0</p>
+          <p id="admAvgOrder" class="text-[11px] text-gray-400 mt-1">Avg Order: ₹0</p>
         </div>
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
-          <p class="text-xs text-slate-400">Total Orders Received</p>
-          <p id="admTotalOrders" class="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-1">0</p>
-          <p id="admFreeVsPaid" class="text-[11px] text-slate-400 mt-1">0 Paid • 0 Promo</p>
+        <div onclick="switchAdminTab('orders')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer">
+          <p class="text-xs font-medium text-gray-500">Total Orders Received</p>
+          <p id="admTotalOrders" class="text-2xl sm:text-3xl font-extrabold text-amber-700 mt-1">0</p>
+          <p id="admFreeVsPaid" class="text-[11px] text-gray-400 mt-1">0 Paid • 0 Promo</p>
         </div>
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl">
-          <p class="text-xs text-slate-400">Registered Users</p>
-          <p id="admTotalUsersCount" class="text-2xl sm:text-3xl font-extrabold text-purple-400 mt-1">6</p>
-          <p id="admNewUsersSubtitle" class="text-[11px] text-slate-400 mt-1">0 newly created accounts</p>
+        <div onclick="switchAdminTab('users')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer">
+          <p class="text-xs font-medium text-gray-500">Registered Users</p>
+          <p id="admTotalUsersCount" class="text-2xl sm:text-3xl font-extrabold text-pink-700 mt-1">6</p>
+          <p id="admNewUsersSubtitle" class="text-[11px] text-gray-400 mt-1">0 newly created accounts</p>
         </div>
-        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl col-span-2 lg:col-span-1">
-          <p class="text-xs text-slate-400">Catalog & Stock Status</p>
-          <p id="admStockSummary" class="text-2xl sm:text-3xl font-extrabold text-white mt-1">1800 / 2000</p>
-          <p id="admLowStockCount" class="text-[11px] text-rose-400 mt-1">0 Low Stock Alerts</p>
+        <div onclick="switchAdminTab('inventory')" class="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-[#4A5D23] transition cursor-pointer col-span-2 lg:col-span-1">
+          <p class="text-xs font-medium text-gray-500">Catalog & Stock Status</p>
+          <p id="admStockSummary" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">1800 / 2000</p>
+          <p id="admLowStockCount" class="text-[11px] text-rose-600 font-semibold mt-1">0 Low Stock Alerts</p>
         </div>
       </div>
 
-      <!-- Unified Admin Navigation Tabs -->
-      <div class="flex flex-wrap gap-2 border-b border-slate-700 pb-3">
-        <button onclick="switchAdminTab('listing')" data-admtab="listing" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950">
+      <!-- Unified Admin Navigation Pills -->
+      <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm">
+        <button onclick="switchAdminTab('listing')" data-admtab="listing" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold olive-bg text-white transition">
           ➕ Product Listing & Discount Studio
         </button>
-        <button onclick="switchAdminTab('analytics')" data-admtab="analytics" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+        <button onclick="switchAdminTab('analytics')" data-admtab="analytics" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🔥 Enlarged Demand, Views & Stock
         </button>
-        <button onclick="switchAdminTab('inventory')" data-admtab="inventory" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+        <button onclick="switchAdminTab('inventory')" data-admtab="inventory" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           📦 Regulate Stock, Price & Discounts
         </button>
-        <button onclick="switchAdminTab('users')" data-admtab="users" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+        <button onclick="switchAdminTab('users')" data-admtab="users" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🔐 Registered Users & Credentials
         </button>
-        <button onclick="switchAdminTab('orders')" data-admtab="orders" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+        <button onclick="switchAdminTab('orders')" data-admtab="orders" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🧾 All Customer Orders
         </button>
-        <button onclick="switchAdminTab('growth')" data-admtab="growth" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
-          📅 5-Year Festival Calendar & Leads
+        <button onclick="switchAdminTab('growth')" data-admtab="growth" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
+          🪔 Festival Theme Simulator & Calendar
         </button>
       </div>
 
       <!-- TAB 0: PRODUCT LISTING & DISCOUNT STUDIO -->
       <div id="admTab_listing" class="adm-panel grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
             <div>
-              <h3 class="font-bold text-lg text-amber-400">➕ List New Clothing Product on KapdaHub</h3>
-              <p class="text-xs text-slate-400">Listed items appear immediately on the top of the live storefront.</p>
+              <h3 class="font-bold text-lg text-gray-900">➕ List New Clothing Product on KapdaHub</h3>
+              <p class="text-xs text-gray-500">Listed items appear immediately on the live storefront.</p>
             </div>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">Instant Live Publish</span>
+            <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">Instant Live Publish</span>
           </div>
 
           <form onsubmit="adminCreateProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div class="sm:col-span-2">
-              <label class="text-slate-300 font-semibold block mb-1">Product Title *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Product Title *</label>
               <input required id="newProdTitle" type="text" placeholder="e.g. Royal Velvet Embroidered Sherwani Set"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white focus:outline-none focus:border-amber-400" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900 focus:outline-none focus:border-[#4A5D23]" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Category *</label>
-              <select id="newProdCat" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white">
+              <label class="text-gray-700 font-semibold block mb-1">Category *</label>
+              <select id="newProdCat" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900">
                 <option value="Men">Men</option>
                 <option value="Women">Women</option>
                 <option value="Winterwear">Winterwear</option>
@@ -227,60 +290,60 @@
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Shade / Color *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Shade / Color *</label>
               <input required id="newProdColor" type="text" placeholder="e.g. Emerald Green"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">MRP (Original Price ₹) *</label>
+              <label class="text-gray-700 font-semibold block mb-1">MRP (Original Price ₹) *</label>
               <input required id="newProdMrp" type="number" min="1" value="2999" oninput="syncNewProdPricePreview()"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white font-bold" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900 font-bold" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Discount Percentage (% OFF) *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Discount Percentage (% OFF) *</label>
               <input required id="newProdDiscount" type="number" min="0" max="95" value="40" oninput="syncNewProdPricePreview()"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-amber-400 font-bold" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-amber-700 font-bold" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Final Selling Price (₹) — Auto-Calculated</label>
+              <label class="text-gray-700 font-semibold block mb-1">Final Selling Price (₹) — Auto-Calculated</label>
               <input required id="newProdSellPrice" type="number" min="1" value="1799"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-emerald-500/50 text-emerald-400 font-extrabold" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-green-50 border border-green-300 olive-text font-extrabold" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Opening Stock Quantity *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Opening Stock Quantity *</label>
               <input required id="newProdStock" type="number" min="0" value="25"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white font-bold" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900 font-bold" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Fabric & Material Spec *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Fabric & Material Spec *</label>
               <input required id="newProdFabric" type="text" placeholder="e.g. 100% Pure Mulmul Cotton (240 GSM)"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
             </div>
 
             <div>
-              <label class="text-slate-300 font-semibold block mb-1">Available Sizes (Comma separated) *</label>
+              <label class="text-gray-700 font-semibold block mb-1">Available Sizes (Comma separated) *</label>
               <input required id="newProdSizes" type="text" value="S, M, L, XL, XXL"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white" />
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
             </div>
 
             <div class="sm:col-span-2">
-              <label class="text-slate-300 font-semibold block mb-1">Product Photo URL (Or leave default / choose preset)</label>
+              <label class="text-gray-700 font-semibold block mb-1">Product Photo URL (Or click Random HD Photo)</label>
               <div class="flex gap-2">
                 <input id="newProdImg" type="url" placeholder="https://images.unsplash.com/..."
-                  class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-600 text-white" />
-                <button type="button" onclick="pickRandomPresetPhoto()" class="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold whitespace-nowrap">
+                  class="flex-1 px-3.5 py-2.5 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900" />
+                <button type="button" onclick="pickRandomPresetPhoto()" class="px-3.5 py-2 rounded-xl sky-accent font-bold whitespace-nowrap hover:opacity-90">
                   🎲 Random HD Photo
                 </button>
               </div>
             </div>
 
             <div class="sm:col-span-2 pt-2">
-              <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm transition shadow-lg">
+              <button type="submit" class="w-full py-3 rounded-xl olive-bg hover:opacity-95 text-white font-extrabold text-sm transition shadow-sm">
                 🚀 Publish Product to Live Store
               </button>
             </div>
@@ -288,11 +351,11 @@
         </div>
 
         <div class="space-y-6">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
-            <h3 class="font-bold text-base text-emerald-400">🏷️ Category-Wide Discount Control</h3>
-            <p class="text-xs text-slate-400">Apply an instant percentage discount across an entire category:</p>
+          <div class="bg-white border border-gray-200 rounded-3xl p-5 shadow-sm space-y-3">
+            <h3 class="font-bold text-base text-gray-900">🏷️ Category-Wide Discount Control</h3>
+            <p class="text-xs text-gray-500">Apply an instant percentage discount across an entire category:</p>
             <div class="space-y-2.5 text-xs">
-              <select id="bulkDiscCat" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white">
+              <select id="bulkDiscCat" class="w-full px-3 py-2 rounded-xl bg-[#FAF9F6] border border-gray-300 text-gray-900">
                 <option value="All">All Categories (2,000+ Items)</option>
                 <option value="Men">Men</option>
                 <option value="Women">Women</option>
@@ -302,16 +365,16 @@
               </select>
               <div class="flex gap-2">
                 <input id="bulkDiscPercent" type="number" min="0" max="90" value="25" placeholder="% OFF"
-                  class="w-24 px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-amber-400 font-bold" />
-                <button type="button" onclick="applyBulkCategoryDiscount()" class="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+                  class="w-24 px-3 py-2 rounded-xl bg-[#FAF9F6] border border-gray-300 text-amber-700 font-bold" />
+                <button type="button" onclick="applyBulkCategoryDiscount()" class="flex-1 py-2 rounded-xl olive-bg hover:opacity-95 text-white font-bold">
                   Apply % Discount
                 </button>
               </div>
             </div>
           </div>
 
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
-            <h3 class="font-bold text-base text-sky-400">🆕 Admin-Listed Custom Products</h3>
+          <div class="bg-white border border-gray-200 rounded-3xl p-5 shadow-sm space-y-3">
+            <h3 class="font-bold text-base text-gray-900">🆕 Admin-Listed Custom Products</h3>
             <div id="admCustomListedProducts" class="space-y-2.5 max-h-64 overflow-y-auto text-xs"></div>
           </div>
         </div>
@@ -319,41 +382,41 @@
 
       <!-- TAB 1: ENLARGED PRODUCT CARDS FOR MOST VIEWED & ORDERED + DIRECT STOCK MANAGEMENT -->
       <div id="admTab_analytics" class="adm-panel hidden space-y-8">
-        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 space-y-4">
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
-            <h3 class="font-bold text-lg text-amber-400">🔥 Most Viewed Products — Enlarged Visual & Live Stock Manager</h3>
-            <p class="text-xs text-slate-400">Directly regulate stock quantity, price, and discount inside high-interest product cards.</p>
+            <h3 class="font-bold text-lg text-gray-900">🔥 Most Viewed Products — Enlarged Visual & Live Stock Manager</h3>
+            <p class="text-xs text-gray-500">Directly regulate stock quantity, price, and discount inside high-interest product cards.</p>
           </div>
           <div id="admMostViewedList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
         </div>
 
-        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 space-y-4">
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
-            <h3 class="font-bold text-lg text-emerald-400">🏆 Highest Ordered Products — Enlarged Visual & Live Stock Manager</h3>
-            <p class="text-xs text-slate-400">Monitor top-selling items and replenish inventory immediately before stock runs out.</p>
+            <h3 class="font-bold text-lg text-gray-900">🏆 Highest Ordered Products — Enlarged Visual & Live Stock Manager</h3>
+            <p class="text-xs text-gray-500">Monitor top-selling items and replenish inventory immediately before stock runs out.</p>
           </div>
           <div id="admMostOrderedList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
         </div>
       </div>
 
       <!-- TAB 2: Master SKUs Stock, Price & Discount Regulator -->
-      <div id="admTab_inventory" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+      <div id="admTab_inventory" class="adm-panel hidden bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 class="font-bold text-base text-white">Master Inventory, Price & Discount Regulator</h3>
-            <p class="text-xs text-slate-400">Search by ID, SKU, or name to update stock, selling price, or discount % live.</p>
+            <h3 class="font-bold text-base text-gray-900">Master Inventory, Price & Discount Regulator</h3>
+            <p class="text-xs text-gray-500">Search by ID, SKU, or name to update stock, selling price, or discount % live.</p>
           </div>
           <div class="flex gap-2">
             <input id="admInvSearch" oninput="renderAdminInventory()" type="text" placeholder="Search ID, SKU or name..."
-              class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-xs text-white focus:outline-none focus:border-amber-400" />
-            <button onclick="restockLowItems()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold whitespace-nowrap">
+              class="px-3.5 py-2 rounded-xl bg-[#FAF9F6] border border-gray-300 text-xs text-gray-900 focus:outline-none focus:border-[#4A5D23]" />
+            <button onclick="restockLowItems()" class="px-3.5 py-2 rounded-xl olive-bg hover:opacity-95 text-white text-xs font-bold whitespace-nowrap">
               +15 Restock All Low Items
             </button>
           </div>
         </div>
-        <div class="overflow-x-auto max-h-[500px]">
+        <div class="overflow-x-auto max-h-[500px] border border-gray-200 rounded-2xl">
           <table class="w-full text-left text-xs border-collapse">
-            <thead class="bg-slate-900 text-slate-400 sticky top-0">
+            <thead class="bg-[#FAF9F6] text-gray-600 sticky top-0 border-b border-gray-200">
               <tr>
                 <th class="p-3">Product (Enlarged Thumb)</th>
                 <th class="p-3">Category</th>
@@ -365,23 +428,23 @@
                 <th class="p-3">Status</th>
               </tr>
             </thead>
-            <tbody id="admInventoryTableBody" class="divide-y divide-slate-700"></tbody>
+            <tbody id="admInventoryTableBody" class="divide-y divide-gray-100 bg-white"></tbody>
           </table>
         </div>
       </div>
 
       <!-- TAB 3: Registered Users & Saved Credentials Vault -->
-      <div id="admTab_users" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
+      <div id="admTab_users" class="adm-panel hidden bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 class="font-bold text-base text-purple-300">🔐 Registered Users & Saved Credentials Vault</h3>
-            <p class="text-xs text-slate-400">Every account created via Sign Up is automatically saved here with its User ID and Password.</p>
+            <h3 class="font-bold text-base text-gray-900">🔐 Registered Users & Saved Credentials Vault</h3>
+            <p class="text-xs text-gray-500">Every account created via Sign Up is automatically saved here with its User ID and Password.</p>
           </div>
-          <span id="admVaultBadge" class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">Total Accounts: 6</span>
+          <span id="admVaultBadge" class="px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-bold">Total Accounts: 6</span>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto border border-gray-200 rounded-2xl">
           <table class="w-full text-left text-xs border-collapse">
-            <thead class="bg-slate-900 text-slate-400">
+            <thead class="bg-[#FAF9F6] text-gray-600 border-b border-gray-200">
               <tr>
                 <th class="p-3">Full Name</th>
                 <th class="p-3">User ID</th>
@@ -391,28 +454,42 @@
                 <th class="p-3">Created On</th>
               </tr>
             </thead>
-            <tbody id="admUsersTableBody" class="divide-y divide-slate-700"></tbody>
+            <tbody id="admUsersTableBody" class="divide-y divide-gray-100 bg-white"></tbody>
           </table>
         </div>
       </div>
 
       <!-- TAB 4: All Customer Orders -->
-      <div id="admTab_orders" class="adm-panel hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
-        <h3 class="font-bold text-base text-white">Master Order Log (All Users)</h3>
+      <div id="admTab_orders" class="adm-panel hidden bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+        <h3 class="font-bold text-base text-gray-900">Master Order Log (All Users)</h3>
         <div id="admAllOrdersList" class="space-y-3 text-xs sm:text-sm"></div>
       </div>
 
-      <!-- TAB 5: 5-Year Festival Calendar & Business Growth -->
+      <!-- TAB 5: Live Festival Theme Simulator, 5-Year Calendar & Leads -->
       <div id="admTab_growth" class="adm-panel hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
-          <h3 class="font-bold text-base text-amber-400">📅 Automated 5-Year Festival & Flash Sale Engine (2026–2030)</h3>
-          <p class="text-xs text-slate-400">Banner automatically launches <b>4 days prior</b>, applies <b>50% OFF on Festival Day</b>, and disappears at <b>12:00 AM midnight</b>. Plus 1 random 50% Flash Sale day every month.</p>
-          <div id="admUpcomingFestivalsList" class="space-y-2 max-h-64 overflow-y-auto text-xs"></div>
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+          <div>
+            <h3 class="font-bold text-base text-gray-900">🪔 Live Festival Theme Simulator & 5-Year Calendar</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Preview how KapdaHub automatically transforms with crackers, mithai, flowers, or snowfall on festivals:</p>
+          </div>
+
+          <!-- Interactive Theme Preview Buttons -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="previewFestivalTheme('none')" class="px-3 py-1.5 rounded-xl border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 text-xs font-bold">Default Store</button>
+            <button onclick="previewFestivalTheme('diwali')" class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold">🪔 Diwali (Crackers & Mithai)</button>
+            <button onclick="previewFestivalTheme('christmas')" class="px-3 py-1.5 rounded-xl bg-red-100 text-red-900 border border-red-300 text-xs font-bold">🎄 Christmas (Snow & Gifts)</button>
+            <button onclick="previewFestivalTheme('holi')" class="px-3 py-1.5 rounded-xl bg-fuchsia-100 text-fuchsia-900 border border-fuchsia-300 text-xs font-bold">🎨 Holi (Colors)</button>
+            <button onclick="previewFestivalTheme('navratri')" class="px-3 py-1.5 rounded-xl bg-orange-100 text-orange-900 border border-orange-300 text-xs font-bold">🌼 Navratri (Flowers)</button>
+            <button onclick="previewFestivalTheme('eid')" class="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold">🌙 Eid (Lanterns)</button>
+          </div>
+
+          <div id="admUpcomingFestivalsList" class="space-y-2 max-h-56 overflow-y-auto text-xs pt-2 border-t border-gray-100"></div>
         </div>
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4">
-          <h3 class="font-bold text-base text-sky-400">📲 WhatsApp Broadcast Leads & Low Stock Alerts</h3>
-          <div id="admLeadsList" class="bg-slate-900 p-3 rounded-xl border border-slate-700 text-xs space-y-1 max-h-36 overflow-y-auto"></div>
-          <div id="admLowStockList" class="space-y-1.5 max-h-36 overflow-y-auto text-xs"></div>
+
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+          <h3 class="font-bold text-base text-gray-900">📲 WhatsApp Broadcast Leads & Low Stock Alerts</h3>
+          <div id="admLeadsList" class="bg-[#FAF9F6] p-3.5 rounded-2xl border border-gray-200 text-xs space-y-1 max-h-36 overflow-y-auto"></div>
+          <div id="admLowStockList" class="space-y-1.5 max-h-40 overflow-y-auto text-xs"></div>
         </div>
       </div>
 
@@ -602,7 +679,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL MODAL (SAME-PRODUCT 4 DEDICATED ANGLE VIEWS + SPECS + SIZES) -->
+  <!-- PRODUCT DETAIL MODAL -->
   <div id="productDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
       <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -869,51 +946,146 @@
     let activeAdminAccount = null;
     let adminPreviewingStore = false;
 
-    // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) ======
+    // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) WITH VISUAL THEMES ======
     const FIVE_YEAR_FESTIVALS = [
-      { name: "Makar Sankranti", date: "2026-01-14" },
-      { name: "Holi Mahotsav", date: "2026-03-04" },
-      { name: "Eid-ul-Fitr", date: "2026-03-21" },
-      { name: "Raksha Bandhan", date: "2026-08-28" },
-      { name: "Navratri Utsav", date: "2026-10-11" },
-      { name: "Dussehra", date: "2026-10-20" },
-      { name: "Diwali Dhamaka", date: "2026-11-08" },
-      { name: "Christmas Carnival", date: "2026-12-25" },
-      { name: "Makar Sankranti", date: "2027-01-14" },
-      { name: "Holi Mahotsav", date: "2027-03-22" },
-      { name: "Eid-ul-Fitr", date: "2027-03-10" },
-      { name: "Raksha Bandhan", date: "2027-08-17" },
-      { name: "Navratri Utsav", date: "2027-09-30" },
-      { name: "Dussehra", date: "2027-10-09" },
-      { name: "Diwali Dhamaka", date: "2027-10-29" },
-      { name: "Christmas Carnival", date: "2027-12-25" },
-      { name: "Makar Sankranti", date: "2028-01-15" },
-      { name: "Holi Mahotsav", date: "2028-03-11" },
-      { name: "Eid-ul-Fitr", date: "2028-02-27" },
-      { name: "Raksha Bandhan", date: "2028-08-05" },
-      { name: "Navratri Utsav", date: "2028-10-18" },
-      { name: "Dussehra", date: "2028-10-27" },
-      { name: "Diwali Dhamaka", date: "2028-11-16" },
-      { name: "Christmas Carnival", date: "2028-12-25" },
-      { name: "Makar Sankranti", date: "2029-01-14" },
-      { name: "Holi Mahotsav", date: "2029-03-01" },
-      { name: "Eid-ul-Fitr", date: "2029-02-15" },
-      { name: "Raksha Bandhan", date: "2029-08-24" },
-      { name: "Navratri Utsav", date: "2029-10-08" },
-      { name: "Dussehra", date: "2029-10-17" },
-      { name: "Diwali Dhamaka", date: "2029-11-05" },
-      { name: "Christmas Carnival", date: "2029-12-25" },
-      { name: "Makar Sankranti", date: "2030-01-14" },
-      { name: "Holi Mahotsav", date: "2030-03-19" },
-      { name: "Eid-ul-Fitr", date: "2030-02-05" },
-      { name: "Raksha Bandhan", date: "2030-08-13" },
-      { name: "Navratri Utsav", date: "2030-09-27" },
-      { name: "Dussehra", date: "2030-10-06" },
-      { name: "Diwali Dhamaka", date: "2030-10-26" },
-      { name: "Christmas Carnival", date: "2030-12-25" }
+      { name: "Makar Sankranti", date: "2026-01-14", theme: "navratri" },
+      { name: "Holi Mahotsav", date: "2026-03-04", theme: "holi" },
+      { name: "Eid-ul-Fitr", date: "2026-03-21", theme: "eid" },
+      { name: "Raksha Bandhan", date: "2026-08-28", theme: "navratri" },
+      { name: "Navratri Utsav", date: "2026-10-11", theme: "navratri" },
+      { name: "Dussehra", date: "2026-10-20", theme: "diwali" },
+      { name: "Diwali Dhamaka", date: "2026-11-08", theme: "diwali" },
+      { name: "Christmas Carnival", date: "2026-12-25", theme: "christmas" },
+      { name: "Makar Sankranti", date: "2027-01-14", theme: "navratri" },
+      { name: "Holi Mahotsav", date: "2027-03-22", theme: "holi" },
+      { name: "Eid-ul-Fitr", date: "2027-03-10", theme: "eid" },
+      { name: "Raksha Bandhan", date: "2027-08-17", theme: "navratri" },
+      { name: "Navratri Utsav", date: "2027-09-30", theme: "navratri" },
+      { name: "Dussehra", date: "2027-10-09", theme: "diwali" },
+      { name: "Diwali Dhamaka", date: "2027-10-29", theme: "diwali" },
+      { name: "Christmas Carnival", date: "2027-12-25", theme: "christmas" },
+      { name: "Makar Sankranti", date: "2028-01-15", theme: "navratri" },
+      { name: "Holi Mahotsav", date: "2028-03-11", theme: "holi" },
+      { name: "Eid-ul-Fitr", date: "2028-02-27", theme: "eid" },
+      { name: "Raksha Bandhan", date: "2028-08-05", theme: "navratri" },
+      { name: "Navratri Utsav", date: "2028-10-18", theme: "navratri" },
+      { name: "Dussehra", date: "2028-10-27", theme: "diwali" },
+      { name: "Diwali Dhamaka", date: "2028-11-16", theme: "diwali" },
+      { name: "Christmas Carnival", date: "2028-12-25", theme: "christmas" },
+      { name: "Makar Sankranti", date: "2029-01-14", theme: "navratri" },
+      { name: "Holi Mahotsav", date: "2029-03-01", theme: "holi" },
+      { name: "Eid-ul-Fitr", date: "2029-02-15", theme: "eid" },
+      { name: "Raksha Bandhan", date: "2029-08-24", theme: "navratri" },
+      { name: "Navratri Utsav", date: "2029-10-08", theme: "navratri" },
+      { name: "Dussehra", date: "2029-10-17", theme: "diwali" },
+      { name: "Diwali Dhamaka", date: "2029-11-05", theme: "diwali" },
+      { name: "Christmas Carnival", date: "2029-12-25", theme: "christmas" },
+      { name: "Makar Sankranti", date: "2030-01-14", theme: "navratri" },
+      { name: "Holi Mahotsav", date: "2030-03-19", theme: "holi" },
+      { name: "Eid-ul-Fitr", date: "2030-02-05", theme: "eid" },
+      { name: "Raksha Bandhan", date: "2030-08-13", theme: "navratri" },
+      { name: "Navratri Utsav", date: "2030-09-27", theme: "navratri" },
+      { name: "Dussehra", date: "2030-10-06", theme: "diwali" },
+      { name: "Diwali Dhamaka", date: "2030-10-26", theme: "diwali" },
+      { name: "Christmas Carnival", date: "2030-12-25", theme: "christmas" }
     ];
 
     let activeFestival50Off = false;
+    let currentVisualTheme = "none";
+
+    // Apply Visual Festival Theme (Diwali Crackers/Mithai/Flowers, Christmas Snow/Trees, Holi, etc.)
+    function applyVisualTheme(themeKey) {
+      currentVisualTheme = themeKey;
+      document.body.classList.remove('theme-diwali', 'theme-christmas', 'theme-holi', 'theme-navratri', 'theme-eid');
+      const decorLayer = document.getElementById('festivalDecorLayer');
+      const celebBtn = document.getElementById('festCelebrateBtn');
+
+      if (!themeKey || themeKey === 'none') {
+        decorLayer.innerHTML = '';
+        decorLayer.classList.add('hidden');
+        if (celebBtn) celebBtn.classList.add('hidden');
+        return;
+      }
+
+      document.body.classList.add(`theme-${themeKey}`);
+      decorLayer.classList.remove('hidden');
+      if (celebBtn) celebBtn.classList.remove('hidden');
+
+      const themeAssets = {
+        diwali:    { corners: ['🪔', '🎆', '🍬', '🌼'], falling: ['✨', '🌼', '🪔', '🎇'] },
+        christmas: { corners: ['🎄', '🎅', '🎁', '🔔'], falling: ['❄️', '❅', '✨', '🎁'] },
+        holi:      { corners: ['🎨', '🌈', '💦', '🌸'], falling: ['🟣', '🟡', '🟢', '🩷'] },
+        navratri:  { corners: ['🌼', '🪔', '🌺', '✨'], falling: ['🌼', '🌺', '✨'] },
+        eid:       { corners: ['🌙', '✨', '🕌', '🍬'], falling: ['✨', '🌙', '⭐'] }
+      };
+
+      const pack = themeAssets[themeKey] || themeAssets.diwali;
+      let html = `
+        <div class="fixed top-20 left-3 text-2xl sm:text-3xl fest-float select-none">${pack.corners[0]} ${pack.corners[3]}</div>
+        <div class="fixed top-20 right-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:0.8s">${pack.corners[1]} ${pack.corners[2]}</div>
+        <div class="fixed bottom-4 left-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:1.2s">${pack.corners[2]} ${pack.corners[0]}</div>
+        <div class="fixed bottom-4 right-3 text-2xl sm:text-3xl fest-float select-none" style="animation-delay:0.4s">${pack.corners[3]} ${pack.corners[1]}</div>
+      `;
+
+      for (let i = 0; i < 14; i++) {
+        const icon = pack.falling[i % pack.falling.length];
+        const leftPct = (i * 7.3) % 96;
+        const duration = 7 + (i % 6);
+        const delay = (i * 0.6) % 5;
+        html += `<span class="snow-flake text-base sm:text-lg select-none" style="left:${leftPct}%; animation-duration:${duration}s; animation-delay:${delay}s;">${icon}</span>`;
+      }
+      decorLayer.innerHTML = html;
+      triggerFestivalBurst();
+    }
+
+    function triggerFestivalBurst() {
+      const icons = currentVisualTheme === 'christmas'
+        ? ['🎄', '❄️', '🎁', '🔔', '⭐']
+        : currentVisualTheme === 'holi'
+        ? ['🎨', '🌈', '🌸', '✨', '🎉']
+        : ['🎆', '🎇', '🪔', '🍬', '🌼', '✨'];
+
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('span');
+        el.className = 'cracker-burst select-none';
+        el.textContent = icons[i % icons.length];
+        el.style.left = `${15 + Math.random() * 70}%`;
+        el.style.top = `${15 + Math.random() * 65}%`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 950);
+      }
+    }
+
+    // Admin Simulator Preview Helper
+    function previewFestivalTheme(themeKey) {
+      const bannerEl = document.getElementById('festivalSaleBanner');
+      const tagEl = document.getElementById('festBadgeTag');
+      const msgEl = document.getElementById('festBannerMessage');
+      const timerEl = document.getElementById('festCountdownTimer');
+
+      if (themeKey === 'none') {
+        activeFestival50Off = false;
+        applyVisualTheme('none');
+        bannerEl.classList.add('hidden');
+        alert("Restored Default KapdaHub Store Theme!");
+        return;
+      }
+
+      const labels = {
+        diwali:    { tag: "🪔 DIWALI DHAMAKA • 50% OFF LIVE", msg: "Happy Diwali! Crackers, Mithai & Flowers — Flat 50% OFF on KapdaHub!" },
+        christmas: { tag: "🎄 CHRISTMAS CARNIVAL • 50% OFF LIVE", msg: "Merry Christmas! Festive Winter & Party Wear at Flat 50% OFF!" },
+        holi:      { tag: "🎨 HOLI UTSAV • 50% OFF LIVE", msg: "Happy Holi! Celebrate with vibrant ethnic & casual styles at 50% OFF!" },
+        navratri:  { tag: "🌼 NAVRATRI SPECIAL • 50% OFF LIVE", msg: "Shubh Navratri! Festive Kurtas & Sarees at Flat 50% OFF!" },
+        eid:       { tag: "🌙 EID MUBARAK • 50% OFF LIVE", msg: "Eid Mubarak! Exclusive Festive Collection at Flat 50% OFF!" }
+      };
+
+      activeFestival50Off = true;
+      applyVisualTheme(themeKey);
+      bannerEl.classList.remove('hidden');
+      tagEl.textContent = labels[themeKey].tag;
+      msgEl.textContent = labels[themeKey].msg;
+      timerEl.textContent = "Preview Active (Ends 12:00 AM)";
+    }
 
     function evaluateFestivalAndMonthlySale() {
       const now = new Date();
@@ -932,12 +1104,14 @@
 
         if (diffDays === 0) {
           activeFestival50Off = true;
+          applyVisualTheme(fest.theme);
           bannerEl.classList.remove('hidden');
           tagEl.textContent = `🪔 HAPPY ${fest.name.toUpperCase()} • 50% OFF LIVE`;
           msgEl.textContent = `Celebrate ${fest.name}! Flat 50% OFF automatically applied on all styles today!`;
           updateMidnightCountdown(timerEl, "Ends at 12:00 AM");
           return;
         } else if (diffDays > 0 && diffDays <= 4) {
+          applyVisualTheme(fest.theme);
           bannerEl.classList.remove('hidden');
           tagEl.textContent = `✨ ${fest.name.toUpperCase()} IN ${diffDays} DAY${diffDays > 1 ? 'S' : ''}`;
           msgEl.textContent = `Get ready! ${fest.name} Mega 50% OFF Sale unlocks on ${fest.date}. Wishlist your favorites now!`;
@@ -950,6 +1124,7 @@
       const randomFlashDay = ((yearMonthSeed * 17 + 7) % 27) + 1;
       if (now.getDate() === randomFlashDay) {
         activeFestival50Off = true;
+        applyVisualTheme('diwali');
         bannerEl.classList.remove('hidden');
         tagEl.textContent = "⚡ MONTHLY SURPRISE 50% FLASH SALE";
         msgEl.textContent = "Today is KapdaHub's Monthly Mystery 50% OFF Day! All styles at HALF PRICE until midnight!";
@@ -957,6 +1132,7 @@
         return;
       }
 
+      applyVisualTheme('none');
       bannerEl.classList.add('hidden');
     }
 
@@ -1445,11 +1621,11 @@
       document.getElementById('navBagBtn').classList.add('hidden');
       document.getElementById('navSearchWrapper').classList.add('hidden');
 
-      const navbar = document.getElementById('mainNavbar');
-      navbar.className = "sticky top-0 z-40 bg-slate-950 border-b border-slate-800 text-white";
-      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-lg";
-      document.getElementById('brandTitleText').innerHTML = `Kapda<span class="text-amber-400">Hub</span> <span class="text-xs font-normal text-slate-400 ml-1">Admin</span>`;
-      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-semibold text-amber-400 block mt-0.5";
+      // Keep exact same White & Olive Storefront Palette for Admin
+      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200";
+      document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg";
+      document.getElementById('brandTitleText').innerHTML = `Kapda<span class="olive-text">Hub</span> <span class="text-xs font-semibold text-gray-500 ml-1">Admin</span>`;
+      document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-semibold text-gray-600 block mt-0.5";
 
       document.getElementById('customerStorefrontWrapper').classList.add('hidden');
       document.getElementById('adminDashboardSection').classList.remove('hidden');
@@ -1532,7 +1708,7 @@
       document.getElementById('navBagBtn').classList.remove('hidden');
       document.getElementById('navSearchWrapper').classList.remove('hidden');
 
-      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200";
+      document.getElementById('mainNavbar').className = "sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200";
       document.getElementById('brandLogoBox').className = "w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-extrabold text-lg";
       document.getElementById('brandTitleText').innerHTML = `Kapda<span class="olive-text">Hub</span>`;
       document.getElementById('brandPunchlineNav').className = "hindi-font text-[11px] font-semibold text-gray-600 block mt-0.5";
@@ -1637,8 +1813,8 @@
       if (!activeAdminAccount) return;
       document.querySelectorAll('.adm-tab-btn').forEach(btn => {
         btn.className = btn.dataset.admtab === tabName
-          ? 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-slate-950'
-          : 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
+          ? 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold olive-bg text-white transition'
+          : 'adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition';
       });
       document.querySelectorAll('.adm-panel').forEach(p => p.classList.add('hidden'));
       document.getElementById(`admTab_${tabName}`).classList.remove('hidden');
@@ -1647,39 +1823,39 @@
     function renderAdminEnlargedProductCard(p, rank, metricLabel, metricBadgeClass) {
       const discPct = Math.max(0, Math.round(((p.mrp - p.basePrice) / p.mrp) * 100));
       return `
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden flex flex-col shadow-lg">
-          <div class="relative h-56 bg-slate-950">
+        <div class="bg-[#FAF9F6] border border-gray-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
+          <div class="relative h-56 bg-gray-100">
             <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" />
-            <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 text-amber-400 font-extrabold text-xs">#${rank} • ${p.sku}</span>
-            <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg font-extrabold text-xs ${metricBadgeClass}">${metricLabel}</span>
-            <span class="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${p.stockQty > 0 ? 'bg-emerald-500 text-slate-950' : 'bg-rose-600 text-white'}">
+            <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/95 text-gray-900 font-extrabold text-xs shadow-sm">#${rank} • ${p.sku}</span>
+            <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg font-extrabold text-xs shadow-sm ${metricBadgeClass}">${metricLabel}</span>
+            <span class="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-sm ${p.stockQty > 0 ? 'bg-green-100 text-green-800' : 'bg-red-600 text-white'}">
               ${p.stockQty > 0 ? `In Stock: ${p.stockQty}` : 'Out of Stock'}
             </span>
           </div>
-          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+          <div class="p-4 flex-1 flex flex-col justify-between space-y-3 bg-white">
             <div>
-              <p class="text-[11px] text-slate-400">${p.category} • ${discPct}% OFF</p>
-              <h4 class="font-bold text-sm text-white line-clamp-2 mt-0.5">${p.name}</h4>
+              <p class="text-[11px] text-gray-500">${p.category} • ${discPct}% OFF</p>
+              <h4 class="font-bold text-sm text-gray-900 line-clamp-2 mt-0.5">${p.name}</h4>
             </div>
             
-            <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+            <div class="pt-2 border-t border-gray-100 space-y-2 text-xs">
               <div class="flex items-center justify-between">
-                <span class="text-slate-400">Sell Price (₹):</span>
+                <span class="text-gray-500">Sell Price (₹):</span>
                 <input type="number" min="0" value="${p.basePrice}" onchange="adminSetPrice(${p.id}, this.value)"
-                  class="w-24 px-2 py-1 rounded-lg bg-slate-800 border border-slate-600 text-emerald-400 font-bold text-right" />
+                  class="w-24 px-2 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 olive-text font-bold text-right" />
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-slate-400">Discount (%):</span>
+                <span class="text-gray-500">Discount (%):</span>
                 <input type="number" min="0" max="95" value="${discPct}" onchange="adminSetDiscountPct(${p.id}, this.value)"
-                  class="w-24 px-2 py-1 rounded-lg bg-slate-800 border border-slate-600 text-amber-400 font-bold text-right" />
+                  class="w-24 px-2 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 text-amber-700 font-bold text-right" />
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-slate-400">Regulate Stock:</span>
+                <span class="text-gray-500">Regulate Stock:</span>
                 <div class="flex items-center gap-1.5">
-                  <button onclick="adminAdjustStock(${p.id}, -1)" class="w-7 h-7 rounded-lg bg-slate-700 hover:bg-slate-600 font-bold text-white">-</button>
+                  <button onclick="adminAdjustStock(${p.id}, -1)" class="w-7 h-7 rounded-lg border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 font-bold text-gray-800">-</button>
                   <input type="number" min="0" value="${p.stockQty}" onchange="adminSetStock(${p.id}, this.value)"
-                    class="w-14 text-center py-1 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold" />
-                  <button onclick="adminAdjustStock(${p.id}, 1)" class="w-7 h-7 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-bold text-white">+</button>
+                    class="w-14 text-center py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 text-gray-900 font-bold" />
+                  <button onclick="adminAdjustStock(${p.id}, 1)" class="w-7 h-7 rounded-lg olive-bg hover:opacity-95 font-bold text-white">+</button>
                 </div>
               </div>
             </div>
@@ -1712,17 +1888,17 @@
 
       const customListed = products.filter(p => p.isCustomListed);
       document.getElementById('admCustomListedProducts').innerHTML = customListed.length === 0
-        ? '<p class="text-slate-400">No custom products added yet. Use the form on the left to list new items!</p>'
+        ? '<p class="text-gray-500">No custom products added yet. Use the form on the left to list new items!</p>'
         : customListed.map(p => `
-          <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
+          <div class="p-2.5 rounded-xl bg-[#FAF9F6] border border-gray-200 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2.5 truncate">
               <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover" />
               <div class="truncate">
-                <p class="font-bold text-white truncate">${p.name}</p>
-                <p class="text-[11px] text-emerald-400">₹${p.basePrice} (MRP ₹${p.mrp}) • Stock: ${p.stockQty}</p>
+                <p class="font-bold text-gray-900 truncate">${p.name}</p>
+                <p class="text-[11px] olive-text font-semibold">₹${p.basePrice} (MRP ₹${p.mrp}) • Stock: ${p.stockQty}</p>
               </div>
             </div>
-            <span class="text-[10px] font-mono text-amber-400">${p.sku}</span>
+            <span class="text-[10px] font-mono text-gray-500">${p.sku}</span>
           </div>
         `).join('');
 
@@ -1732,7 +1908,7 @@
         .slice(0, 8);
 
       document.getElementById('admMostViewedList').innerHTML = viewedSorted
-        .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.views} Views`, 'bg-sky-500 text-slate-950'))
+        .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.views} Views`, 'sky-accent'))
         .join('');
 
       const orderedSorted = [...products]
@@ -1741,57 +1917,57 @@
         .slice(0, 8);
 
       document.getElementById('admMostOrderedList').innerHTML = orderedSorted
-        .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.ordCount} Sold`, 'bg-emerald-400 text-slate-950'))
+        .map((p, idx) => renderAdminEnlargedProductCard(p, idx + 1, `${p.ordCount} Sold`, 'olive-bg text-white'))
         .join('');
 
       document.getElementById('admUsersTableBody').innerHTML = allUsers.map(u => `
-        <tr class="hover:bg-slate-900/60">
-          <td class="p-3 font-bold text-white">${u.fullName}</td>
-          <td class="p-3 font-mono text-amber-400 font-bold">${u.id}</td>
-          <td class="p-3 font-mono text-emerald-300 bg-slate-900/50 rounded">${u.pass}</td>
-          <td class="p-3 text-slate-300">${u.phone} <span class="block text-[10px] text-slate-400">${u.email}</span></td>
+        <tr class="hover:bg-gray-50">
+          <td class="p-3 font-bold text-gray-900">${u.fullName}</td>
+          <td class="p-3 font-mono text-amber-700 font-bold">${u.id}</td>
+          <td class="p-3 font-mono olive-text font-bold">${u.pass}</td>
+          <td class="p-3 text-gray-600">${u.phone} <span class="block text-[10px] text-gray-400">${u.email}</span></td>
           <td class="p-3">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.type === 'Self-Registered' ? 'bg-purple-500/20 text-purple-300' : 'bg-sky-500/20 text-sky-300'}">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.type === 'Self-Registered' ? 'bg-pink-100 text-pink-800' : 'sky-accent'}">
               ${u.type}
             </span>
           </td>
-          <td class="p-3 text-slate-400">${u.createdAt}</td>
+          <td class="p-3 text-gray-500">${u.createdAt}</td>
         </tr>
       `).join('');
 
       const todayStr = new Date().toISOString().split('T')[0];
       const upcomingFests = FIVE_YEAR_FESTIVALS.filter(f => f.date >= todayStr).slice(0, 12);
       document.getElementById('admUpcomingFestivalsList').innerHTML = upcomingFests.map(f => `
-        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-700">
-          <span class="font-bold text-white">🪔 ${f.name}</span>
-          <span class="font-mono text-amber-400">${f.date} (50% OFF)</span>
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF9F6] border border-gray-200">
+          <span class="font-bold text-gray-900">🪔 ${f.name}</span>
+          <span class="font-mono olive-text font-bold">${f.date} (50% OFF)</span>
         </div>
       `).join('');
 
       document.getElementById('admLowStockList').innerHTML = lowStockProducts.slice(0, 20).map(p => `
-        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-rose-500/30">
-          <span class="truncate pr-2">${p.sku}: ${p.name}</span>
-          <span class="text-rose-400 font-bold whitespace-nowrap">Only ${p.stockQty} left</span>
+        <div class="flex items-center justify-between p-2 rounded-lg bg-rose-50 border border-rose-200">
+          <span class="truncate pr-2 text-gray-800 font-medium">${p.sku}: ${p.name}</span>
+          <span class="text-rose-700 font-bold whitespace-nowrap">Only ${p.stockQty} left</span>
         </div>
       `).join('');
 
       document.getElementById('admLeadsList').innerHTML = storeAnalytics.broadcastLeads.length === 0
-        ? '<p class="text-slate-400">No WhatsApp broadcast subscribers yet.</p>'
-        : storeAnalytics.broadcastLeads.map(l => `<p class="text-slate-200">📱 <b>${l.phone}</b> <span class="text-slate-400">(${l.time})</span></p>`).join('');
+        ? '<p class="text-gray-500">No WhatsApp broadcast subscribers yet.</p>'
+        : storeAnalytics.broadcastLeads.map(l => `<p class="text-gray-800">📱 <b>${l.phone}</b> <span class="text-gray-400">(${l.time})</span></p>`).join('');
 
       document.getElementById('admAllOrdersList').innerHTML = storeAnalytics.masterOrders.length === 0
-        ? '<p class="text-slate-400">No customer orders recorded yet.</p>'
+        ? '<p class="text-gray-500">No customer orders recorded yet.</p>'
         : storeAnalytics.masterOrders.map((o, idx) => `
-          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="p-4 rounded-2xl bg-[#FAF9F6] border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="space-y-1">
-              <p class="text-xs font-mono text-amber-400">${o.id} • ${o.date} • Account: ${o.user}</p>
-              <p class="font-bold text-white">${o.customer} (${o.phone})</p>
-              <p class="text-xs text-slate-300">${o.items}</p>
-              <p class="text-[11px] text-slate-400">📍 ${o.address} | Payment: <b>${o.payment}</b></p>
+              <p class="text-xs font-mono text-amber-700 font-bold">${o.id} • ${o.date} • Account: ${o.user}</p>
+              <p class="font-bold text-gray-900">${o.customer} (${o.phone})</p>
+              <p class="text-xs text-gray-600">${o.items}</p>
+              <p class="text-[11px] text-gray-500">📍 ${o.address} | Payment: <b>${o.payment}</b></p>
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-base font-extrabold text-emerald-400">₹${o.total}</span>
-              <select onchange="adminUpdateOrderStatus(${idx}, this.value)" class="bg-slate-800 border border-slate-600 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-white">
+              <span class="text-base font-extrabold olive-text">₹${o.total}</span>
+              <select onchange="adminUpdateOrderStatus(${idx}, this.value)" class="bg-white border border-gray-300 rounded-xl px-3 py-1.5 text-xs font-semibold text-gray-800">
                 <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
                 <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                 <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
@@ -1822,43 +1998,43 @@
         const sold = storeAnalytics.productOrders[p.id] || 0;
         const discPct = Math.max(0, Math.round(((p.mrp - p.basePrice) / p.mrp) * 100));
         return `
-          <tr class="hover:bg-slate-900/60">
-            <td class="p-3 font-medium text-white flex items-center gap-3">
-              <img src="${p.img}" class="w-12 h-12 rounded-lg object-cover border border-slate-700" />
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-medium text-gray-900 flex items-center gap-3">
+              <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover border border-gray-200" />
               <div>
-                <span class="text-[10px] font-mono text-amber-400 block">${p.sku}</span>
-                <span class="truncate max-w-[180px] block">${p.name}</span>
+                <span class="text-[10px] font-mono text-amber-700 font-bold block">${p.sku}</span>
+                <span class="truncate max-w-[180px] block font-semibold">${p.name}</span>
               </div>
             </td>
-            <td class="p-3 text-slate-300">${p.category}</td>
-            <td class="p-3 text-sky-400 font-semibold">${views} / <span class="text-emerald-400">${sold}</span></td>
+            <td class="p-3 text-gray-600">${p.category}</td>
+            <td class="p-3 text-sky-700 font-semibold">${views} / <span class="olive-text">${sold}</span></td>
             <td class="p-3">
               <input type="number" min="1" value="${p.mrp}" onchange="adminSetMrp(${p.id}, this.value)"
-                class="w-20 px-2 py-1 rounded bg-slate-900 border border-slate-600 text-slate-300 text-xs" />
+                class="w-20 px-2 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 text-gray-700 text-xs" />
             </td>
             <td class="p-3">
               <input type="number" min="1" value="${p.basePrice}" onchange="adminSetPrice(${p.id}, this.value)"
-                class="w-20 px-2 py-1 rounded bg-slate-900 border border-slate-600 text-emerald-400 font-bold text-xs" />
+                class="w-20 px-2 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 olive-text font-bold text-xs" />
             </td>
             <td class="p-3">
               <div class="flex items-center gap-1">
                 <input type="number" min="0" max="95" value="${discPct}" onchange="adminSetDiscountPct(${p.id}, this.value)"
-                  class="w-14 px-1.5 py-1 rounded bg-slate-900 border border-slate-600 text-amber-400 font-bold text-xs text-center" />
-                <span class="text-amber-400 font-bold">%</span>
+                  class="w-14 px-1.5 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 text-amber-700 font-bold text-xs text-center" />
+                <span class="text-amber-700 font-bold">%</span>
               </div>
             </td>
             <td class="p-3">
               <div class="flex items-center gap-1.5">
-                <button onclick="adminAdjustStock(${p.id}, -1)" class="w-7 h-7 rounded bg-slate-700 hover:bg-slate-600 font-bold">-</button>
+                <button onclick="adminAdjustStock(${p.id}, -1)" class="w-7 h-7 rounded-lg border border-gray-300 bg-[#FAF9F6] hover:bg-gray-100 font-bold">-</button>
                 <input type="number" min="0" value="${p.stockQty}" onchange="adminSetStock(${p.id}, this.value)"
-                  class="w-14 text-center px-1 py-1 rounded bg-slate-900 border border-slate-600 text-white font-bold" />
-                <button onclick="adminAdjustStock(${p.id}, 1)" class="w-7 h-7 rounded bg-emerald-600 hover:bg-emerald-500 font-bold">+</button>
+                  class="w-14 text-center px-1 py-1 rounded-lg bg-[#FAF9F6] border border-gray-300 text-gray-900 font-bold" />
+                <button onclick="adminAdjustStock(${p.id}, 1)" class="w-7 h-7 rounded-lg olive-bg hover:opacity-95 font-bold text-white">+</button>
               </div>
             </td>
             <td class="p-3">
               ${p.stockQty > 0
-                ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">In Stock</span>'
-                : '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold text-[10px]">Out of Stock</span>'
+                ? '<span class="px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 font-bold text-[10px]">In Stock</span>'
+                : '<span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 font-bold text-[10px]">Out of Stock</span>'
               }
             </td>
           </tr>
