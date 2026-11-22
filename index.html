@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aarambh Store | Official Launch Collection</title>
+  <title>VastraHub | 150+ Fashion & Clothing Store</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -18,69 +18,84 @@
 
   <!-- Top Announcement Bar -->
   <div class="olive-bg text-white text-center text-xs sm:text-sm py-2 px-4 font-medium">
-    🎉 Grand Launch Offer: Use code <span class="underline font-bold">LAUNCH10</span> for 10% OFF | Free Delivery on orders above ₹999
+    👗 Mega Fashion Launch: 150+ Styles Live | Use code <span class="underline font-bold">LAUNCH10</span> for 10% OFF | Free Shipping ₹999+
   </div>
 
   <!-- Navbar -->
   <header class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg">A</div>
-        <span class="font-bold text-xl tracking-tight text-gray-900">Aarambh<span class="olive-text">Store</span></span>
+        <div class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg">V</div>
+        <span class="font-bold text-xl tracking-tight text-gray-900">Vastra<span class="olive-text">Hub</span></span>
       </div>
 
       <div class="hidden md:flex flex-1 max-w-md">
-        <input id="searchInput" type="text" placeholder="Search among 10 launched products..."
+        <input id="searchInput" type="text" placeholder="Search 150 clothing items (Kurti, Jacket, Jeans...)"
           class="w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm focus:outline-none focus:border-[#4A5D23]" />
       </div>
 
       <button onclick="toggleCart()" class="relative flex items-center gap-2 px-4 py-2 rounded-full olive-bg text-white text-sm font-semibold hover:opacity-95 transition">
-        <span>🛒 Cart</span>
+        <span>🛍️ Bag</span>
         <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
       </button>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
-    <div class="rounded-3xl p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
+  <!-- Hero & Live Stock Counter -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+    <div class="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="max-w-xl">
-        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold olive-bg text-white mb-3">NEW LAUNCH COLLECTION</span>
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">10 Handpicked Products, Now Live Online</h1>
-        <p class="mt-3 text-gray-600 text-sm sm:text-base">Direct-to-customer launch prices with fast pan-India shipping, UPI & Cash on Delivery support.</p>
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold olive-bg text-white mb-2">WINTER & FESTIVE COLLECTION</span>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-tight">150 Curated Clothing Styles</h1>
+        <p class="mt-2 text-gray-600 text-sm">Instant Merchant QR UPI Payment & Cash on Delivery Available across India.</p>
       </div>
-      <div class="flex gap-3 text-center">
-        <div class="bg-white/90 px-4 py-3 rounded-2xl shadow-sm border border-gray-100">
-          <p class="text-2xl font-bold olive-text">10</p>
-          <p class="text-xs text-gray-500">Products</p>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 text-center w-full md:w-auto">
+        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-gray-100">
+          <p class="text-xl sm:text-2xl font-bold text-gray-900">150</p>
+          <p class="text-[11px] text-gray-500">Total Styles</p>
         </div>
-        <div class="bg-white/90 px-4 py-3 rounded-2xl shadow-sm border border-gray-100">
-          <p class="text-2xl font-bold olive-text">100%</p>
-          <p class="text-xs text-gray-500">Quality Checked</p>
+        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-green-200">
+          <p class="text-xl sm:text-2xl font-bold text-green-700">122</p>
+          <p class="text-[11px] text-green-700 font-medium">In Stock</p>
+        </div>
+        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-red-200">
+          <p class="text-xl sm:text-2xl font-bold text-red-600">28</p>
+          <p class="text-[11px] text-red-600 font-medium">Sold Out</p>
         </div>
       </div>
     </div>
 
-    <!-- Category Filters -->
+    <!-- Filters Bar -->
     <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
       <div id="categoryFilters" class="flex flex-wrap gap-2">
-        <button onclick="filterCategory('All')" class="cat-btn active px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All (10)</button>
-        <button onclick="filterCategory('Electronics')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:bg-gray-100">Electronics</button>
-        <button onclick="filterCategory('Lifestyle')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:bg-gray-100">Lifestyle</button>
-        <button onclick="filterCategory('Accessories')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:bg-gray-100">Accessories</button>
+        <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All (150)</button>
+        <button onclick="filterCategory('Men')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Men</button>
+        <button onclick="filterCategory('Women')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Women</button>
+        <button onclick="filterCategory('Winterwear')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Winterwear</button>
+        <button onclick="filterCategory('Ethnic')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Ethnic</button>
+        <button onclick="filterCategory('Kids')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Kids</button>
       </div>
-      <input id="mobileSearch" type="text" placeholder="Search products..." class="md:hidden w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm" />
+
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <select id="stockFilter" onchange="renderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm font-medium">
+          <option value="all">Stock: All (150)</option>
+          <option value="in">In Stock Only (122)</option>
+          <option value="out">Out of Stock (28)</option>
+        </select>
+        <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
+      </div>
     </div>
   </section>
 
   <!-- Products Grid -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1">
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    <p id="resultCount" class="text-xs text-gray-500 mb-4 font-medium"></p>
+    <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
   </main>
 
   <!-- Footer -->
   <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
-    © 2026 Aarambh Store. All rights reserved. | Secure UPI & COD Orders
+    © 2026 VastraHub Fashion India. Verified Merchant Store.
   </footer>
 
   <!-- Cart Drawer -->
@@ -88,11 +103,11 @@
     <div onclick="toggleCart()" class="absolute inset-0 bg-black/40"></div>
     <div class="absolute right-0 top-0 h-full w-full max-w-md bg-[#FAF9F6] shadow-2xl flex flex-col">
       <div class="p-5 border-b border-gray-200 flex items-center justify-between bg-white">
-        <h2 class="text-lg font-bold text-gray-900">Your Shopping Cart</h2>
+        <h2 class="text-lg font-bold text-gray-900">Your Shopping Bag</h2>
         <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-800 text-xl font-bold">✕</button>
       </div>
 
-      <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+      <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
 
       <div class="p-5 bg-white border-t border-gray-200 space-y-3">
         <div class="flex gap-2">
@@ -112,43 +127,102 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
-  <div id="checkoutModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl">
+  <!-- Merchant QR + Email Order Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl my-8">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">Complete Your Order</h3>
+        <h3 class="text-xl font-bold">Secure Checkout</h3>
         <button onclick="closeCheckout()" class="text-gray-500 text-xl">✕</button>
       </div>
-      <form onsubmit="placeOrder(event)" class="space-y-3">
+
+      <!-- Form View -->
+      <form id="checkoutForm" onsubmit="processOrder(event)" class="space-y-3">
         <input required id="custName" type="text" placeholder="Full Name" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
-        <input required id="custPhone" type="tel" placeholder="Mobile / WhatsApp Number" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
+        <input required id="custPhone" type="tel" placeholder="Mobile Number (for delivery updates)" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
+        <select id="custSize" class="w-full px-4 py-2.5 border rounded-xl text-sm bg-white">
+          <option value="S">Size: S (Small)</option>
+          <option value="M" selected>Size: M (Medium)</option>
+          <option value="L">Size: L (Large)</option>
+          <option value="XL">Size: XL</option>
+        </select>
         <textarea required id="custAddress" rows="2" placeholder="Full Delivery Address & PIN Code" class="w-full px-4 py-2.5 border rounded-xl text-sm"></textarea>
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <label class="border rounded-xl p-2.5 flex items-center gap-2 text-sm cursor-pointer">
-            <input type="radio" name="payment" value="UPI" checked /> UPI / QR
+        
+        <div class="space-y-2 pt-1">
+          <p class="text-xs font-semibold text-gray-500 uppercase">Select Payment Method</p>
+          <label class="border rounded-xl p-3 flex items-center justify-between text-sm cursor-pointer bg-sky-50/50 border-sky-200">
+            <span class="flex items-center gap-2 font-medium">
+              <input type="radio" name="payment" value="MERCHANT_QR" checked onchange="toggleQRBox()" /> Pay via Merchant QR (UPI)
+            </span>
+            <span class="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded font-semibold">Scan & Pay</span>
           </label>
-          <label class="border rounded-xl p-2.5 flex items-center gap-2 text-sm cursor-pointer">
-            <input type="radio" name="payment" value="COD" /> Cash on Delivery
+          <label class="border rounded-xl p-3 flex items-center gap-2 text-sm cursor-pointer">
+            <input type="radio" name="payment" value="COD" onchange="toggleQRBox()" /> Cash on Delivery (Pay at doorstep)
           </label>
         </div>
-        <button type="submit" class="w-full py-3 rounded-xl olive-bg text-white font-bold mt-2">Confirm Order</button>
+
+        <!-- Merchant QR Box -->
+        <div id="qrPaymentSection" class="p-4 rounded-2xl bg-[#FAF9F6] border border-gray-200 text-center space-y-2">
+          <p class="text-xs font-bold text-gray-700">Scan QR with GPay / PhonePe / Paytm</p>
+          <p class="text-lg font-extrabold olive-text">Payable Amount: <span id="qrAmountDisplay">₹0</span></p>
+          <div class="w-44 h-44 mx-auto bg-white p-2 rounded-xl border shadow-sm flex items-center justify-center">
+            <img id="merchantQrImg" src="qr.png" alt="Merchant QR Code" class="w-full h-full object-contain"
+              onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Upload-qr.png-in-GitHub'" />
+          </div>
+          <input id="utrInput" type="text" placeholder="Enter 12-digit UPI Ref / UTR Number *"
+            class="w-full px-3 py-2 border border-gray-300 rounded-xl text-xs bg-white focus:outline-none focus:border-[#4A5D23]" />
+        </div>
+
+        <button id="submitOrderBtn" type="submit" class="w-full py-3 rounded-xl olive-bg text-white font-bold mt-2 flex items-center justify-center gap-2">
+          <span>🔒 Confirm & Place Order</span>
+        </button>
       </form>
+
+      <!-- Order Confirmation View -->
+      <div id="orderSuccessBox" class="hidden text-center py-4 space-y-3">
+        <div class="w-14 h-14 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-2xl mx-auto font-bold">✓</div>
+        <h4 class="text-xl font-bold text-gray-900">Order Confirmed!</h4>
+        <p class="text-sm text-gray-600" id="successMsg"></p>
+        <div class="bg-gray-50 p-3 rounded-xl border text-xs text-gray-700 font-mono" id="orderIdBox"></div>
+        <button onclick="closeCheckout()" class="w-full py-2.5 rounded-xl olive-bg text-white font-semibold text-sm mt-2">Continue Shopping</button>
+      </div>
     </div>
   </div>
 
   <script>
-    const products = [
-      { id: 1, name: "AeroBuds Pro ANC", category: "Electronics", price: 1499, mrp: 2999, rating: 4.8, tag: "Bestseller", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80" },
-      { id: 2, name: "PulseFit Smart Watch", category: "Electronics", price: 2199, mrp: 3999, rating: 4.7, tag: "New", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80" },
-      { id: 3, name: "ThermoSteel Vacuum Flask", category: "Lifestyle", price: 649, mrp: 1199, rating: 4.9, tag: "Eco", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&q=80" },
-      { id: 4, name: "Urban Nomad Laptop Sleeve", category: "Accessories", price: 799, mrp: 1499, rating: 4.6, tag: "Trending", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80" },
-      { id: 5, name: "MagCharge 10000mAh PowerBank", category: "Electronics", price: 1699, mrp: 2799, rating: 4.8, tag: "Fast Charge", img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&q=80" },
-      { id: 6, name: "Minimalist Leather Wallet", category: "Accessories", price: 599, mrp: 1299, rating: 4.5, tag: "Classic", img: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&q=80" },
-      { id: 7, name: "AromaMist Desk Diffuser", category: "Lifestyle", price: 1199, mrp: 1999, rating: 4.7, tag: "Calm", img: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&q=80" },
-      { id: 8, name: "FlexiGrip Aluminum Stand", category: "Accessories", price: 499, mrp: 999, rating: 4.6, tag: "Value", img: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=500&q=80" },
-      { id: 9, name: "LumiDesk LED Study Lamp", category: "Lifestyle", price: 899, mrp: 1599, rating: 4.8, tag: "Top Rated", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&q=80" },
-      { id: 10, name: "SonicMini Pocket Speaker", category: "Electronics", price: 1299, mrp: 2499, rating: 4.7, tag: "Launch Deal", img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&q=80" }
+    // ====== APNI WEB3FORMS ACCESS KEY YAHAN PASTE KAREIN ======
+    const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240"; 
+    // =========================================================
+
+    const baseTemplates = [
+      { title: "Oversized Cotton Graphic Tee", cat: "Men", price: 599, mrp: 1199, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" },
+      { title: "Floral Anarkali Kurti Set", cat: "Women", price: 1299, mrp: 2499, img: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80" },
+      { title: "Quilted Puffer Winter Jacket", cat: "Winterwear", price: 1899, mrp: 3499, img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80" },
+      { title: "Slim Fit Stretch Denim Jeans", cat: "Men", price: 1199, mrp: 2199, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80" },
+      { title: "Banarasi Silk Festive Saree", cat: "Ethnic", price: 2499, mrp: 4999, img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" },
+      { title: "Fleece Zip-Up Street Hoodie", cat: "Winterwear", price: 1099, mrp: 1999, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80" },
+      { title: "Pastel Co-ord Lounge Set", cat: "Women", price: 1399, mrp: 2599, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" },
+      { title: "Embroidered Chikankari Kurta", cat: "Ethnic", price: 999, mrp: 1899, img: "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=400&q=80" },
+      { title: "Kids Cotton Dino Sweatshirt", cat: "Kids", price: 649, mrp: 1299, img: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&q=80" },
+      { title: "Linen Mandarin Collar Shirt", cat: "Men", price: 899, mrp: 1699, img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80" }
     ];
+
+    const colors = ["Olive", "Classic Black", "Sky Blue", "Blush Pink", "Ivory White", "Navy", "Beige", "Maroon", "Sage", "Charcoal", "Mustard", "Teal", "Rust", "Lavender", "Pearl"];
+
+    // 150 Products: 122 In Stock, 28 Out of Stock
+    const products = Array.from({ length: 150 }, (_, idx) => {
+      const tpl = baseTemplates[idx % baseTemplates.length];
+      const color = colors[Math.floor(idx / baseTemplates.length) % colors.length];
+      const priceShift = (idx % 4) * 50;
+      return {
+        id: idx + 1,
+        name: `${color} ${tpl.title} #${idx + 1}`,
+        category: tpl.cat,
+        price: tpl.price + priceShift,
+        mrp: tpl.mrp + priceShift,
+        inStock: idx < 122,
+        img: tpl.img
+      };
+    });
 
     let cart = [];
     let currentCategory = 'All';
@@ -156,37 +230,44 @@
 
     function renderProducts() {
       const query = (document.getElementById('searchInput').value || document.getElementById('mobileSearch').value).toLowerCase();
+      const stockMode = document.getElementById('stockFilter').value;
       const grid = document.getElementById('productGrid');
-      const filtered = products.filter(p =>
-        (currentCategory === 'All' || p.category === currentCategory) &&
-        p.name.toLowerCase().includes(query)
-      );
+
+      const filtered = products.filter(p => {
+        const matchCat = currentCategory === 'All' || p.category === currentCategory;
+        const matchSearch = p.name.toLowerCase().includes(query);
+        const matchStock = stockMode === 'all' || (stockMode === 'in' && p.inStock) || (stockMode === 'out' && !p.inStock);
+        return matchCat && matchSearch && matchStock;
+      });
+
+      document.getElementById('resultCount').textContent = `Showing ${filtered.length} products`;
 
       grid.innerHTML = filtered.map(p => {
         const off = Math.round(((p.mrp - p.price) / p.mrp) * 100);
         return `
-          <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
-            <div class="relative h-48 bg-gray-100">
-              <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" />
-              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold pink-badge">${p.tag}</span>
-              <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md text-xs font-bold olive-bg text-white">${off}% OFF</span>
+          <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col ${!p.inStock ? 'opacity-75' : 'hover:shadow-md transition'}">
+            <div class="relative h-44 bg-gray-100">
+              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover ${!p.inStock ? 'grayscale' : ''}" />
+              ${p.inStock
+                ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● In Stock</span>`
+                : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">Out of Stock</span>`
+              }
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold olive-bg text-white">${off}% OFF</span>
             </div>
-            <div class="p-4 flex-1 flex flex-col justify-between">
+            <div class="p-3 flex-1 flex flex-col justify-between">
               <div>
-                <div class="flex justify-between items-center text-xs text-gray-500 mb-1">
-                  <span>${p.category}</span>
-                  <span>⭐ ${p.rating}</span>
-                </div>
-                <h3 class="font-bold text-gray-900 text-base">${p.name}</h3>
+                <span class="text-[11px] text-gray-500">${p.category}</span>
+                <h3 class="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 mt-0.5">${p.name}</h3>
               </div>
-              <div class="mt-4">
-                <div class="flex items-baseline gap-2 mb-3">
-                  <span class="text-lg font-bold olive-text">₹${p.price}</span>
-                  <span class="text-xs text-gray-400 line-through">₹${p.mrp}</span>
+              <div class="mt-3">
+                <div class="flex items-baseline gap-1.5 mb-2">
+                  <span class="text-base font-bold olive-text">₹${p.price}</span>
+                  <span class="text-[11px] text-gray-400 line-through">₹${p.mrp}</span>
                 </div>
-                <button onclick="addToCart(${p.id})" class="w-full py-2.5 rounded-xl olive-bg text-white text-sm font-semibold hover:opacity-95 transition">
-                  + Add to Cart
-                </button>
+                ${p.inStock
+                  ? `<button onclick="addToCart(${p.id})" class="w-full py-2 rounded-xl olive-bg text-white text-xs font-semibold hover:opacity-95 transition">+ Add to Bag</button>`
+                  : `<button disabled class="w-full py-2 rounded-xl bg-gray-200 text-gray-500 text-xs font-semibold cursor-not-allowed">Sold Out</button>`
+                }
               </div>
             </div>
           </div>
@@ -197,19 +278,19 @@
     function filterCategory(cat) {
       currentCategory = cat;
       document.querySelectorAll('.cat-btn').forEach(btn => {
-        if (btn.textContent.startsWith(cat)) {
-          btn.className = 'cat-btn active px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white';
-        } else {
-          btn.className = 'cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:bg-gray-100';
-        }
+        btn.className = btn.textContent.startsWith(cat)
+          ? 'cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white'
+          : 'cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700';
       });
       renderProducts();
     }
 
     function addToCart(id) {
+      const prod = products.find(p => p.id === id);
+      if (!prod || !prod.inStock) return;
       const item = cart.find(i => i.id === id);
       if (item) item.qty++;
-      else cart.push({ ...products.find(p => p.id === id), qty: 1 });
+      else cart.push({ ...prod, qty: 1 });
       updateCartUI();
     }
 
@@ -225,25 +306,31 @@
       const code = document.getElementById('promoInput').value.trim().toUpperCase();
       if (code === 'LAUNCH10') {
         discountApplied = true;
-        alert('Promo code LAUNCH10 applied! 10% discount added.');
+        alert('LAUNCH10 applied! 10% OFF added.');
       } else {
-        alert('Invalid code. Try LAUNCH10');
+        alert('Invalid promo code. Use LAUNCH10');
       }
       updateCartUI();
     }
 
-    function updateCartUI() {
-      const count = cart.reduce((sum, i) => sum + i.qty, 0);
-      document.getElementById('cartCount').textContent = count;
+    function getTotals() {
+      const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const discount = discountApplied ? Math.round(subtotal * 0.1) : 0;
+      const delivery = subtotal > 999 || subtotal === 0 ? 0 : 49;
+      return { subtotal, discount, delivery, total: subtotal - discount + delivery };
+    }
 
+    function updateCartUI() {
+      document.getElementById('cartCount').textContent = cart.reduce((sum, i) => sum + i.qty, 0);
       const container = document.getElementById('cartItems');
+
       if (cart.length === 0) {
-        container.innerHTML = '<p class="text-center text-gray-500 mt-10">Your cart is empty.</p>';
+        container.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">Your shopping bag is empty.</p>';
       } else {
         container.innerHTML = cart.map(i => `
           <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-200">
-            <div>
-              <h4 class="font-semibold text-sm">${i.name}</h4>
+            <div class="pr-2">
+              <h4 class="font-semibold text-xs sm:text-sm">${i.name}</h4>
               <p class="text-xs olive-text font-bold">₹${i.price} × ${i.qty}</p>
             </div>
             <div class="flex items-center gap-2">
@@ -255,11 +342,7 @@
         `).join('');
       }
 
-      const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const discount = discountApplied ? Math.round(subtotal * 0.1) : 0;
-      const delivery = subtotal > 999 || subtotal === 0 ? 0 : 49;
-      const total = subtotal - discount + delivery;
-
+      const { subtotal, discount, delivery, total } = getTotals();
       document.getElementById('subtotalText').textContent = `₹${subtotal}`;
       document.getElementById('discountText').textContent = `-₹${discount}`;
       document.getElementById('deliveryText').textContent = delivery === 0 ? 'FREE' : `₹${delivery}`;
@@ -271,8 +354,23 @@
       document.getElementById('cartDrawer').classList.toggle('hidden');
     }
 
+    function toggleQRBox() {
+      const payMode = document.querySelector('input[name="payment"]:checked').value;
+      const qrBox = document.getElementById('qrPaymentSection');
+      if (payMode === 'MERCHANT_QR') {
+        qrBox.classList.remove('hidden');
+      } else {
+        qrBox.classList.add('hidden');
+      }
+    }
+
     function openCheckout() {
       toggleCart();
+      const { total } = getTotals();
+      document.getElementById('qrAmountDisplay').textContent = `₹${total}`;
+      document.getElementById('checkoutForm').classList.remove('hidden');
+      document.getElementById('orderSuccessBox').classList.add('hidden');
+      toggleQRBox();
       document.getElementById('checkoutModal').classList.remove('hidden');
       document.getElementById('checkoutModal').classList.add('flex');
     }
@@ -282,14 +380,67 @@
       document.getElementById('checkoutModal').classList.remove('flex');
     }
 
-    function placeOrder(e) {
+    async function processOrder(e) {
       e.preventDefault();
-      const name = document.getElementById('custName').value;
-      alert(`Thank you, ${name}! Your order has been placed successfully.`);
+      const payMode = document.querySelector('input[name="payment"]:checked').value;
+      const utr = document.getElementById('utrInput').value.trim();
+
+      if (payMode === 'MERCHANT_QR' && utr.length < 6) {
+        alert("Please scan the QR code and enter your UPI Reference / UTR Number to confirm payment.");
+        return;
+      }
+
+      const btn = document.getElementById('submitOrderBtn');
+      btn.disabled = true;
+      btn.textContent = "Confirming Order...";
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const size = document.getElementById('custSize').value;
+      const address = document.getElementById('custAddress').value.trim();
+      const { total } = getTotals();
+      const orderId = "VH-" + Math.floor(100000 + Math.random() * 900000);
+
+      const itemsSummary = cart.map((i, idx) => `${idx + 1}. ${i.name} (Size: ${size}) x${i.qty} = ₹${i.price * i.qty}`).join('\n');
+
+      if (WEB3FORMS_ACCESS_KEY !== "YOUR_WEB3FORMS_ACCESS_KEY") {
+        try {
+          await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              access_key: WEB3FORMS_ACCESS_KEY,
+              subject: `New Order ${orderId} - ₹${total} (${payMode})`,
+              from_name: "VastraHub Store",
+              Order_ID: orderId,
+              Customer_Name: name,
+              Customer_Phone: phone,
+              Delivery_Address: address,
+              Default_Size: size,
+              Payment_Mode: payMode === 'MERCHANT_QR' ? `Merchant QR (UTR: ${utr})` : 'Cash on Delivery',
+              Total_Amount: `₹${total}`,
+              Ordered_Items: itemsSummary
+            })
+          });
+        } catch (err) {
+          console.error("Email error:", err);
+        }
+      }
+
+      document.getElementById('successMsg').textContent = payMode === 'MERCHANT_QR'
+        ? `Thank you, ${name}! Your payment (UTR: ${utr}) and order of ₹${total} have been recorded.`
+        : `Thank you, ${name}! Your Cash on Delivery order of ₹${total} has been confirmed.`;
+
+      document.getElementById('orderIdBox').textContent = `Order ID: ${orderId} | Payable: ₹${total}`;
+      document.getElementById('checkoutForm').classList.add('hidden');
+      document.getElementById('orderSuccessBox').classList.remove('hidden');
+
+      btn.disabled = false;
+      btn.innerHTML = '<span>🔒 Confirm & Place Order</span>';
       cart = [];
       discountApplied = false;
+      document.getElementById('utrInput').value = "";
       updateCartUI();
-      closeCheckout();
     }
 
     document.getElementById('searchInput').addEventListener('input', renderProducts);
