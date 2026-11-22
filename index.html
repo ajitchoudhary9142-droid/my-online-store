@@ -16,57 +16,136 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Top Announcement Bar -->
-  <div class="olive-bg text-white text-center text-xs sm:text-sm py-2 px-4 font-medium">
-    👗 Mega Fashion Launch: 150+ Styles Live | Use code <span class="underline font-bold">LAUNCH10</span> for 10% OFF | Free Shipping ₹999+
+  <!-- Top Bar with Live GPS Location -->
+  <div class="olive-bg text-white text-xs py-2 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 font-medium">
+        <span>📍</span>
+        <span id="gpsBannerText">Detecting your live GPS location...</span>
+        <button onclick="detectGPSLocation()" class="underline text-[11px] ml-1 opacity-90 hover:opacity-100">Refresh</button>
+      </div>
+      <div class="font-medium">
+        🎁 100% OFF Promo Codes: <span class="underline font-bold">FREE1001</span> to <span class="underline font-bold">FREE1050</span>
+      </div>
+    </div>
   </div>
 
   <!-- Navbar -->
   <header class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <div class="w-9 h-9 rounded-xl olive-bg text-white flex items-center justify-center font-bold text-lg">V</div>
         <span class="font-bold text-xl tracking-tight text-gray-900">Vastra<span class="olive-text">Hub</span></span>
       </div>
 
       <div class="hidden md:flex flex-1 max-w-md">
-        <input id="searchInput" type="text" placeholder="Search 150 clothing items (Kurti, Jacket, Jeans...)"
+        <input id="searchInput" type="text" placeholder="Search 150 clothing styles..."
           class="w-full px-4 py-2 rounded-full border border-gray-300 bg-white text-sm focus:outline-none focus:border-[#4A5D23]" />
       </div>
 
-      <button onclick="toggleCart()" class="relative flex items-center gap-2 px-4 py-2 rounded-full olive-bg text-white text-sm font-semibold hover:opacity-95 transition">
-        <span>🛍️ Bag</span>
-        <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
-      </button>
+      <div class="flex items-center gap-3">
+        <!-- Login Button (Shown when logged out) -->
+        <button id="loginNavBtn" onclick="openLoginModal()" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-xs sm:text-sm font-semibold hover:bg-gray-100 transition">
+          👤 Login
+        </button>
+
+        <!-- Account Dropdown Menu (Shown when logged in - Flipkart Style) -->
+        <div id="accountMenuWrapper" class="relative hidden">
+          <button onclick="toggleAccountDropdown()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-gray-300 text-gray-900 text-xs sm:text-sm font-bold hover:bg-gray-50 transition">
+            <span id="navUserName">Ajit</span>
+            <span class="text-[10px]">▼</span>
+          </button>
+
+          <!-- Dropdown List -->
+          <div id="accountDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-200 py-2 z-50 text-sm">
+            <button onclick="openDashboard('profile')" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="text-blue-600">👤</span> <span class="font-medium text-gray-800">My Profile</span>
+            </button>
+            <button onclick="openDashboard('supercoin')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="flex items-center gap-3"><span class="text-amber-500">⚡</span> <span class="font-medium text-gray-800">SuperCoin Zone</span></span>
+              <span id="navCoinBadge" class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">250</span>
+            </button>
+            <button onclick="openDashboard('plus')" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="text-yellow-500">✦</span> <span class="font-medium text-gray-800">VastraHub Plus Zone</span>
+            </button>
+            <button onclick="openDashboard('orders')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="flex items-center gap-3"><span class="text-blue-600">📦</span> <span class="font-medium text-gray-800">Orders</span></span>
+              <span id="navOrderBadge" class="text-xs font-semibold text-gray-500">2</span>
+            </button>
+            <button onclick="openDashboard('wishlist')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="flex items-center gap-3"><span class="text-pink-600">❤️</span> <span class="font-medium text-gray-800">Wishlist</span></span>
+              <span id="navWishlistBadge" class="text-xs font-bold bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md">0</span>
+            </button>
+            <button onclick="openDashboard('coupons')" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="text-green-600">🎟️</span> <span class="font-medium text-gray-800">Coupons</span>
+            </button>
+            <button onclick="openDashboard('giftcards')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="flex items-center gap-3"><span class="text-indigo-600">💳</span> <span class="font-medium text-gray-800">Gift Cards</span></span>
+              <span id="navGiftBadge" class="text-xs font-semibold text-green-700">₹500</span>
+            </button>
+            <button onclick="openDashboard('notifications')" class="w-full px-4 py-2.5 flex items-center justify-between hover:bg-gray-50 text-left border-b border-gray-100">
+              <span class="flex items-center gap-3"><span class="text-blue-500">🔔</span> <span class="font-medium text-gray-800">Notifications</span></span>
+              <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            </button>
+            <button onclick="logoutUser()" class="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-red-50 text-left text-red-600 font-semibold">
+              <span>⏻</span> <span>Logout</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart Bag Button -->
+        <button onclick="toggleCart()" class="relative flex items-center gap-1.5 px-4 py-2 rounded-full olive-bg text-white text-xs sm:text-sm font-semibold hover:opacity-95 transition">
+          <span>🛍️ Bag</span>
+          <span id="cartCount" class="bg-white text-[#4A5D23] text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Hero & Live Stock Counter -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
-    <div class="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="max-w-xl">
-        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold olive-bg text-white mb-2">WINTER & FESTIVE COLLECTION</span>
-        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-tight">150 Curated Clothing Styles</h1>
-        <p class="mt-2 text-gray-600 text-sm">Instant Merchant QR UPI Payment & Cash on Delivery Available across India.</p>
+  <!-- Auto-Sliding Product Advertisement Banner -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+    <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
+      <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
+        <!-- Slide 1 -->
+        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="max-w-lg space-y-2">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">FEATURED DROP #1</span>
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
+            <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
+            <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="max-w-lg space-y-2">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white">FESTIVE ETHNIC EDIT</span>
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
+            <p class="text-sm text-gray-600">122 styles ready to ship today with live stock tracking and Merchant QR payment.</p>
+            <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="max-w-lg space-y-2">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white">EVERYDAY ESSENTIALS</span>
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Oversized Tees, Denim & Co-ord Sets</h2>
+            <p class="text-sm text-gray-600">100% combed cotton fits for Men, Women & Kids. Limited units left per design.</p>
+            <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Browse Collection →</button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Casual Wear Ad" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+        </div>
       </div>
-      <div class="grid grid-cols-3 gap-2 sm:gap-3 text-center w-full md:w-auto">
-        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-gray-100">
-          <p class="text-xl sm:text-2xl font-bold text-gray-900">150</p>
-          <p class="text-[11px] text-gray-500">Total Styles</p>
-        </div>
-        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-green-200">
-          <p class="text-xl sm:text-2xl font-bold text-green-700">122</p>
-          <p class="text-[11px] text-green-700 font-medium">In Stock</p>
-        </div>
-        <div class="bg-white/90 px-3 py-3 rounded-2xl shadow-sm border border-red-200">
-          <p class="text-xl sm:text-2xl font-bold text-red-600">28</p>
-          <p class="text-[11px] text-red-600 font-medium">Sold Out</p>
-        </div>
-      </div>
+
+      <button onclick="moveSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">‹</button>
+      <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
     </div>
 
     <!-- Filters Bar -->
-    <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+    <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
       <div id="categoryFilters" class="flex flex-wrap gap-2">
         <button onclick="filterCategory('All')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium olive-bg text-white">All (150)</button>
         <button onclick="filterCategory('Men')" class="cat-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700">Men</button>
@@ -78,8 +157,8 @@
 
       <div class="flex items-center gap-2 w-full sm:w-auto">
         <select id="stockFilter" onchange="renderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm font-medium">
-          <option value="all">Stock: All (150)</option>
-          <option value="in">In Stock Only (122)</option>
+          <option value="all">All Stock (150)</option>
+          <option value="in">In Stock (122)</option>
           <option value="out">Out of Stock (28)</option>
         </select>
         <input id="mobileSearch" type="text" placeholder="Search..." class="md:hidden flex-1 px-3 py-1.5 rounded-full border border-gray-300 bg-white text-sm" />
@@ -95,8 +174,64 @@
 
   <!-- Footer -->
   <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
-    © 2026 VastraHub Fashion India. Verified Merchant Store.
+    © 2026 VastraHub Fashion India. Live GPS & Verified Merchant Store.
   </footer>
+
+  <!-- Account Dashboard Modal (All 8 Flipkart-Style Sections) -->
+  <div id="dashboardModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl my-8 flex flex-col md:flex-row min-h-[460px]">
+      <!-- Left Sidebar Tabs -->
+      <div class="w-full md:w-60 bg-[#FAF9F6] border-b md:border-b-0 md:border-r border-gray-200 p-4 flex flex-row md:flex-col gap-1 overflow-x-auto">
+        <button onclick="switchDashTab('profile')" data-tab="profile" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">👤 My Profile</button>
+        <button onclick="switchDashTab('supercoin')" data-tab="supercoin" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">⚡ SuperCoin Zone</button>
+        <button onclick="switchDashTab('plus')" data-tab="plus" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">✦ Plus Zone</button>
+        <button onclick="switchDashTab('orders')" data-tab="orders" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">📦 Orders</button>
+        <button onclick="switchDashTab('wishlist')" data-tab="wishlist" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">❤️ Wishlist</button>
+        <button onclick="switchDashTab('coupons')" data-tab="coupons" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">🎟️ Coupons</button>
+        <button onclick="switchDashTab('giftcards')" data-tab="giftcards" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">💳 Gift Cards</button>
+        <button onclick="switchDashTab('notifications')" data-tab="notifications" class="dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap">🔔 Notifications</button>
+      </div>
+
+      <!-- Right Dynamic Content -->
+      <div class="flex-1 p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
+            <h3 id="dashTitle" class="text-lg font-bold text-gray-900">My Profile</h3>
+            <button onclick="closeDashboard()" class="text-gray-500 hover:text-gray-900 text-xl font-bold">✕</button>
+          </div>
+          <div id="dashContent" class="text-sm text-gray-700 space-y-3 max-h-[340px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Login Modal (4 Pre-Configured Accounts) -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold">Member Login</h3>
+        <button onclick="closeLoginModal()" class="text-gray-500 text-xl">✕</button>
+      </div>
+      <form onsubmit="handleLogin(event)" class="space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-gray-600">User ID</label>
+          <input required id="loginUserId" type="text" placeholder="e.g. ajit101" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Password</label>
+          <input required id="loginPassword" type="password" placeholder="Enter password" class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm" />
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm">Sign In</button>
+      </form>
+      <div class="mt-4 p-3 rounded-xl bg-gray-50 border text-[11px] text-gray-600 space-y-1">
+        <p class="font-bold text-gray-800">Available Demo Logins:</p>
+        <p>• ID: <b>ajit101</b> | Pass: <b>pass101</b></p>
+        <p>• ID: <b>vip202</b> | Pass: <b>pass202</b></p>
+        <p>• ID: <b>admin01</b> | Pass: <b>admin123</b></p>
+        <p>• ID: <b>guest99</b> | Pass: <b>free99</b></p>
+      </div>
+    </div>
+  </div>
 
   <!-- Cart Drawer -->
   <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
@@ -110,10 +245,17 @@
       <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
 
       <div class="p-5 bg-white border-t border-gray-200 space-y-3">
-        <div class="flex gap-2">
-          <input id="promoInput" type="text" placeholder="Promo code (LAUNCH10)" class="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm uppercase" />
-          <button onclick="applyPromo()" class="px-4 py-2 rounded-xl sky-accent font-semibold text-sm">Apply</button>
+        <div>
+          <div class="flex gap-2">
+            <input id="promoInput" type="text" placeholder="Code: FREE1001 to FREE1050" class="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm uppercase" />
+            <button onclick="applyPromo()" class="px-4 py-2 rounded-xl sky-accent font-semibold text-sm">Apply</button>
+          </div>
+          <button type="button" onclick="togglePromoList()" class="text-[11px] olive-text font-semibold underline mt-1">
+            View all 50 Free (₹0) Promo Codes
+          </button>
+          <div id="promoListBox" class="hidden mt-2 p-2.5 bg-gray-50 border rounded-xl max-h-24 overflow-y-auto text-[11px] font-mono text-gray-700 leading-relaxed"></div>
         </div>
+
         <div class="text-sm space-y-1 text-gray-600">
           <div class="flex justify-between"><span>Subtotal</span><span id="subtotalText">₹0</span></div>
           <div class="flex justify-between"><span>Discount</span><span id="discountText" class="text-green-600">-₹0</span></div>
@@ -135,19 +277,24 @@
         <button onclick="closeCheckout()" class="text-gray-500 text-xl">✕</button>
       </div>
 
-      <!-- Form View -->
       <form id="checkoutForm" onsubmit="processOrder(event)" class="space-y-3">
         <input required id="custName" type="text" placeholder="Full Name" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
-        <input required id="custPhone" type="tel" placeholder="Mobile Number (for delivery updates)" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
+        <input required id="custPhone" type="tel" placeholder="Mobile Number" class="w-full px-4 py-2.5 border rounded-xl text-sm" />
         <select id="custSize" class="w-full px-4 py-2.5 border rounded-xl text-sm bg-white">
           <option value="S">Size: S (Small)</option>
           <option value="M" selected>Size: M (Medium)</option>
           <option value="L">Size: L (Large)</option>
           <option value="XL">Size: XL</option>
         </select>
-        <textarea required id="custAddress" rows="2" placeholder="Full Delivery Address & PIN Code" class="w-full px-4 py-2.5 border rounded-xl text-sm"></textarea>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-[11px] font-semibold text-gray-500">Delivery Address (Auto-filled via GPS)</span>
+            <button type="button" onclick="detectGPSLocation()" class="text-[11px] olive-text font-bold underline">📍 Use Live GPS</button>
+          </div>
+          <textarea required id="custAddress" rows="2" placeholder="Full Delivery Address & PIN Code" class="w-full px-4 py-2 border rounded-xl text-sm"></textarea>
+        </div>
         
-        <div class="space-y-2 pt-1">
+        <div id="paymentSelectionGroup" class="space-y-2 pt-1">
           <p class="text-xs font-semibold text-gray-500 uppercase">Select Payment Method</p>
           <label class="border rounded-xl p-3 flex items-center justify-between text-sm cursor-pointer bg-sky-50/50 border-sky-200">
             <span class="flex items-center gap-2 font-medium">
@@ -156,15 +303,14 @@
             <span class="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded font-semibold">Scan & Pay</span>
           </label>
           <label class="border rounded-xl p-3 flex items-center gap-2 text-sm cursor-pointer">
-            <input type="radio" name="payment" value="COD" onchange="toggleQRBox()" /> Cash on Delivery (Pay at doorstep)
+            <input type="radio" name="payment" value="COD" onchange="toggleQRBox()" /> Cash on Delivery
           </label>
         </div>
 
-        <!-- Merchant QR Box -->
         <div id="qrPaymentSection" class="p-4 rounded-2xl bg-[#FAF9F6] border border-gray-200 text-center space-y-2">
           <p class="text-xs font-bold text-gray-700">Scan QR with GPay / PhonePe / Paytm</p>
           <p class="text-lg font-extrabold olive-text">Payable Amount: <span id="qrAmountDisplay">₹0</span></p>
-          <div class="w-44 h-44 mx-auto bg-white p-2 rounded-xl border shadow-sm flex items-center justify-center">
+          <div class="w-40 h-40 mx-auto bg-white p-2 rounded-xl border shadow-sm flex items-center justify-center">
             <img id="merchantQrImg" src="qr.png" alt="Merchant QR Code" class="w-full h-full object-contain"
               onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Upload-qr.png-in-GitHub'" />
           </div>
@@ -177,7 +323,6 @@
         </button>
       </form>
 
-      <!-- Order Confirmation View -->
       <div id="orderSuccessBox" class="hidden text-center py-4 space-y-3">
         <div class="w-14 h-14 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-2xl mx-auto font-bold">✓</div>
         <h4 class="text-xl font-bold text-gray-900">Order Confirmed!</h4>
@@ -193,40 +338,353 @@
     const WEB3FORMS_ACCESS_KEY = "7d08916e-2010-4a17-a06e-e0612b082240"; 
     // =========================================================
 
+    // 4 Pre-Created User Accounts
+    const USERS = [
+      { id: "ajit101", pass: "pass101", name: "Ajit", fullName: "Ajit Choudhary", email: "ajit@vastrahub.in", phone: "+91 98765 43210", coins: 250, plus: true, giftBalance: 500 },
+      { id: "vip202",  pass: "pass202", name: "VIP",  fullName: "VIP Member",     email: "vip@vastrahub.in",  phone: "+91 91234 56789", coins: 600, plus: true, giftBalance: 1000 },
+      { id: "admin01", pass: "admin123",name: "Admin",fullName: "Store Admin",    email: "admin@vastrahub.in",phone: "+91 90000 11111", coins: 999, plus: true, giftBalance: 2500 },
+      { id: "guest99", pass: "free99",  name: "Guest",fullName: "Guest Shopper",  email: "guest@vastrahub.in",phone: "+91 88888 22222", coins: 50,  plus: false, giftBalance: 0 }
+    ];
+    let currentUser = null;
+
+    // User Account Data (Orders, Wishlist, Notifications)
+    let wishlistIds = [1, 3, 5];
+    let userOrders = [
+      { id: "VH-894120", date: "Nov 15, 2026", items: "Olive Oversized Cotton Graphic Tee #1", total: 599, status: "Delivered" },
+      { id: "VH-891004", date: "Oct 31, 2026", items: "Classic Black Quilted Puffer Jacket #3", total: 1899, status: "Cancelled" }
+    ];
+    let userNotifications = [
+      { title: "Welcome to VastraHub Plus!", text: "Enjoy free delivery on orders above ₹999 & extra SuperCoins.", time: "2 hours ago" },
+      { title: "50 Free Promo Codes Unlocked", text: "Use FREE1001 to FREE1050 at checkout for ₹0 cart total.", time: "1 day ago" }
+    ];
+
+    const FREE_PROMO_CODES = Array.from({ length: 50 }, (_, i) => `FREE${1001 + i}`);
+    document.getElementById('promoListBox').textContent = FREE_PROMO_CODES.join(', ');
+
+    const clothingImages = [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80",
+      "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80",
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80",
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80",
+      "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=400&q=80",
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&q=80",
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&q=80",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=80",
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&q=80",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&q=80",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80",
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80",
+      "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400&q=80",
+      "https://images.unsplash.com/photo-1564584217132-2271feaeb3c5?w=400&q=80",
+      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=400&q=80",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&q=80",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&q=80",
+      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80",
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&q=80",
+      "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=400&q=80",
+      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400&q=80",
+      "https://images.unsplash.com/photo-1544441893-675973e31985?w=400&q=80",
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&q=80",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&q=80",
+      "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=400&q=80"
+    ];
+
     const baseTemplates = [
-      { title: "Oversized Cotton Graphic Tee", cat: "Men", price: 599, mrp: 1199, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" },
-      { title: "Floral Anarkali Kurti Set", cat: "Women", price: 1299, mrp: 2499, img: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80" },
-      { title: "Quilted Puffer Winter Jacket", cat: "Winterwear", price: 1899, mrp: 3499, img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80" },
-      { title: "Slim Fit Stretch Denim Jeans", cat: "Men", price: 1199, mrp: 2199, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80" },
-      { title: "Banarasi Silk Festive Saree", cat: "Ethnic", price: 2499, mrp: 4999, img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" },
-      { title: "Fleece Zip-Up Street Hoodie", cat: "Winterwear", price: 1099, mrp: 1999, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80" },
-      { title: "Pastel Co-ord Lounge Set", cat: "Women", price: 1399, mrp: 2599, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" },
-      { title: "Embroidered Chikankari Kurta", cat: "Ethnic", price: 999, mrp: 1899, img: "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=400&q=80" },
-      { title: "Kids Cotton Dino Sweatshirt", cat: "Kids", price: 649, mrp: 1299, img: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&q=80" },
-      { title: "Linen Mandarin Collar Shirt", cat: "Men", price: 899, mrp: 1699, img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80" }
+      { title: "Oversized Cotton Graphic Tee", cat: "Men", price: 599, mrp: 1199 },
+      { title: "Floral Anarkali Kurti Set", cat: "Women", price: 1299, mrp: 2499 },
+      { title: "Quilted Puffer Winter Jacket", cat: "Winterwear", price: 1899, mrp: 3499 },
+      { title: "Slim Fit Stretch Denim Jeans", cat: "Men", price: 1199, mrp: 2199 },
+      { title: "Banarasi Silk Festive Saree", cat: "Ethnic", price: 2499, mrp: 4999 },
+      { title: "Fleece Zip-Up Street Hoodie", cat: "Winterwear", price: 1099, mrp: 1999 },
+      { title: "Pastel Co-ord Lounge Set", cat: "Women", price: 1399, mrp: 2599 },
+      { title: "Embroidered Chikankari Kurta", cat: "Ethnic", price: 999, mrp: 1899 },
+      { title: "Kids Cotton Dino Sweatshirt", cat: "Kids", price: 649, mrp: 1299 },
+      { title: "Linen Mandarin Collar Shirt", cat: "Men", price: 899, mrp: 1699 }
     ];
 
     const colors = ["Olive", "Classic Black", "Sky Blue", "Blush Pink", "Ivory White", "Navy", "Beige", "Maroon", "Sage", "Charcoal", "Mustard", "Teal", "Rust", "Lavender", "Pearl"];
 
-    // 150 Products: 122 In Stock, 28 Out of Stock
     const products = Array.from({ length: 150 }, (_, idx) => {
       const tpl = baseTemplates[idx % baseTemplates.length];
       const color = colors[Math.floor(idx / baseTemplates.length) % colors.length];
       const priceShift = (idx % 4) * 50;
+      const inStock = idx < 122;
+      const stockQty = inStock ? ((idx * 7) % 24) + 3 : 0;
       return {
         id: idx + 1,
         name: `${color} ${tpl.title} #${idx + 1}`,
         category: tpl.cat,
         price: tpl.price + priceShift,
         mrp: tpl.mrp + priceShift,
-        inStock: idx < 122,
-        img: tpl.img
+        inStock,
+        stockQty,
+        img: clothingImages[idx % clothingImages.length]
       };
     });
 
     let cart = [];
     let currentCategory = 'All';
-    let discountApplied = false;
+    let appliedPromoType = null;
+    let liveLocationString = "";
+
+    // Auto-Sliding Banner
+    let currentSlide = 0;
+    function moveSlide(step) {
+      const track = document.getElementById('adSliderTrack');
+      currentSlide = (currentSlide + step + 3) % 3;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    setInterval(() => moveSlide(1), 3500);
+
+    // Live GPS Location
+    function detectGPSLocation() {
+      const banner = document.getElementById('gpsBannerText');
+      if (!navigator.geolocation) {
+        banner.textContent = "GPS not supported on this browser";
+        return;
+      }
+      banner.textContent = "Fetching live GPS location...";
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = pos.coords.latitude.toFixed(4);
+          const lon = pos.coords.longitude.toFixed(4);
+          liveLocationString = `GPS: ${lat}, ${lon}`;
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+            const data = await res.json();
+            if (data && data.display_name) {
+              const shortAddr = data.display_name.split(',').slice(0, 3).join(',');
+              liveLocationString = `${shortAddr} (${lat}, ${lon})`;
+            }
+          } catch (e) {}
+          banner.textContent = `Delivering to: ${liveLocationString}`;
+          const addrField = document.getElementById('custAddress');
+          if (addrField && !addrField.value) addrField.value = liveLocationString;
+        },
+        () => {
+          banner.textContent = "Location permission denied (Enable GPS for auto-address)";
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+
+    // Account & Dropdown Functions
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.remove('hidden');
+      document.getElementById('loginModal').classList.add('flex');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('loginModal').classList.remove('flex');
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const uid = document.getElementById('loginUserId').value.trim();
+      const pwd = document.getElementById('loginPassword').value.trim();
+      const found = USERS.find(u => u.id === uid && u.pass === pwd);
+      if (found) {
+        currentUser = { ...found };
+        document.getElementById('loginNavBtn').classList.add('hidden');
+        document.getElementById('accountMenuWrapper').classList.remove('hidden');
+        document.getElementById('custName').value = currentUser.fullName;
+        updateAccountBadges();
+        closeLoginModal();
+      } else {
+        alert("Invalid User ID or Password! Check demo credentials below.");
+      }
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      document.getElementById('accountDropdown').classList.add('hidden');
+      document.getElementById('accountMenuWrapper').classList.add('hidden');
+      document.getElementById('loginNavBtn').classList.remove('hidden');
+    }
+
+    function toggleAccountDropdown() {
+      document.getElementById('accountDropdown').classList.toggle('hidden');
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('accountMenuWrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('accountDropdown').classList.add('hidden');
+      }
+    });
+
+    function updateAccountBadges() {
+      if (!currentUser) return;
+      document.getElementById('navUserName').textContent = currentUser.name;
+      document.getElementById('navCoinBadge').textContent = currentUser.coins;
+      document.getElementById('navOrderBadge').textContent = userOrders.length;
+      document.getElementById('navWishlistBadge').textContent = wishlistIds.length;
+      document.getElementById('navGiftBadge').textContent = `₹${currentUser.giftBalance}`;
+    }
+
+    function toggleWishlist(id) {
+      if (wishlistIds.includes(id)) {
+        wishlistIds = wishlistIds.filter(w => w !== id);
+      } else {
+        wishlistIds.push(id);
+      }
+      updateAccountBadges();
+      renderProducts();
+    }
+
+    function openDashboard(tab) {
+      document.getElementById('accountDropdown').classList.add('hidden');
+      document.getElementById('dashboardModal').classList.remove('hidden');
+      document.getElementById('dashboardModal').classList.add('flex');
+      switchDashTab(tab);
+    }
+
+    function closeDashboard() {
+      document.getElementById('dashboardModal').classList.add('hidden');
+      document.getElementById('dashboardModal').classList.remove('flex');
+    }
+
+    function switchDashTab(tab) {
+      if (!currentUser) return;
+      document.querySelectorAll('.dash-tab').forEach(btn => {
+        btn.className = btn.dataset.tab === tab
+          ? 'dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap olive-bg text-white'
+          : 'dash-tab px-3 py-2 rounded-xl text-left text-xs sm:text-sm font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-200/70';
+      });
+
+      const titleEl = document.getElementById('dashTitle');
+      const contentEl = document.getElementById('dashContent');
+
+      if (tab === 'profile') {
+        titleEl.textContent = "My Profile";
+        contentEl.innerHTML = `
+          <div class="p-4 rounded-2xl bg-[#FAF9F6] border space-y-2">
+            <p><span class="text-gray-500 text-xs block">Full Name</span><b>${currentUser.fullName}</b></p>
+            <p><span class="text-gray-500 text-xs block">User ID</span><b>${currentUser.id}</b></p>
+            <p><span class="text-gray-500 text-xs block">Email Address</span><b>${currentUser.email}</b></p>
+            <p><span class="text-gray-500 text-xs block">Mobile Number</span><b>${currentUser.phone}</b></p>
+            <p><span class="text-gray-500 text-xs block">Saved Live GPS Location</span><b>${liveLocationString || "Not detected yet"}</b></p>
+          </div>
+        `;
+      } else if (tab === 'supercoin') {
+        titleEl.textContent = "SuperCoin Zone";
+        contentEl.innerHTML = `
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-yellow-100 border border-amber-200 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-amber-800">Available SuperCoin Balance</p>
+              <p class="text-3xl font-extrabold text-amber-900 mt-1">⚡ ${currentUser.coins}</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-white text-amber-800 text-xs font-bold shadow-sm">1 Coin = ₹1 Reward</span>
+          </div>
+          <p class="text-xs text-gray-500">Earn 20 SuperCoins automatically every time you place an order on VastraHub.</p>
+        `;
+      } else if (tab === 'plus') {
+        titleEl.textContent = "VastraHub Plus Zone";
+        contentEl.innerHTML = `
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 space-y-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold olive-bg text-white">${currentUser.plus ? "ACTIVE PLUS MEMBER ✦" : "STANDARD MEMBER"}</span>
+            <h4 class="text-lg font-bold text-gray-900">Early Access & Priority Dispatch</h4>
+            <p class="text-xs text-gray-600">Plus members get early access to limited winter drops, priority shipping, and exclusive ₹0 promo codes.</p>
+          </div>
+        `;
+      } else if (tab === 'orders') {
+        titleEl.textContent = `My Orders (${userOrders.length})`;
+        contentEl.innerHTML = userOrders.length === 0
+          ? '<p class="text-gray-500">No orders placed yet.</p>'
+          : userOrders.map((o, i) => `
+            <div class="p-3.5 rounded-2xl border bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-mono text-gray-500">${o.id} • ${o.date}</p>
+                <p class="font-semibold text-gray-900 text-xs sm:text-sm mt-0.5">${o.items}</p>
+                <p class="text-xs font-bold olive-text mt-1">Total: ₹${o.total}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold ${o.status === 'Cancelled' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">
+                  ${o.status}
+                </span>
+                ${o.status === 'Confirmed' ? `<button onclick="cancelOrder(${i})" class="text-xs text-red-600 underline font-semibold">Cancel</button>` : ''}
+              </div>
+            </div>
+          `).join('');
+      } else if (tab === 'wishlist') {
+        titleEl.textContent = `My Wishlist (${wishlistIds.length})`;
+        const wished = products.filter(p => wishlistIds.includes(p.id));
+        contentEl.innerHTML = wished.length === 0
+          ? '<p class="text-gray-500">Your wishlist is empty. Click ❤️ on any product to save it!</p>'
+          : wished.map(p => `
+            <div class="p-3 rounded-2xl border bg-white flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover" />
+                <div>
+                  <p class="font-semibold text-xs sm:text-sm">${p.name}</p>
+                  <p class="text-xs font-bold olive-text">₹${p.price}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                ${p.inStock ? `<button onclick="addToCart(${p.id}); closeDashboard(); toggleCart();" class="px-3 py-1.5 rounded-xl olive-bg text-white text-xs font-semibold">Move to Bag</button>` : '<span class="text-xs text-red-500">Sold Out</span>'}
+                <button onclick="toggleWishlist(${p.id}); switchDashTab('wishlist');" class="text-gray-400 hover:text-red-600 font-bold">✕</button>
+              </div>
+            </div>
+          `).join('');
+      } else if (tab === 'coupons') {
+        titleEl.textContent = "Available Coupons (51 Codes)";
+        contentEl.innerHTML = `
+          <div class="p-3 rounded-xl bg-green-50 border border-green-200 flex items-center justify-between">
+            <div><p class="font-bold text-green-900">FREE1001 to FREE1050</p><p class="text-xs text-green-700">100% OFF — Makes entire order ₹0</p></div>
+            <button onclick="navigator.clipboard.writeText('FREE1001'); alert('Copied FREE1001!')" class="px-3 py-1 rounded-lg bg-green-700 text-white text-xs font-bold">Copy FREE1001</button>
+          </div>
+          <div class="p-3 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-between">
+            <div><p class="font-bold text-sky-900">LAUNCH10</p><p class="text-xs text-sky-700">Flat 10% Instant Discount</p></div>
+            <button onclick="navigator.clipboard.writeText('LAUNCH10'); alert('Copied LAUNCH10!')" class="px-3 py-1 rounded-lg bg-sky-700 text-white text-xs font-bold">Copy LAUNCH10</button>
+          </div>
+        `;
+      } else if (tab === 'giftcards') {
+        titleEl.textContent = "VastraHub Gift Cards";
+        contentEl.innerHTML = `
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200">
+            <p class="text-xs text-indigo-700 font-semibold">Available Gift Card Wallet</p>
+            <p class="text-3xl font-extrabold text-indigo-950 mt-1">₹${currentUser.giftBalance}</p>
+            <div class="mt-3 flex gap-2">
+              <input id="gcInput" type="text" placeholder="Enter Gift Code (e.g. GIFT500)" class="flex-1 px-3 py-2 rounded-xl border bg-white text-xs uppercase" />
+              <button onclick="redeemGiftCard()" class="px-4 py-2 rounded-xl olive-bg text-white text-xs font-bold">Redeem</button>
+            </div>
+          </div>
+        `;
+      } else if (tab === 'notifications') {
+        titleEl.textContent = "Notifications";
+        contentEl.innerHTML = userNotifications.map(n => `
+          <div class="p-3.5 rounded-2xl border bg-white space-y-1">
+            <div class="flex justify-between"><b class="text-gray-900 text-xs sm:text-sm">${n.title}</b><span class="text-[11px] text-gray-400">${n.time}</span></div>
+            <p class="text-xs text-gray-600">${n.text}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    function cancelOrder(index) {
+      userOrders[index].status = "Cancelled";
+      updateAccountBadges();
+      switchDashTab('orders');
+    }
+
+    function redeemGiftCard() {
+      const val = document.getElementById('gcInput').value.trim().toUpperCase();
+      if (val === 'GIFT500') {
+        currentUser.giftBalance += 500;
+        updateAccountBadges();
+        switchDashTab('giftcards');
+        alert("₹500 added to your Gift Card balance!");
+      } else {
+        alert("Try promo gift code: GIFT500");
+      }
+    }
 
     function renderProducts() {
       const query = (document.getElementById('searchInput').value || document.getElementById('mobileSearch').value).toLowerCase();
@@ -244,19 +702,27 @@
 
       grid.innerHTML = filtered.map(p => {
         const off = Math.round(((p.mrp - p.price) / p.mrp) * 100);
+        const isWished = wishlistIds.includes(p.id);
         return `
           <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col ${!p.inStock ? 'opacity-75' : 'hover:shadow-md transition'}">
             <div class="relative h-44 bg-gray-100">
               <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover ${!p.inStock ? 'grayscale' : ''}" />
               ${p.inStock
-                ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● In Stock</span>`
-                : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">Out of Stock</span>`
+                ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● ${p.stockQty} left</span>`
+                : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">0 left • Sold Out</span>`
               }
+              <button onclick="toggleWishlist(${p.id})" title="Save to Wishlist"
+                class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-white/90 shadow flex items-center justify-center text-xs hover:scale-110 transition">
+                ${isWished ? '❤️' : '🤍'}
+              </button>
               <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold olive-bg text-white">${off}% OFF</span>
             </div>
             <div class="p-3 flex-1 flex flex-col justify-between">
               <div>
-                <span class="text-[11px] text-gray-500">${p.category}</span>
+                <div class="flex justify-between text-[11px] text-gray-500">
+                  <span>${p.category}</span>
+                  <span>Stock: <b>${p.stockQty}</b></span>
+                </div>
                 <h3 class="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-2 mt-0.5">${p.name}</h3>
               </div>
               <div class="mt-3">
@@ -266,7 +732,7 @@
                 </div>
                 ${p.inStock
                   ? `<button onclick="addToCart(${p.id})" class="w-full py-2 rounded-xl olive-bg text-white text-xs font-semibold hover:opacity-95 transition">+ Add to Bag</button>`
-                  : `<button disabled class="w-full py-2 rounded-xl bg-gray-200 text-gray-500 text-xs font-semibold cursor-not-allowed">Sold Out</button>`
+                  : `<button disabled class="w-full py-2 rounded-xl bg-gray-200 text-gray-500 text-xs font-semibold cursor-not-allowed">Out of Stock</button>`
                 }
               </div>
             </div>
@@ -289,33 +755,54 @@
       const prod = products.find(p => p.id === id);
       if (!prod || !prod.inStock) return;
       const item = cart.find(i => i.id === id);
-      if (item) item.qty++;
-      else cart.push({ ...prod, qty: 1 });
+      if (item) {
+        if (item.qty >= prod.stockQty) {
+          alert(`Only ${prod.stockQty} units available in stock!`);
+          return;
+        }
+        item.qty++;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
       updateCartUI();
     }
 
     function changeQty(id, delta) {
       const item = cart.find(i => i.id === id);
       if (!item) return;
+      if (delta > 0 && item.qty >= item.stockQty) {
+        alert(`Maximum available stock (${item.stockQty}) reached.`);
+        return;
+      }
       item.qty += delta;
       if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
       updateCartUI();
     }
 
+    function togglePromoList() {
+      document.getElementById('promoListBox').classList.toggle('hidden');
+    }
+
     function applyPromo() {
       const code = document.getElementById('promoInput').value.trim().toUpperCase();
-      if (code === 'LAUNCH10') {
-        discountApplied = true;
+      if (FREE_PROMO_CODES.includes(code)) {
+        appliedPromoType = 'FREE100';
+        alert(`🎉 Code ${code} applied! Your entire order amount is now ₹0!`);
+      } else if (code === 'LAUNCH10') {
+        appliedPromoType = 'LAUNCH10';
         alert('LAUNCH10 applied! 10% OFF added.');
       } else {
-        alert('Invalid promo code. Use LAUNCH10');
+        alert('Invalid promo code. Try FREE1001 to FREE1050 for ₹0 total!');
       }
       updateCartUI();
     }
 
     function getTotals() {
       const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const discount = discountApplied ? Math.round(subtotal * 0.1) : 0;
+      if (appliedPromoType === 'FREE100') {
+        return { subtotal, discount: subtotal, delivery: 0, total: 0 };
+      }
+      const discount = appliedPromoType === 'LAUNCH10' ? Math.round(subtotal * 0.1) : 0;
       const delivery = subtotal > 999 || subtotal === 0 ? 0 : 49;
       return { subtotal, discount, delivery, total: subtotal - discount + delivery };
     }
@@ -355,9 +842,10 @@
     }
 
     function toggleQRBox() {
+      const { total } = getTotals();
       const payMode = document.querySelector('input[name="payment"]:checked').value;
       const qrBox = document.getElementById('qrPaymentSection');
-      if (payMode === 'MERCHANT_QR') {
+      if (payMode === 'MERCHANT_QR' && total > 0) {
         qrBox.classList.remove('hidden');
       } else {
         qrBox.classList.add('hidden');
@@ -368,9 +856,20 @@
       toggleCart();
       const { total } = getTotals();
       document.getElementById('qrAmountDisplay').textContent = `₹${total}`;
+      if (liveLocationString && !document.getElementById('custAddress').value) {
+        document.getElementById('custAddress').value = liveLocationString;
+      }
       document.getElementById('checkoutForm').classList.remove('hidden');
       document.getElementById('orderSuccessBox').classList.add('hidden');
-      toggleQRBox();
+
+      if (total === 0) {
+        document.getElementById('paymentSelectionGroup').classList.add('hidden');
+        document.getElementById('qrPaymentSection').classList.add('hidden');
+      } else {
+        document.getElementById('paymentSelectionGroup').classList.remove('hidden');
+        toggleQRBox();
+      }
+
       document.getElementById('checkoutModal').classList.remove('hidden');
       document.getElementById('checkoutModal').classList.add('flex');
     }
@@ -382,10 +881,11 @@
 
     async function processOrder(e) {
       e.preventDefault();
+      const { total } = getTotals();
       const payMode = document.querySelector('input[name="payment"]:checked').value;
       const utr = document.getElementById('utrInput').value.trim();
 
-      if (payMode === 'MERCHANT_QR' && utr.length < 6) {
+      if (total > 0 && payMode === 'MERCHANT_QR' && utr.length < 6) {
         alert("Please scan the QR code and enter your UPI Reference / UTR Number to confirm payment.");
         return;
       }
@@ -398,10 +898,34 @@
       const phone = document.getElementById('custPhone').value.trim();
       const size = document.getElementById('custSize').value;
       const address = document.getElementById('custAddress').value.trim();
-      const { total } = getTotals();
       const orderId = "VH-" + Math.floor(100000 + Math.random() * 900000);
 
+      cart.forEach(cItem => {
+        const p = products.find(prod => prod.id === cItem.id);
+        if (p) {
+          p.stockQty = Math.max(0, p.stockQty - cItem.qty);
+          if (p.stockQty === 0) p.inStock = false;
+        }
+      });
+
       const itemsSummary = cart.map((i, idx) => `${idx + 1}. ${i.name} (Size: ${size}) x${i.qty} = ₹${i.price * i.qty}`).join('\n');
+      const shortItemText = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
+      const finalPaymentLabel = total === 0
+        ? "100% Free Promo Order (₹0)"
+        : (payMode === 'MERCHANT_QR' ? `Merchant QR (UTR: ${utr})` : 'Cash on Delivery');
+
+      // Add order to user's Orders tab & reward +20 SuperCoins
+      userOrders.unshift({
+        id: orderId,
+        date: "Nov 22, 2026",
+        items: shortItemText,
+        total,
+        status: "Confirmed"
+      });
+      if (currentUser) {
+        currentUser.coins += 20;
+        updateAccountBadges();
+      }
 
       if (WEB3FORMS_ACCESS_KEY !== "YOUR_WEB3FORMS_ACCESS_KEY") {
         try {
@@ -410,14 +934,15 @@
             headers: { "Content-Type": "application/json", Accept: "application/json" },
             body: JSON.stringify({
               access_key: WEB3FORMS_ACCESS_KEY,
-              subject: `New Order ${orderId} - ₹${total} (${payMode})`,
+              subject: `New Order ${orderId} - ₹${total}`,
               from_name: "VastraHub Store",
               Order_ID: orderId,
+              Logged_In_User: currentUser ? currentUser.id : "Guest",
               Customer_Name: name,
               Customer_Phone: phone,
-              Delivery_Address: address,
+              GPS_And_Address: address,
               Default_Size: size,
-              Payment_Mode: payMode === 'MERCHANT_QR' ? `Merchant QR (UTR: ${utr})` : 'Cash on Delivery',
+              Payment_Mode: finalPaymentLabel,
               Total_Amount: `₹${total}`,
               Ordered_Items: itemsSummary
             })
@@ -427,9 +952,9 @@
         }
       }
 
-      document.getElementById('successMsg').textContent = payMode === 'MERCHANT_QR'
-        ? `Thank you, ${name}! Your payment (UTR: ${utr}) and order of ₹${total} have been recorded.`
-        : `Thank you, ${name}! Your Cash on Delivery order of ₹${total} has been confirmed.`;
+      document.getElementById('successMsg').textContent = total === 0
+        ? `Congratulations ${name}! Your 100% FREE promo order has been placed.`
+        : `Thank you, ${name}! Your order of ₹${total} (${finalPaymentLabel}) has been confirmed.`;
 
       document.getElementById('orderIdBox').textContent = `Order ID: ${orderId} | Payable: ₹${total}`;
       document.getElementById('checkoutForm').classList.add('hidden');
@@ -438,15 +963,18 @@
       btn.disabled = false;
       btn.innerHTML = '<span>🔒 Confirm & Place Order</span>';
       cart = [];
-      discountApplied = false;
+      appliedPromoType = null;
       document.getElementById('utrInput').value = "";
+      renderProducts();
       updateCartUI();
     }
 
     document.getElementById('searchInput').addEventListener('input', renderProducts);
     document.getElementById('mobileSearch').addEventListener('input', renderProducts);
+
     renderProducts();
     updateCartUI();
+    detectGPSLocation();
   </script>
 </body>
 </html>
