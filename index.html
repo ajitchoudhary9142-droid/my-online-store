@@ -469,15 +469,16 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- CUSTOMER STOREFRONT VIEW                                                  -->
+  <!-- CUSTOMER STOREFRONT VIEW (5-BANNER SEAMLESS FORWARD SLIDER)               -->
   <!-- ========================================================================= -->
   <div id="customerStorefrontWrapper" class="flex-1 flex flex-col">
     
-    <!-- Classic Full-Width Sliding Hero Banner -->
+    <!-- 5-Banner Forward-Only Infinite Sliding Hero Carousel -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
       <div class="relative overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white">
         <div id="adSliderTrack" class="flex transition-transform duration-500 ease-out">
-          <!-- Slide 1 -->
+          
+          <!-- Banner 1: Winterwear -->
           <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="max-w-lg space-y-2">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
@@ -488,33 +489,72 @@
             <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
           </div>
 
-          <!-- Slide 2 -->
+          <!-- Banner 2: Ethnic -->
           <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FCE7F3] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="max-w-lg space-y-2">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-700 text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
               <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handloom Sarees & Chikankari Kurtas</h2>
-              <p class="text-sm text-gray-600">Explore 2,000+ styles ready to ship today with live stock tracking and Merchant QR payment.</p>
+              <p class="text-sm text-gray-600">Explore royal weaves and festive sets ready to ship with live stock tracking.</p>
               <button onclick="filterCategory('Ethnic')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Ethnic →</button>
             </div>
             <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Ethnic Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
           </div>
 
-          <!-- Slide 3 -->
+          <!-- Banner 3: Men -->
           <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#ECFCCB] via-[#FAF9F6] to-[#E0F2FE] flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="max-w-lg space-y-2">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
-              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Kids Collection — Bright & Playful</h2>
-              <p class="text-sm text-gray-600">Cheerful kids collection with vibrant yellow portraits, live ratings & multi-angle previews.</p>
-              <button onclick="filterCategory('Kids')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Kids →</button>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Supima Drop-Shoulder Tees & Denim</h2>
+              <p class="text-sm text-gray-600">240 GSM bio-wash cotton tees, linen shirts & stretch tapered jeans for men.</p>
+              <button onclick="filterCategory('Men')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Men →</button>
             </div>
-            <div class="w-full md:w-72 h-44 bg-yellow-300 rounded-2xl shadow overflow-hidden flex items-center justify-center">
-              <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80" alt="Kids Collection" class="w-full h-full object-cover object-top" />
-            </div>
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Mens Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
           </div>
+
+          <!-- Banner 4: Women -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FAE8FF] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-purple-800 text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Handblock Anarkalis & Lounge Co-ords</h2>
+              <p class="text-sm text-gray-600">Breathable Jaipur mulmul silhouettes, pleated wrap dresses & satin blouses.</p>
+              <button onclick="filterCategory('Women')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Women →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Womens Wear" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
+
+          <!-- Banner 5: Kids Wear Apparel -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#FEF08A] via-[#FAF9F6] to-[#FEF9C3] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Kids Wear — Organic & Festive Sets</h2>
+              <p class="text-sm text-gray-600">Soft 100% organic cotton sweatshirts, denim dungarees & festive kurta sets for kids.</p>
+              <button onclick="filterCategory('Kids')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Explore Kids Wear →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&q=80" alt="Kids Wear Apparel" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
+
+          <!-- Clone of Banner 1 (Enables seamless forward-only transition from Banner 5 -> Banner 1 without reversing) -->
+          <div class="min-w-full p-6 sm:p-10 bg-gradient-to-r from-[#E0F2FE] via-[#FAF9F6] to-[#FCE7F3] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-lg space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold olive-bg text-white hindi-font">मेरे कपड़े, मेरी पसंद</span>
+              <h2 class="text-2xl sm:text-4xl font-bold text-gray-900">Winter Quilted Jackets & Hoodies</h2>
+              <p class="text-sm text-gray-600">Heavy fleece warmth with street-ready cuts. Apply <b class="olive-text">FREE1001</b> at checkout for ₹0 Cart Total!</p>
+              <button onclick="filterCategory('Winterwear')" class="mt-2 px-5 py-2 rounded-full olive-bg text-white text-xs font-semibold">Shop Winterwear →</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Winter Jacket" class="w-full md:w-72 h-44 object-cover rounded-2xl shadow" />
+          </div>
+
         </div>
 
-        <button onclick="moveSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">‹</button>
-        <button onclick="moveSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
+        <!-- Forward Next Control & 5 Banner Indicator Dots -->
+        <button onclick="advanceBannerForward()" title="Next Banner" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center font-bold text-gray-800 hover:bg-white">›</button>
+        <div id="bannerDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/80 backdrop-blur px-2.5 py-1 rounded-full shadow-sm">
+          <button onclick="jumpToBanner(0)" class="b-dot w-3 h-2 rounded-full olive-bg transition-all"></button>
+          <button onclick="jumpToBanner(1)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
+          <button onclick="jumpToBanner(2)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
+          <button onclick="jumpToBanner(3)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
+          <button onclick="jumpToBanner(4)" class="b-dot w-2 h-2 rounded-full bg-gray-300 transition-all"></button>
+        </div>
       </div>
 
       <!-- Category, Stock & Sort Filters Bar -->
@@ -529,7 +569,6 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <!-- Sort By Filter Dropdown -->
           <select id="sortFilter" onchange="resetAndRenderProducts()" class="px-3 py-1.5 rounded-full border border-gray-300 bg-white text-xs sm:text-sm font-medium text-gray-800">
             <option value="featured">Sort: Featured</option>
             <option value="price-asc">Price: Low to High</option>
@@ -550,13 +589,13 @@
       </div>
     </section>
 
-    <!-- Products Grid + Pagination -->
+    <!-- Products Grid + See More Extend Button -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1 w-full">
       <p id="resultCount" class="text-xs text-gray-500 mb-4 font-medium"></p>
       <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
 
-      <!-- Pagination Controls -->
-      <div id="paginationBar" class="mt-8 flex flex-wrap items-center justify-center gap-2"></div>
+      <!-- See More Extend Container -->
+      <div id="seeMoreContainer" class="mt-10 flex flex-col items-center justify-center gap-2"></div>
     </main>
 
     <!-- Dark Luxury Footer -->
@@ -664,7 +703,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL MODAL (WITH INTERACTIVE USER STAR RATING SYSTEM) -->
+  <!-- PRODUCT DETAIL MODAL -->
   <div id="productDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
       <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -698,7 +737,6 @@
 
             <p id="pdDesc" class="text-xs sm:text-sm text-gray-600 leading-relaxed"></p>
 
-            <!-- Interactive Customer Rating Box -->
             <div class="p-2.5 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-center justify-between gap-2">
               <span class="text-xs font-bold text-gray-800">Rate this product:</span>
               <div id="pdRateStars" class="flex items-center gap-1 text-lg"></div>
@@ -772,7 +810,6 @@
         </button>
       </div>
 
-      <!-- FORM 1: SIGN IN -->
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">User ID</label>
@@ -796,7 +833,6 @@
         </button>
       </form>
 
-      <!-- FORM 2: CREATE NEW USER ACCOUNT -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="hidden space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">Full Name</label>
@@ -1169,7 +1205,7 @@
       stockOverrides: {},
       priceOverrides: {},
       mrpOverrides: {},
-      productRatings: {}, // { productId: { sum: number, count: number, userVotes: { userId: rating } } }
+      productRatings: {},
       customListedProducts: []
     };
     if (!storeAnalytics.productRatings) storeAnalytics.productRatings = {};
@@ -1215,7 +1251,6 @@
     const FREE_PROMO_CODES = Array.from({ length: 50 }, (_, i) => `FREE${1001 + i}`);
     document.getElementById('promoListBox').textContent = FREE_PROMO_CODES.join(', ');
 
-    // Adult Apparel Images (Men, Women, Winterwear, Ethnic)
     const adultClothingImages = [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80",
@@ -1248,20 +1283,18 @@
       "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=600&q=80"
     ];
 
-    // Dedicated Kids Faces Portraits Pool (Paired with Yellow Background)
-    const kidsFaceImages = [
-      "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80",
+    // Dedicated Kids Clothing & Apparel Images Pool (No Faces — Pure Kids Wear)
+    const kidsWearImages = [
+      "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&q=80",
       "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&q=80",
-      "https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=600&q=80",
-      "https://images.unsplash.com/photo-1545696968-1a5245650b36?w=600&q=80",
+      "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600&q=80",
       "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&q=80",
-      "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=600&q=80",
-      "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600&q=80",
-      "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?w=600&q=80",
+      "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?w=600&q=80",
+      "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=600&q=80",
+      "https://images.unsplash.com/photo-1543854589-fdd815f176e0?w=600&q=80",
       "https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=600&q=80",
-      "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=600&q=80",
-      "https://images.unsplash.com/photo-1502781252888-9143ba7f074e?w=600&q=80",
-      "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?w=600&q=80"
+      "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600&q=80",
+      "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&q=80"
     ];
 
     const styleArchetypes = [
@@ -1278,7 +1311,7 @@
       { title: "Pleated Georgette Wrap Midi Dress", cat: "Women", basePrice: 1599, mrp: 3199, fabric: "Crinkle Georgette with Satin Lining", fit: "A-Line Waist Tie", care: "Dry Clean / Cold Wash", sizes: ["XS", "S", "M", "L", "XL"] },
       { title: "Merino Blend Cable-Knit Pullover", cat: "Winterwear", basePrice: 1449, mrp: 2899, fabric: "Fine Merino Wool & Acrylic Blend", fit: "Classic Crewneck Fit", care: "Flat Dry Only", sizes: ["S", "M", "L", "XL"] },
       { title: "Banarasi Brocade Festive Kurta Set", cat: "Ethnic", basePrice: 1899, mrp: 3799, fabric: "Woven Jacquard Silk Blend", fit: "Royal Straight Cut", care: "Dry Clean Only", sizes: ["M", "L", "XL", "XXL"] },
-      { title: "Kids Fleece Hooded Bomber", cat: "Kids", basePrice: 849, mrp: 1699, fabric: "Soft Brushed Cotton Fleece", fit: "Regular Winter Fit", care: "Machine Wash Cold", sizes: ["3-4Y", "5-6Y", "7-8Y", "9-10Y"] },
+      { title: "Kids Fleece Hooded Bomber Jacket", cat: "Kids", basePrice: 849, mrp: 1699, fabric: "Soft Brushed Cotton Fleece", fit: "Regular Winter Fit", care: "Machine Wash Cold", sizes: ["3-4Y", "5-6Y", "7-8Y", "9-10Y"] },
       { title: "Cargo Utility Ripstop Trousers", cat: "Men", basePrice: 1349, mrp: 2699, fabric: "100% Cotton Ripstop Weave", fit: "Relaxed Straight Cargo", care: "Machine Wash Cold", sizes: ["30", "32", "34", "36"] },
       { title: "Chanderi Silk Dupatta Palazzo Suit", cat: "Ethnic", basePrice: 2199, mrp: 4399, fabric: "Handwoven Chanderi Silk Cotton", fit: "Graceful Ethnic Fit", care: "Dry Clean Recommended", sizes: ["S", "M", "L", "XL"] },
       { title: "Waffle-Knit Henley Full Sleeve Tee", cat: "Men", basePrice: 749, mrp: 1499, fabric: "Thermal Waffle Combed Cotton", fit: "Slim Athletic Fit", care: "Machine Wash Cold", sizes: ["S", "M", "L", "XL"] },
@@ -1298,17 +1331,14 @@
     const editionTags = ["Classic", "Signature", "Studio", "Heritage", "Urban", "Artisan", "Luxe", "Essential"];
 
     function buildProductObject(data) {
-      const isKids = data.category === 'Kids';
-      const defaultFocus = isKids ? "object-cover object-top scale-100" : "object-cover object-center scale-100";
       return {
         ...data,
-        isKids,
         inStock: data.stockQty > 0,
         angles: [
-          { label: isKids ? "1. Portrait Front View" : "1. Full Front View", url: data.img, style: defaultFocus },
-          { label: isKids ? "2. Close Smile Focus" : "2. Upper Collar & Shoulder Focus", url: data.img, style: "object-cover object-top scale-150" },
-          { label: isKids ? "3. Styled Frame View" : "3. Lower Drape & Hemline Focus", url: data.img, style: isKids ? "object-cover object-center scale-125" : "object-cover object-bottom scale-150" },
-          { label: "4. Fabric & Detail Close-Up", url: data.img, style: "object-cover object-center scale-[2.0]" }
+          { label: "1. Full Front View", url: data.img, style: "object-cover object-center scale-100" },
+          { label: "2. Upper Collar & Shoulder Focus", url: data.img, style: "object-cover object-top scale-150" },
+          { label: "3. Lower Drape & Hemline Focus", url: data.img, style: "object-cover object-bottom scale-150" },
+          { label: "4. Fabric Weave & Stitch Close-Up", url: data.img, style: "object-cover object-center scale-[2.1]" }
         ]
       };
     }
@@ -1326,9 +1356,9 @@
       const baseCalculatedPrice = storeAnalytics.priceOverrides[id] !== undefined ? storeAnalytics.priceOverrides[id] : (arch.basePrice + priceDelta);
       const mrpCalculated = storeAnalytics.mrpOverrides[id] !== undefined ? storeAnalytics.mrpOverrides[id] : Math.max(arch.mrp + priceDelta, baseCalculatedPrice + 300);
 
-      // Use dedicated Kids Face Portraits for Kids category, and Adult Clothing for others
+      // Kids category uses dedicated Kids Clothing & Apparel images (no faces)
       const primaryImg = arch.cat === 'Kids'
-        ? kidsFaceImages[idx % kidsFaceImages.length]
+        ? kidsWearImages[idx % kidsWearImages.length]
         : adultClothingImages[idx % adultClothingImages.length];
 
       return buildProductObject({
@@ -1364,7 +1394,6 @@
 
     let products = [...customHydrated, ...baseProducts];
 
-    // ====== REAL PRODUCT RATING HELPERS (STARTS AT 0.0 UNTIL RATED) ======
     function getProductRatingStats(productId) {
       const entry = storeAnalytics.productRatings[productId];
       if (!entry || !entry.count) {
@@ -1407,18 +1436,60 @@
     let appliedPromoType = null;
     let liveLocationString = "";
     let selectedDetailSize = "M";
-    let currentPage = 1;
-    const ITEMS_PER_PAGE = 50;
 
-    // Classic Hero Slider
-    let currentSlide = 0;
-    function moveSlide(step) {
+    // Incremental "See More" Extend State
+    const LOAD_BATCH_SIZE = 50;
+    let visibleItemsLimit = LOAD_BATCH_SIZE;
+
+    // ====== 5-BANNER SEAMLESS FORWARD-ONLY CONTINUOUS SLIDER ======
+    const TOTAL_BANNERS = 5;
+    let currentBannerIdx = 0;
+    let isBannerTransitioning = false;
+
+    function updateBannerDots(activeIndex) {
+      const realIdx = activeIndex % TOTAL_BANNERS;
+      document.querySelectorAll('.b-dot').forEach((dot, idx) => {
+        dot.className = idx === realIdx
+          ? 'b-dot w-3 h-2 rounded-full olive-bg transition-all'
+          : 'b-dot w-2 h-2 rounded-full bg-gray-300 transition-all';
+      });
+    }
+
+    function advanceBannerForward() {
+      const track = document.getElementById('adSliderTrack');
+      if (!track || isBannerTransitioning) return;
+
+      isBannerTransitioning = true;
+      currentBannerIdx++;
+      track.style.transition = 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)';
+      track.style.transform = `translateX(-${currentBannerIdx * 100}%)`;
+      updateBannerDots(currentBannerIdx);
+
+      if (currentBannerIdx === TOTAL_BANNERS) {
+        setTimeout(() => {
+          track.style.transition = 'none';
+          currentBannerIdx = 0;
+          track.style.transform = 'translateX(0%)';
+          void track.offsetWidth;
+          isBannerTransitioning = false;
+        }, 460);
+      } else {
+        setTimeout(() => {
+          isBannerTransitioning = false;
+        }, 460);
+      }
+    }
+
+    function jumpToBanner(targetIdx) {
       const track = document.getElementById('adSliderTrack');
       if (!track) return;
-      currentSlide = (currentSlide + step + 3) % 3;
-      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      currentBannerIdx = targetIdx;
+      track.style.transition = 'transform 400ms ease-out';
+      track.style.transform = `translateX(-${currentBannerIdx * 100}%)`;
+      updateBannerDots(currentBannerIdx);
     }
-    setInterval(() => moveSlide(1), 4000);
+
+    setInterval(advanceBannerForward, 2800);
 
     function openStoreQRPoster() {
       const m = document.getElementById('storeQrModal');
@@ -1771,7 +1842,7 @@
 
     function pickRandomPresetPhoto() {
       const cat = document.getElementById('newProdCat').value;
-      const pool = cat === 'Kids' ? kidsFaceImages : adultClothingImages;
+      const pool = cat === 'Kids' ? kidsWearImages : adultClothingImages;
       const randImg = pool[Math.floor(Math.random() * pool.length)];
       document.getElementById('newProdImg').value = randImg;
     }
@@ -1790,7 +1861,7 @@
       const sizesRaw = document.getElementById('newProdSizes').value.split(',').map(s => s.trim()).filter(Boolean);
       const sizes = sizesRaw.length > 0 ? sizesRaw : ["S", "M", "L", "XL"];
       const imgInput = document.getElementById('newProdImg').value.trim();
-      const pool = category === 'Kids' ? kidsFaceImages : adultClothingImages;
+      const pool = category === 'Kids' ? kidsWearImages : adultClothingImages;
       const img = imgInput || pool[Math.floor(Math.random() * pool.length)];
 
       const nextId = products.reduce((max, p) => Math.max(max, p.id), 2000) + 1;
@@ -1870,12 +1941,10 @@
 
     function renderAdminEnlargedProductCard(p, rank, metricLabel, metricBadgeClass) {
       const discPct = Math.max(0, Math.round(((p.mrp - p.basePrice) / p.mrp) * 100));
-      const imgBgClass = p.isKids ? 'bg-yellow-300' : 'bg-gray-100';
-      const imgFitClass = p.isKids ? 'object-cover object-top' : 'object-cover';
       return `
         <div class="bg-[#FAF9F6] border border-gray-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
-          <div class="relative h-56 ${imgBgClass}">
-            <img src="${p.img}" alt="${p.name}" class="w-full h-full ${imgFitClass}" />
+          <div class="relative h-56 bg-gray-100">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" />
             <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/95 text-gray-900 font-extrabold text-xs shadow-sm">#${rank} • ${p.sku}</span>
             <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg font-extrabold text-xs shadow-sm ${metricBadgeClass}">${metricLabel}</span>
             <span class="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-sm ${p.stockQty > 0 ? 'bg-green-100 text-green-800' : 'bg-red-600 text-white'}">
@@ -1942,7 +2011,7 @@
         : customListed.map(p => `
           <div class="p-2.5 rounded-xl bg-[#FAF9F6] border border-gray-200 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2.5 truncate">
-              <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover ${p.isKids ? 'bg-yellow-300' : ''}" />
+              <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover" />
               <div class="truncate">
                 <p class="font-bold text-gray-900 truncate">${p.name}</p>
                 <p class="text-[11px] olive-text font-semibold">₹${p.basePrice} (MRP ₹${p.mrp}) • Stock: ${p.stockQty}</p>
@@ -2050,7 +2119,7 @@
         return `
           <tr class="hover:bg-gray-50">
             <td class="p-3 font-medium text-gray-900 flex items-center gap-3">
-              <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover border border-gray-200 ${p.isKids ? 'bg-yellow-300 object-top' : ''}" />
+              <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover border border-gray-200" />
               <div>
                 <span class="text-[10px] font-mono text-amber-700 font-bold block">${p.sku}</span>
                 <span class="truncate max-w-[180px] block font-semibold">${p.name}</span>
@@ -2219,12 +2288,10 @@
       document.getElementById('pdDiscount').textContent = activeFestival50Off ? `${off}% OFF (FESTIVAL 50% DEAL)` : `${off}% OFF`;
       document.getElementById('pdDesc').textContent = p.description;
 
-      // Display Real Rating (Starts at 0.0)
       document.getElementById('pdRating').textContent = rStats.count > 0
         ? `⭐ ${rStats.avg} (${rStats.count} Review${rStats.count > 1 ? 's' : ''})`
         : `☆ 0.0 (0 Reviews)`;
 
-      // Render Interactive 1-5 Star Rating Buttons
       const userExistingVote = (currentUser && storeAnalytics.productRatings[p.id]?.userVotes?.[currentUser.id]) || 0;
       document.getElementById('pdRateStars').innerHTML = [1, 2, 3, 4, 5].map(star => `
         <button type="button" onclick="submitProductRating(${p.id}, ${star})" title="Rate ${star} Star"
@@ -2242,16 +2309,13 @@
         stockBadge.textContent = "● Out of Stock (0 units left)";
       }
 
-      // Apply Yellow Background for Kids Portraits
       const mainImgBox = document.getElementById('pdMainImgBox');
-      mainImgBox.className = p.isKids
-        ? "relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-yellow-300 border border-yellow-400"
-        : "relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border";
+      mainImgBox.className = "relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gray-100 border";
 
       setDetailAngle(p.angles[0].url, p.angles[0].label, p.angles[0].style);
       document.getElementById('pdThumbnails').innerHTML = p.angles.map((ang) => `
         <button type="button" onclick="setDetailAngle('${ang.url}', '${ang.label}', '${ang.style}')"
-          class="border-2 rounded-xl overflow-hidden h-16 hover:border-[#4A5D23] focus:border-[#4A5D23] transition relative ${p.isKids ? 'bg-yellow-300' : 'bg-gray-100'}">
+          class="border-2 rounded-xl overflow-hidden h-16 hover:border-[#4A5D23] focus:border-[#4A5D23] transition relative bg-gray-100">
           <img src="${ang.url}" class="w-full h-full ${ang.style}" />
           <span class="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[9px] py-0.5 text-center truncate">${ang.label.split('. ')[1]}</span>
         </button>
@@ -2405,7 +2469,7 @@
           : wished.map(p => `
             <div class="p-3 rounded-2xl border bg-white flex items-center justify-between gap-3">
               <div class="flex items-center gap-3 cursor-pointer" onclick="closeDashboard(); openProductDetail(${p.id});">
-                <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover ${p.isKids ? 'bg-yellow-300 object-top' : ''}" />
+                <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover" />
                 <div>
                   <p class="font-semibold text-xs sm:text-sm">${p.name}</p>
                   <p class="text-xs font-bold olive-text">₹${getEffectivePrice(p)}</p>
@@ -2467,7 +2531,12 @@
     }
 
     function resetAndRenderProducts() {
-      currentPage = 1;
+      visibleItemsLimit = LOAD_BATCH_SIZE;
+      renderProducts();
+    }
+
+    function extendMoreProducts() {
+      visibleItemsLimit += LOAD_BATCH_SIZE;
       renderProducts();
     }
 
@@ -2484,7 +2553,6 @@
         return matchCat && matchSearch && matchStock;
       });
 
-      // Apply Sort Filter
       if (sortMode === 'price-asc') {
         filtered.sort((a, b) => getEffectivePrice(a) - getEffectivePrice(b));
       } else if (sortMode === 'price-desc') {
@@ -2501,25 +2569,20 @@
         filtered.sort((a, b) => b.id - a.id);
       }
 
-      const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-      if (currentPage > totalPages) currentPage = totalPages;
-      const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-      const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+      const displayedItems = filtered.slice(0, visibleItemsLimit);
 
-      document.getElementById('resultCount').textContent = `Showing ${startIdx + 1}–${startIdx + pageItems.length} of ${filtered.length} products`;
+      document.getElementById('resultCount').textContent = `Showing ${displayedItems.length} of ${filtered.length} products`;
 
-      grid.innerHTML = pageItems.map(p => {
+      grid.innerHTML = displayedItems.map(p => {
         const sellPrice = getEffectivePrice(p);
         const off = Math.round(((p.mrp - sellPrice) / p.mrp) * 100);
         const isWished = currentUser && userState.wishlist.includes(p.id);
         const rStats = getProductRatingStats(p.id);
-        const cardImgBg = p.isKids ? 'bg-yellow-300' : 'bg-gray-100';
-        const cardImgFit = p.isKids ? 'object-cover object-top' : 'object-cover';
 
         return `
           <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col ${!p.inStock ? 'opacity-75' : 'hover:shadow-md transition'}">
-            <div onclick="openProductDetail(${p.id})" class="relative h-44 ${cardImgBg} cursor-pointer group">
-              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full ${cardImgFit} group-hover:scale-105 transition duration-300 ${!p.inStock ? 'grayscale' : ''}" />
+            <div onclick="openProductDetail(${p.id})" class="relative h-44 bg-gray-100 cursor-pointer group">
+              <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 ${!p.inStock ? 'grayscale' : ''}" />
               ${p.inStock
                 ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">● ${p.stockQty} left</span>`
                 : `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white">0 left • Sold Out</span>`
@@ -2555,27 +2618,27 @@
         `;
       }).join('');
 
-      const pagBar = document.getElementById('paginationBar');
-      if (totalPages <= 1) {
-        pagBar.innerHTML = '';
-      } else {
-        pagBar.innerHTML = `
-          <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3.5 py-1.5 rounded-xl border bg-white text-xs font-bold disabled:opacity-40">← Prev</button>
-          <span class="px-3 py-1.5 text-xs font-bold text-gray-700">Page ${currentPage} of ${totalPages}</span>
-          <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3.5 py-1.5 rounded-xl border bg-white text-xs font-bold disabled:opacity-40">Next →</button>
+      // Render "See More" Button to extend list downwards
+      const seeMoreBox = document.getElementById('seeMoreContainer');
+      const remainingCount = filtered.length - displayedItems.length;
+      if (remainingCount > 0) {
+        seeMoreBox.innerHTML = `
+          <button onclick="extendMoreProducts()" class="px-8 py-3 rounded-full olive-bg text-white text-xs sm:text-sm font-bold shadow-sm hover:opacity-95 transition flex items-center gap-2">
+            <span>See More</span>
+            <span class="bg-white/20 px-2 py-0.5 rounded-full text-[11px]">+${Math.min(LOAD_BATCH_SIZE, remainingCount)} more</span>
+          </button>
+          <p class="text-[11px] text-gray-400">${remainingCount} more styles available below</p>
         `;
+      } else {
+        seeMoreBox.innerHTML = filtered.length > 0
+          ? '<p class="text-xs text-gray-400 font-medium">✓ All matching styles loaded</p>'
+          : '';
       }
-    }
-
-    function changePage(newPage) {
-      currentPage = Math.max(1, newPage);
-      renderProducts();
-      window.scrollTo({ top: 260, behavior: 'smooth' });
     }
 
     function filterCategory(cat) {
       currentCategory = cat;
-      currentPage = 1;
+      visibleItemsLimit = LOAD_BATCH_SIZE;
       document.querySelectorAll('.cat-btn').forEach(btn => {
         const isMatch = (cat === 'All' && btn.textContent.startsWith('All')) || btn.textContent.startsWith(cat);
         btn.className = isMatch
