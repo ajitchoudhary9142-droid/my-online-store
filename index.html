@@ -29,7 +29,6 @@
     .olive-text { color: var(--brand-primary); }
     .sky-accent { background-color: var(--brand-accent-soft); color: #0369A1; }
 
-    /* Custom Sleek Scrollbar */
     ::-webkit-scrollbar { width: 7px; height: 7px; }
     ::-webkit-scrollbar-track { background: #FAF9F6; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
@@ -101,7 +100,7 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Toast Notification Container (Replaces intrusive browser alerts) -->
+  <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-[90] flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
   <!-- Floating Back-to-Top Button -->
@@ -177,14 +176,11 @@
         </div>
       </div>
 
-      <!-- Live Search Bar with Autocomplete Dropdown (Myntra/Ajio UX) -->
       <div id="navSearchWrapper" class="relative hidden md:flex flex-1 max-w-md">
         <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">🔍</span>
         <input id="searchInput" type="text" autocomplete="off" placeholder="Search for kurtas, jackets, tees, sarees..."
           class="w-full pl-9 pr-8 py-2 rounded-full border border-gray-300 bg-[#FAF9F6] text-sm focus:outline-none focus:border-[#4A5D23] focus:bg-white transition" />
         <button id="clearSearchBtn" onclick="clearSearchQuery()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-xs font-bold">✕</button>
-
-        <!-- Instant Search Suggestions Dropdown -->
         <div id="searchAutocompleteDropdown" class="hidden absolute left-0 right-0 top-11 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50"></div>
       </div>
 
@@ -244,7 +240,7 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- UNIFIED ADMIN CONTROL & PRODUCT LISTING STUDIO                            -->
+  <!-- UNIFIED ADMIN CONTROL & BACKEND ENGINE CONSOLE                            -->
   <!-- ========================================================================= -->
   <section id="adminDashboardSection" class="hidden flex-1 bg-[#FAF9F6] text-gray-900 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
@@ -288,7 +284,7 @@
           📦 Regulate Stock, Price & Remove
         </button>
         <button onclick="switchAdminTab('users')" data-admtab="users" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
-          🔐 Registered Users (SHA-256 Protected)
+          🔐 Users, Audit Logs & Backup
         </button>
         <button onclick="switchAdminTab('orders')" data-admtab="orders" class="adm-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-100 transition">
           🧾 All Customer Orders
@@ -426,7 +422,7 @@
         </div>
       </div>
 
-      <!-- TAB 1: ENLARGED PRODUCT CARDS FOR MOST VIEWED & ORDERED + DIRECT STOCK & REMOVE -->
+      <!-- TAB 1: ENLARGED PRODUCT CARDS FOR MOST VIEWED & ORDERED -->
       <div id="admTab_analytics" class="adm-panel hidden space-y-8">
         <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
           <div>
@@ -479,29 +475,45 @@
         </div>
       </div>
 
-      <!-- TAB 3: Registered Users (SHA-256 Encrypted Vault) -->
-      <div id="admTab_users" class="adm-panel hidden bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h3 class="font-bold text-base text-gray-900">🔐 Registered Users Directory (SHA-256 Zero-Knowledge Protected)</h3>
-            <p class="text-xs text-gray-500">Passwords are encrypted with one-way SHA-256 cryptographic hashing—plain-text passwords are never stored.</p>
+      <!-- TAB 3: Registered Users, Backend Audit Logs & JSON Backup Engine -->
+      <div id="admTab_users" class="adm-panel hidden space-y-6">
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-base text-gray-900">🔐 Registered Users Directory (SHA-256 Zero-Knowledge Protected)</h3>
+              <p class="text-xs text-gray-500">Passwords are encrypted with one-way SHA-256 cryptographic hashing—plain-text passwords are never stored.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="KapdaHubBackend.exportBackupJSON()" class="px-3 py-1.5 rounded-xl olive-bg text-white text-xs font-bold hover:opacity-95">
+                ⬇️ Export Backend JSON Backup
+              </button>
+              <span id="admVaultBadge" class="px-3 py-1.5 rounded-xl bg-green-100 text-green-800 text-xs font-bold">Total Accounts: 6</span>
+            </div>
           </div>
-          <span id="admVaultBadge" class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">Total Accounts: 6</span>
+          <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-[#FAF9F6] text-gray-600 border-b border-gray-200">
+                <tr>
+                  <th class="p-3">Full Name</th>
+                  <th class="p-3">User ID</th>
+                  <th class="p-3">Security Status</th>
+                  <th class="p-3">Mobile / Email</th>
+                  <th class="p-3">Account Type</th>
+                  <th class="p-3">Created On</th>
+                </tr>
+              </thead>
+              <tbody id="admUsersTableBody" class="divide-y divide-gray-100 bg-white"></tbody>
+            </table>
+          </div>
         </div>
-        <div class="overflow-x-auto border border-gray-200 rounded-2xl">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead class="bg-[#FAF9F6] text-gray-600 border-b border-gray-200">
-              <tr>
-                <th class="p-3">Full Name</th>
-                <th class="p-3">User ID</th>
-                <th class="p-3">Security Status</th>
-                <th class="p-3">Mobile / Email</th>
-                <th class="p-3">Account Type</th>
-                <th class="p-3">Created On</th>
-              </tr>
-            </thead>
-            <tbody id="admUsersTableBody" class="divide-y divide-gray-100 bg-white"></tbody>
-          </table>
+
+        <!-- Backend System Audit Logs -->
+        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-base text-gray-900">🖥️ Backend Security & Activity Audit Log</h3>
+            <span class="text-[11px] font-mono text-gray-400">Real-Time Event Stream</span>
+          </div>
+          <div id="admAuditLogList" class="bg-[#FAF9F6] border border-gray-200 rounded-2xl p-3.5 max-h-48 overflow-y-auto space-y-1.5 font-mono text-[11px] text-gray-700"></div>
         </div>
       </div>
 
@@ -599,7 +611,7 @@
         <div id="seeMoreContainer" class="mt-10 flex flex-col items-center justify-center gap-2"></div>
       </div>
 
-      <!-- Recently Viewed Products Strip (Myntra / Amazon UX) -->
+      <!-- Recently Viewed Products Strip -->
       <section id="recentlyViewedSection" class="hidden pt-8 border-t border-gray-200 space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-base sm:text-lg font-bold text-gray-900">👀 Recently Viewed Styles</h3>
@@ -702,7 +714,7 @@
     </div>
   </div>
 
-  <!-- Interactive Size Guide Modal (Snitch / Zara UX) -->
+  <!-- Interactive Size Guide Modal -->
   <div id="sizeGuideModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-black/60">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex justify-between items-center border-b pb-3">
@@ -749,7 +761,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL MODAL (WITH PIN DELIVERY CHECKER, SIZE GUIDE & INTERACTIVE STAR RATING) -->
+  <!-- PRODUCT DETAIL MODAL -->
   <div id="productDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl my-8">
       <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -783,13 +795,11 @@
 
             <p id="pdDesc" class="text-xs sm:text-sm text-gray-600 leading-relaxed"></p>
 
-            <!-- Interactive Rating Box -->
             <div class="p-2.5 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-center justify-between gap-2">
               <span class="text-xs font-bold text-gray-800">Rate this product:</span>
               <div id="pdRateStars" class="flex items-center gap-1 text-lg"></div>
             </div>
 
-            <!-- Size Selector + Size Guide Trigger -->
             <div class="pt-1">
               <div class="flex items-center justify-between mb-2">
                 <p class="text-xs font-bold text-gray-700">Select Size:</p>
@@ -800,7 +810,6 @@
               <div id="pdSizeButtons" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <!-- PIN Code Delivery Date Checker (Amazon/Flipkart UX) -->
             <div class="p-3 rounded-2xl bg-[#FAF9F6] border border-gray-200 space-y-1.5">
               <p class="text-[11px] font-bold text-gray-700">🚚 Check Delivery Date & COD Availability</p>
               <div class="flex gap-2">
@@ -811,7 +820,6 @@
               <p id="pinResultText" class="text-[11px] text-green-700 font-semibold hidden"></p>
             </div>
 
-            <!-- Specifications Grid -->
             <div>
               <p class="text-xs font-bold text-gray-700 mb-1.5">Product Specifications:</p>
               <div id="pdSpecsGrid" class="grid grid-cols-2 gap-2 text-xs bg-[#FAF9F6] p-3 rounded-2xl border border-gray-200"></div>
@@ -857,7 +865,7 @@
     </div>
   </div>
 
-  <!-- LOGIN & NEW USER CREATION MODAL -->
+  <!-- LOGIN, NEW USER CREATION & FORGOT PASSWORD RECOVERY MODAL -->
   <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl my-8">
       <div class="flex justify-between items-center mb-2">
@@ -866,7 +874,7 @@
       </div>
       <p id="authPromptSubtext" class="text-xs text-gray-500 mb-4">Sign in or create a free account to shop and save items.</p>
 
-      <div class="grid grid-cols-2 gap-1 p-1 bg-gray-100 rounded-xl mb-4 text-xs font-bold">
+      <div id="authModeTabs" class="grid grid-cols-2 gap-1 p-1 bg-gray-100 rounded-xl mb-4 text-xs font-bold">
         <button type="button" id="tabSignInBtn" onclick="switchAuthTab('login')" class="py-2 rounded-lg bg-white text-gray-900 shadow-sm transition">
           Sign In
         </button>
@@ -875,6 +883,7 @@
         </button>
       </div>
 
+      <!-- FORM 1: SIGN IN -->
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">User ID</label>
@@ -882,7 +891,12 @@
             class="w-full mt-1 px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
         </div>
         <div>
-          <label class="text-xs font-semibold text-gray-600">Password</label>
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold text-gray-600">Password</label>
+            <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-bold olive-text underline hover:opacity-80">
+              Forgot Password?
+            </button>
+          </div>
           <div class="relative mt-1">
             <input required id="loginPassword" type="password" placeholder="Enter your Password"
               class="w-full px-4 py-2.5 pr-11 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
@@ -898,6 +912,7 @@
         </button>
       </form>
 
+      <!-- FORM 2: CREATE NEW USER ACCOUNT -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="hidden space-y-3">
         <div>
           <label class="text-xs font-semibold text-gray-600">Full Name</label>
@@ -930,10 +945,63 @@
           Create Account & Login
         </button>
       </form>
+
+      <!-- FORM 3: FORGOT PASSWORD RECOVERY (2-STEP VERIFICATION + SHA-256 RESET) -->
+      <div id="forgotPasswordPanel" class="hidden space-y-3">
+        <!-- Step 1: Verify User ID & Registered Mobile -->
+        <form id="forgotStep1Form" onsubmit="handleForgotVerify(event)" class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Registered User ID</label>
+            <input required id="fpUserId" type="text" autocomplete="off" placeholder="Enter your User ID"
+              class="w-full mt-1 px-4 py-2 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Registered Mobile Number</label>
+            <input required id="fpPhone" type="tel" placeholder="Enter registered mobile number"
+              class="w-full mt-1 px-4 py-2 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+          </div>
+          <p id="fpErrorMsg" class="hidden text-xs text-red-600 font-semibold"></p>
+          <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition">
+            Verify & Send Recovery OTP
+          </button>
+        </form>
+
+        <!-- Step 2: Enter OTP & Set New SHA-256 Password -->
+        <form id="forgotStep2Form" onsubmit="handleForgotReset(event)" class="hidden space-y-3">
+          <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
+            <p class="font-bold">Verification Code Generated:</p>
+            <p class="mt-0.5">Your 6-digit recovery OTP is <span id="fpDisplayedOtp" class="font-mono font-extrabold text-sm underline">000000</span></p>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Enter 6-Digit OTP *</label>
+            <input required id="fpOtpInput" type="text" maxlength="6" placeholder="6-digit code"
+              class="w-full mt-1 px-4 py-2 border rounded-xl text-sm font-mono tracking-widest focus:outline-none focus:border-[#4A5D23]" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">New Password *</label>
+            <div class="relative mt-1">
+              <input required id="fpNewPassword" type="password" minlength="4" placeholder="Enter new password"
+                class="w-full px-4 py-2 pr-11 border rounded-xl text-sm focus:outline-none focus:border-[#4A5D23]" />
+              <button type="button" id="fpEyeBtn" onclick="togglePasswordVisibility('fpNewPassword', 'fpEyeBtn')"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900 text-base select-none">
+                👁️
+              </button>
+            </div>
+          </div>
+          <p id="fpResetErrorMsg" class="hidden text-xs text-red-600 font-semibold"></p>
+          <button type="submit" class="w-full py-2.5 rounded-xl olive-bg text-white font-bold text-sm hover:opacity-95 transition">
+            🔒 Reset Password & Sign In
+          </button>
+        </form>
+
+        <button type="button" onclick="switchAuthTab('login')" class="w-full text-center text-xs font-semibold text-gray-500 hover:text-gray-800 underline pt-1">
+          ← Back to Sign In
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Cart Drawer with Live Free Shipping Progress Bar -->
+  <!-- Cart Drawer -->
   <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
     <div onclick="toggleCart()" class="absolute inset-0 bg-black/40"></div>
     <div class="absolute right-0 top-0 h-full w-full max-w-md bg-[#FAF9F6] shadow-2xl flex flex-col">
@@ -942,7 +1010,6 @@
         <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-800 text-xl font-bold">✕</button>
       </div>
 
-      <!-- Free Shipping Progress Bar (Bewakoof / Nykaa UX) -->
       <div class="px-5 py-3 bg-sky-50 border-b border-sky-100 space-y-1.5">
         <p id="freeShipStatusText" class="text-xs font-bold text-sky-900">Add ₹999 more for FREE Express Shipping!</p>
         <div class="w-full h-2 bg-sky-200 rounded-full overflow-hidden">
@@ -1038,7 +1105,6 @@
   <script>
     const getGatewayKey = () => atob("N2QwODkxNmUtMjAxMC00YTE3LWEwNmUtZTA2MTJiMDgyMjQw");
 
-    // Sleek Toast Notification Helper
     function showToast(message, type = "success") {
       const container = document.getElementById('toastContainer');
       if (!container) return;
@@ -1054,7 +1120,6 @@
       }, 2800);
     }
 
-    // Back-to-top scroll watcher
     window.addEventListener('scroll', () => {
       const btn = document.getElementById('backToTopBtn');
       if (!btn) return;
@@ -1080,12 +1145,12 @@
     let adminPreviewingStore = false;
 
     const BASE_MEMBER_USERS = [
-      { id: "ajit01",    passHash: "", shortName: "Ajit",    fullName: "Ajit Choudhary",   email: "ajit.choudhary@kapdahub.in",    phone: "+91 98110 10101", type: "Pre-Registered", createdAt: "Initial Setup" },
-      { id: "ankush02",  passHash: "", shortName: "Ankush",  fullName: "Ankush Choudhary", email: "ankush.choudhary@kapdahub.in",  phone: "+91 98110 20202", type: "Pre-Registered", createdAt: "Initial Setup" },
-      { id: "avinash03", passHash: "", shortName: "Avinash", fullName: "Avinash Choudhary",email: "avinash.choudhary@kapdahub.in", phone: "+91 98110 30303", type: "Pre-Registered", createdAt: "Initial Setup" },
-      { id: "akshat04",  passHash: "", shortName: "Akshat",  fullName: "Akshat Vidyarthi", email: "akshat.vidyarthi@kapdahub.in",  phone: "+91 98110 40404", type: "Pre-Registered", createdAt: "Initial Setup" },
-      { id: "mahesh05",  passHash: "", shortName: "Mahesh",  fullName: "Mahesh Pandey",    email: "mahesh.pandey@kapdahub.in",     phone: "+91 98110 50505", type: "Pre-Registered", createdAt: "Initial Setup" },
-      { id: "anuj06",    passHash: "", shortName: "Anuj",    fullName: "Anuj Pandey",      email: "anuj.pandey@kapdahub.in",       phone: "+91 98110 60606", type: "Pre-Registered", createdAt: "Initial Setup" }
+      { id: "ajit01",    passHash: "", shortName: "Ajit",    fullName: "Ajit Choudhary",   email: "ajit.choudhary@kapdahub.in",    phone: "9811010101", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "ankush02",  passHash: "", shortName: "Ankush",  fullName: "Ankush Choudhary", email: "ankush.choudhary@kapdahub.in",  phone: "9811020202", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "avinash03", passHash: "", shortName: "Avinash", fullName: "Avinash Choudhary",email: "avinash.choudhary@kapdahub.in", phone: "9811030303", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "akshat04",  passHash: "", shortName: "Akshat",  fullName: "Akshat Vidyarthi", email: "akshat.vidyarthi@kapdahub.in",  phone: "9811040404", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "mahesh05",  passHash: "", shortName: "Mahesh",  fullName: "Mahesh Pandey",    email: "mahesh.pandey@kapdahub.in",     phone: "9811050505", type: "Pre-Registered", createdAt: "Initial Setup" },
+      { id: "anuj06",    passHash: "", shortName: "Anuj",    fullName: "Anuj Pandey",      email: "anuj.pandey@kapdahub.in",       phone: "9811060606", type: "Pre-Registered", createdAt: "Initial Setup" }
     ];
 
     const BOOT_VAULT = [
@@ -1098,15 +1163,84 @@
       ["mahesh05",  atob("TWFoZXNoQDUwNQ==")],
       ["anuj06",    atob("QW51akA2MDY=")]
     ];
+
+    // Password Overrides for Reset Passwords (Stored as SHA-256 Hashes)
+    let memberPassOverrides = JSON.parse(localStorage.getItem("kh_member_pass_overrides") || "{}");
+    function saveMemberPassOverrides() {
+      localStorage.setItem("kh_member_pass_overrides", JSON.stringify(memberPassOverrides));
+    }
+
     (async () => {
       for (const [uid, raw] of BOOT_VAULT) {
         const digest = await sha256Hex(raw);
         const adm = ADMIN_ACCOUNTS.find(a => a.id === uid);
         if (adm) adm.passHash = digest;
         const mem = BASE_MEMBER_USERS.find(u => u.id === uid);
-        if (mem) mem.passHash = digest;
+        if (mem) mem.passHash = memberPassOverrides[uid] || digest;
       }
     })();
+
+    // ====== DEDICATED BACKEND SERVICE LAYER (AUDIT LOGS, SYNC, BACKUP & RETRY) ======
+    const KapdaHubBackend = {
+      logEvent(action, detail) {
+        storeAnalytics.auditLogs = storeAnalytics.auditLogs || [];
+        storeAnalytics.auditLogs.unshift({
+          ts: new Date().toLocaleString('en-IN'),
+          action,
+          detail
+        });
+        if (storeAnalytics.auditLogs.length > 60) storeAnalytics.auditLogs.length = 60;
+        saveStoreAnalytics();
+      },
+      async sendNotification(payload) {
+        try {
+          await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ access_key: getGatewayKey(), ...payload })
+          });
+        } catch (err) {
+          // Queue failed email notification for background retry
+          const queue = JSON.parse(localStorage.getItem("kh_email_retry_queue") || "[]");
+          queue.push(payload);
+          localStorage.setItem("kh_email_retry_queue", JSON.stringify(queue));
+        }
+      },
+      async flushRetryQueue() {
+        const queue = JSON.parse(localStorage.getItem("kh_email_retry_queue") || "[]");
+        if (queue.length === 0) return;
+        localStorage.removeItem("kh_email_retry_queue");
+        for (const item of queue) {
+          await this.sendNotification(item);
+        }
+      },
+      exportBackupJSON() {
+        const snapshot = {
+          exportedAt: new Date().toISOString(),
+          storeAnalytics,
+          customCreatedUsers,
+          memberPassOverrides
+        };
+        const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `KapdaHub-Backend-Backup-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.logEvent("BACKUP_EXPORT", "Admin exported full JSON database backup");
+        showToast("⬇️ Full Backend JSON Backup Downloaded");
+      }
+    };
+
+    // Cross-Tab Live Sync Listener
+    window.addEventListener("storage", (e) => {
+      if (e.key === "kh_global_analytics" && e.newValue) {
+        storeAnalytics = JSON.parse(e.newValue);
+        renderProducts();
+        if (activeAdminAccount) renderAdminDashboard();
+      }
+    });
 
     // ====== 5-YEAR INDIAN FESTIVAL CALENDAR (2026 - 2030) + 30% EXTRA OFF ======
     const FIVE_YEAR_FESTIVALS = [
@@ -1354,7 +1488,12 @@
     }, 1000);
 
     let customCreatedUsers = JSON.parse(localStorage.getItem("kh_custom_created_users") || "[]");
-    function getAllAuthorizedUsers() { return [...BASE_MEMBER_USERS, ...customCreatedUsers]; }
+    function getAllAuthorizedUsers() {
+      return [...BASE_MEMBER_USERS, ...customCreatedUsers].map(u => ({
+        ...u,
+        passHash: memberPassOverrides[u.id] || u.passHash
+      }));
+    }
     function saveCustomCreatedUsers() { localStorage.setItem("kh_custom_created_users", JSON.stringify(customCreatedUsers)); }
 
     let storeAnalytics = JSON.parse(localStorage.getItem("kh_global_analytics") || "null") || {
@@ -1369,10 +1508,12 @@
       mrpOverrides: {},
       productRatings: {},
       deletedProductIds: [],
-      customListedProducts: []
+      customListedProducts: [],
+      auditLogs: []
     };
     if (!storeAnalytics.productRatings) storeAnalytics.productRatings = {};
     if (!storeAnalytics.deletedProductIds) storeAnalytics.deletedProductIds = [];
+    if (!storeAnalytics.auditLogs) storeAnalytics.auditLogs = [];
 
     function saveStoreAnalytics() {
       localStorage.setItem("kh_global_analytics", JSON.stringify(storeAnalytics));
@@ -1583,7 +1724,7 @@
           entry.count += 1;
         }
         entry.userVotes[currentUser.id] = stars;
-        saveStoreAnalytics();
+        KapdaHubBackend.logEvent("PRODUCT_RATED", `${currentUser.id} rated Product #${productId} (${stars}★)`);
 
         showToast(`⭐ Rated ${stars} Star${stars > 1 ? 's' : ''}! Thank you.`);
         openProductDetail(productId);
@@ -1604,7 +1745,7 @@
     const LOAD_BATCH_SIZE = 50;
     let visibleItemsLimit = LOAD_BATCH_SIZE;
 
-    // ====== LIVE SEARCH AUTOCOMPLETE (MYNTRA / AJIO UX) ======
+    // ====== LIVE SEARCH AUTOCOMPLETE ======
     const searchInputEl = document.getElementById('searchInput');
     const autoDropdownEl = document.getElementById('searchAutocompleteDropdown');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -1681,7 +1822,6 @@
       `).join('');
     }
 
-    // ====== SIZE GUIDE & PIN DELIVERY ESTIMATOR ======
     function openSizeGuide() {
       const m = document.getElementById('sizeGuideModal');
       m.classList.remove('hidden');
@@ -1880,7 +2020,7 @@
         storeAnalytics.deletedProductIds.push(productId);
       }
       storeAnalytics.customListedProducts = (storeAnalytics.customListedProducts || []).filter(cp => cp.id !== productId);
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("PRODUCT_REMOVED", `${activeAdminAccount.id} removed ${target.sku} (${target.name})`);
 
       renderHeroBanners();
       renderAdminDashboard();
@@ -1927,19 +2067,12 @@
       const phone = document.getElementById('broadcastPhone').value.trim();
       if (!phone) return;
       storeAnalytics.broadcastLeads.unshift({ phone, time: new Date().toLocaleString() });
-      saveStoreAnalytics();
-      try {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            access_key: getGatewayKey(),
-            subject: "New WhatsApp Broadcast Subscriber",
-            from_name: "KapdaHub Footer",
-            Subscriber_Phone: phone
-          })
-        });
-      } catch (err) {}
+      KapdaHubBackend.logEvent("BROADCAST_LEAD", `Subscriber added: ${phone}`);
+      await KapdaHubBackend.sendNotification({
+        subject: "New WhatsApp Broadcast Subscriber",
+        from_name: "KapdaHub Footer",
+        Subscriber_Phone: phone
+      });
       document.getElementById('broadcastPhone').value = "";
       document.getElementById('broadcastStatus').classList.remove('hidden');
       showToast("✓ Subscribed to WhatsApp Broadcast!");
@@ -1998,29 +2131,131 @@
       openLoginModal('login');
     }
 
+    // ====== AUTH TABS: SIGN IN | CREATE ACCOUNT | FORGOT PASSWORD ======
+    let pendingForgotUserId = "";
+    let generatedRecoveryOtp = "";
+
     function switchAuthTab(mode) {
       const loginForm = document.getElementById('loginForm');
       const regForm = document.getElementById('registerForm');
+      const forgotPanel = document.getElementById('forgotPasswordPanel');
+      const modeTabs = document.getElementById('authModeTabs');
       const tabSignIn = document.getElementById('tabSignInBtn');
       const tabSignUp = document.getElementById('tabSignUpBtn');
       const heading = document.getElementById('authModalHeading');
+      const subtext = document.getElementById('authPromptSubtext');
 
       document.getElementById('loginErrorMsg').classList.add('hidden');
       document.getElementById('regErrorMsg').classList.add('hidden');
+      document.getElementById('fpErrorMsg').classList.add('hidden');
+      document.getElementById('fpResetErrorMsg').classList.add('hidden');
+
+      loginForm.classList.add('hidden');
+      regForm.classList.add('hidden');
+      forgotPanel.classList.add('hidden');
 
       if (mode === 'register') {
-        loginForm.classList.add('hidden');
+        modeTabs.classList.remove('hidden');
         regForm.classList.remove('hidden');
         tabSignUp.className = "py-2 rounded-lg bg-white text-gray-900 shadow-sm transition";
         tabSignIn.className = "py-2 rounded-lg text-gray-600 hover:text-gray-900 transition";
         heading.textContent = "Create New Account";
+        subtext.textContent = "Create a free KapdaHub account to shop, rate, and save wishlist items.";
+      } else if (mode === 'forgot') {
+        modeTabs.classList.add('hidden');
+        forgotPanel.classList.remove('hidden');
+        document.getElementById('forgotStep1Form').classList.remove('hidden');
+        document.getElementById('forgotStep2Form').classList.add('hidden');
+        document.getElementById('fpUserId').value = "";
+        document.getElementById('fpPhone').value = "";
+        heading.textContent = "Reset Password";
+        subtext.textContent = "Verify your User ID & registered mobile number to set a new password.";
       } else {
-        regForm.classList.add('hidden');
+        modeTabs.classList.remove('hidden');
         loginForm.classList.remove('hidden');
         tabSignIn.className = "py-2 rounded-lg bg-white text-gray-900 shadow-sm transition";
         tabSignUp.className = "py-2 rounded-lg text-gray-600 hover:text-gray-900 transition";
         heading.textContent = "KapdaHub Login";
+        subtext.textContent = "Sign in or create a free account to shop and save items.";
       }
+    }
+
+    async function handleForgotVerify(e) {
+      e.preventDefault();
+      const uid = document.getElementById('fpUserId').value.trim();
+      const phoneInput = document.getElementById('fpPhone').value.replace(/\D/g, '').slice(-10);
+      const errEl = document.getElementById('fpErrorMsg');
+
+      // Protect Admin Accounts from front-end password reset
+      if (ADMIN_ACCOUNTS.some(a => a.id.toLowerCase() === uid.toLowerCase())) {
+        errEl.textContent = "Admin credentials cannot be reset via public recovery form.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const matchedUser = getAllAuthorizedUsers().find(u => {
+        const storedDigits = (u.phone || "").replace(/\D/g, '').slice(-10);
+        return u.id.toLowerCase() === uid.toLowerCase() && storedDigits === phoneInput;
+      });
+
+      if (!matchedUser) {
+        errEl.textContent = "User ID and Registered Mobile Number do not match our records.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      errEl.classList.add('hidden');
+      pendingForgotUserId = matchedUser.id;
+      generatedRecoveryOtp = String(Math.floor(100000 + Math.random() * 900000));
+
+      document.getElementById('fpDisplayedOtp').textContent = generatedRecoveryOtp;
+      document.getElementById('forgotStep1Form').classList.add('hidden');
+      document.getElementById('forgotStep2Form').classList.remove('hidden');
+      document.getElementById('fpOtpInput').value = "";
+      document.getElementById('fpNewPassword').value = "";
+
+      KapdaHubBackend.logEvent("PASSWORD_RESET_OTP", `Recovery OTP requested for ${matchedUser.id}`);
+      await KapdaHubBackend.sendNotification({
+        subject: `Password Recovery OTP for ${matchedUser.fullName} (${matchedUser.id})`,
+        from_name: "KapdaHub Security",
+        User_ID: matchedUser.id,
+        Recovery_OTP: generatedRecoveryOtp
+      });
+    }
+
+    async function handleForgotReset(e) {
+      e.preventDefault();
+      const enteredOtp = document.getElementById('fpOtpInput').value.trim();
+      const newPwd = document.getElementById('fpNewPassword').value.trim();
+      const errEl = document.getElementById('fpResetErrorMsg');
+
+      if (enteredOtp !== generatedRecoveryOtp) {
+        errEl.textContent = "Invalid 6-digit OTP! Please enter the exact code shown above.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const newHash = await sha256Hex(newPwd);
+      memberPassOverrides[pendingForgotUserId] = newHash;
+      saveMemberPassOverrides();
+
+      // Also update customCreatedUsers array if self-registered
+      const customTarget = customCreatedUsers.find(u => u.id === pendingForgotUserId);
+      if (customTarget) {
+        customTarget.passHash = newHash;
+        saveCustomCreatedUsers();
+      }
+
+      KapdaHubBackend.logEvent("PASSWORD_RESET_SUCCESS", `Password updated (SHA-256) for ${pendingForgotUserId}`);
+      const restoredUser = getAllAuthorizedUsers().find(u => u.id === pendingForgotUserId);
+      pendingForgotUserId = "";
+      generatedRecoveryOtp = "";
+
+      if (restoredUser) {
+        applyLoggedInUser(restoredUser);
+      }
+      closeLoginModal();
+      showToast("🔒 Password reset successfully! You are now signed in.");
     }
 
     function openLoginModal(mode = 'login') {
@@ -2044,7 +2279,6 @@
     function closeLoginModal() {
       document.getElementById('loginModal').classList.add('hidden');
       document.getElementById('loginModal').classList.remove('flex');
-      document.getElementById('authPromptSubtext').textContent = "Sign in or create a free account to shop and save items.";
     }
 
     async function handleRegister(e) {
@@ -2084,22 +2318,16 @@
 
       customCreatedUsers.push(newUserObj);
       saveCustomCreatedUsers();
+      KapdaHubBackend.logEvent("USER_CREATED", `New user registered: ${uid} (${fullName})`);
 
-      try {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            access_key: getGatewayKey(),
-            subject: `New User Registered: ${fullName} (${uid})`,
-            from_name: "KapdaHub User Registration",
-            Full_Name: fullName,
-            Created_User_ID: uid,
-            Mobile: phone,
-            Registered_At: newUserObj.createdAt
-          })
-        });
-      } catch (err) {}
+      await KapdaHubBackend.sendNotification({
+        subject: `New User Registered: ${fullName} (${uid})`,
+        from_name: "KapdaHub User Registration",
+        Full_Name: fullName,
+        Created_User_ID: uid,
+        Mobile: phone,
+        Registered_At: newUserObj.createdAt
+      });
 
       applyLoggedInUser(newUserObj);
       closeLoginModal();
@@ -2129,6 +2357,7 @@
       adminPreviewingStore = false;
       currentUser = null;
       localStorage.setItem("kh_active_session_user", adminObj.id);
+      KapdaHubBackend.logEvent("ADMIN_LOGIN", `${adminObj.name} (${adminObj.id}) accessed Admin Console`);
 
       document.getElementById('adminLoggedLabel').textContent = `Welcome, ${adminObj.name} • KapdaHub`;
       document.getElementById('adminTopBanner').classList.remove('hidden');
@@ -2197,6 +2426,7 @@
 
       const found = getAllAuthorizedUsers().find(u => u.id === uid && u.passHash === inputHash);
       if (found) {
+        KapdaHubBackend.logEvent("MEMBER_LOGIN", `Member ${found.id} signed in`);
         applyLoggedInUser(found);
         closeLoginModal();
         showToast(`👋 Welcome back, ${found.shortName}!`);
@@ -2299,7 +2529,7 @@
 
       storeAnalytics.customListedProducts = storeAnalytics.customListedProducts || [];
       storeAnalytics.customListedProducts.unshift(rawNewProd);
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("PRODUCT_LISTED", `${activeAdminAccount.id} listed ${sku}: ${title}`);
 
       const hydrated = buildProductObject(rawNewProd);
       products.unshift(hydrated);
@@ -2331,7 +2561,7 @@
           updatedCount++;
         }
       });
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("BULK_DISCOUNT", `${activeAdminAccount.id} applied ${pct}% OFF on ${cat}`);
       renderHeroBanners();
       renderAdminDashboard();
       showToast(`🎉 Applied ${pct}% OFF across ${updatedCount} products!`);
@@ -2472,6 +2702,17 @@
         </tr>
       `).join('');
 
+      // Render Backend Audit Logs
+      const logs = storeAnalytics.auditLogs || [];
+      document.getElementById('admAuditLogList').innerHTML = logs.length === 0
+        ? '<p class="text-gray-400">System ready. All backend events will log here automatically.</p>'
+        : logs.map(l => `
+          <div class="flex items-start justify-between gap-2 border-b border-gray-200/70 pb-1 last:border-none">
+            <span><b class="olive-text">[${l.action}]</b> ${l.detail}</span>
+            <span class="text-gray-400 shrink-0">${l.ts}</span>
+          </div>
+        `).join('');
+
       const todayStr = new Date().toISOString().split('T')[0];
       const upcomingFests = FIVE_YEAR_FESTIVALS.filter(f => f.date >= todayStr).slice(0, 16);
       document.getElementById('admUpcomingFestivalsList').innerHTML = upcomingFests.map(f => `
@@ -2520,7 +2761,7 @@
     function adminUpdateOrderStatus(idx, newStatus) {
       if (!activeAdminAccount) return;
       storeAnalytics.masterOrders[idx].status = newStatus;
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("ORDER_STATUS", `Order ${storeAnalytics.masterOrders[idx].id} set to ${newStatus}`);
       showToast(`Order status updated to ${newStatus}`);
     }
 
@@ -2594,7 +2835,7 @@
       p.stockQty = qty;
       p.inStock = qty > 0;
       storeAnalytics.stockOverrides[id] = qty;
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("STOCK_UPDATED", `${p.sku} stock set to ${qty}`);
       renderAdminDashboard();
     }
 
@@ -2609,7 +2850,7 @@
         storeAnalytics.mrpOverrides[id] = newPrice;
       }
       storeAnalytics.priceOverrides[id] = newPrice;
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("PRICE_UPDATED", `${p.sku} sell price updated to ₹${newPrice}`);
       renderHeroBanners();
       renderAdminDashboard();
     }
@@ -2651,7 +2892,7 @@
           storeAnalytics.stockOverrides[p.id] = p.stockQty;
         }
       });
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("BULK_RESTOCK", "All low-stock items replenished by +15 units");
       renderAdminDashboard();
       showToast("All low-stock items restocked by +15 units!");
     }
@@ -3164,7 +3405,6 @@
 
       const { subtotal, discount, delivery, total } = getTotals();
 
-      // Update Live Free Shipping Progress Bar
       const shipText = document.getElementById('freeShipStatusText');
       const shipBar = document.getElementById('freeShipProgressBar');
       if (subtotal >= 999 || appliedPromoType === 'FREE100') {
@@ -3282,7 +3522,7 @@
         total,
         status: "Confirmed"
       });
-      saveStoreAnalytics();
+      KapdaHubBackend.logEvent("ORDER_PLACED", `${orderId} by ${currentUser.id} (₹${total})`);
 
       userState.orders.unshift({
         id: orderId,
@@ -3299,27 +3539,18 @@
       });
       saveUserState();
 
-      try {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            access_key: getGatewayKey(),
-            subject: `New Order ${orderId} - ₹${total} (KapdaHub)`,
-            from_name: "KapdaHub Store",
-            Order_ID: orderId,
-            Logged_In_User: `${currentUser.fullName} (${currentUser.id})`,
-            Customer_Name: name,
-            Customer_Phone: phone,
-            GPS_And_Address: address,
-            Payment_Mode: finalPaymentLabel,
-            Total_Amount: `₹${total}`,
-            Ordered_Items: itemsSummary
-          })
-        });
-      } catch (err) {
-        console.error("Email error:", err);
-      }
+      await KapdaHubBackend.sendNotification({
+        subject: `New Order ${orderId} - ₹${total} (KapdaHub)`,
+        from_name: "KapdaHub Store",
+        Order_ID: orderId,
+        Logged_In_User: `${currentUser.fullName} (${currentUser.id})`,
+        Customer_Name: name,
+        Customer_Phone: phone,
+        GPS_And_Address: address,
+        Payment_Mode: finalPaymentLabel,
+        Total_Amount: `₹${total}`,
+        Ordered_Items: itemsSummary
+      });
 
       document.getElementById('successMsg').textContent = total === 0
         ? `Congratulations ${name}! Your 100% FREE promo order has been placed.`
@@ -3341,7 +3572,8 @@
 
     document.getElementById('mobileSearch').addEventListener('input', resetAndRenderProducts);
 
-    // Initialize Flagship KapdaHub
+    // Initialize Flagship KapdaHub & Backend Services
+    KapdaHubBackend.flushRetryQueue();
     evaluateFestivalAndMonthlySale();
     restoreLastSession();
     renderHeroBanners();
